@@ -5,13 +5,21 @@ import type { AppSettings, SlideThemeId } from '@/lib/types';
 
 export default function SettingsPage() {
   const [s, setS] = useState<AppSettings | null>(null);
+  // 쉼표/줄바꿈이 입력 중에 지워지지 않도록, 목록형 필드는 원문 문자열로 들고
+  // 저장 시점에만 배열로 파싱한다.
+  const [keywordsText, setKeywordsText] = useState('');
+  const [feedsText, setFeedsText] = useState('');
   const [saved, setSaved] = useState(false);
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     fetch('/api/settings')
       .then((r) => r.json())
-      .then(setS);
+      .then((data: AppSettings) => {
+        setS(data);
+        setKeywordsText(data.keywords.join(', '));
+        setFeedsText(data.customFeeds.join('\n'));
+      });
   }, []);
 
   function set<K extends keyof AppSettings>(key: K, value: AppSettings[K]) {
@@ -22,10 +30,16 @@ export default function SettingsPage() {
   async function save() {
     if (!s) return;
     setBusy(true);
+    const payload: AppSettings = {
+      ...s,
+      keywords: keywordsText.split(',').map((k) => k.trim()).filter(Boolean),
+      customFeeds: feedsText.split('\n').map((u) => u.trim()).filter(Boolean),
+    };
+    setS(payload);
     await fetch('/api/settings', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(s),
+      body: JSON.stringify(payload),
     });
     setBusy(false);
     setSaved(true);
@@ -57,14 +71,12 @@ export default function SettingsPage() {
           <label className="label">수집 키워드 (쉼표 구분 — 비우면 카테고리로 검색)</label>
           <input
             className="input"
-            value={s.keywords.join(', ')}
+            value={keywordsText}
             placeholder="예: 캠핑 신제품, 캠핑 트렌드, 백패킹"
-            onChange={(e) =>
-              set(
-                'keywords',
-                e.target.value.split(',').map((k) => k.trim()).filter(Boolean)
-              )
-            }
+            onChange={(e) => {
+              setKeywordsText(e.target.value);
+              setSaved(false);
+            }}
           />
         </div>
         <div>
@@ -72,14 +84,12 @@ export default function SettingsPage() {
           <textarea
             className="input"
             rows={3}
-            value={s.customFeeds.join('\n')}
+            value={feedsText}
             placeholder="https://example.com/feed.xml"
-            onChange={(e) =>
-              set(
-                'customFeeds',
-                e.target.value.split('\n').map((u) => u.trim()).filter(Boolean)
-              )
-            }
+            onChange={(e) => {
+              setFeedsText(e.target.value);
+              setSaved(false);
+            }}
           />
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
