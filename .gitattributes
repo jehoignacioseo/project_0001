@@ -1,0 +1,4 @@
+# Windows 배치 파일은 반드시 CRLF 로 체크아웃되어야 실행된다.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf

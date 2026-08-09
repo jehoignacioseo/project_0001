@@ -5,11 +5,10 @@ cd /d "%~dp0"
 
 echo.
 echo   ==========================================
-echo      Insta Content Studio 를 시작합니다
+echo      Insta Content Studio
 echo   ==========================================
 echo.
 
-REM Node.js 설치 확인
 where node >nul 2>nul
 if errorlevel 1 (
   echo   [!] Node.js 가 설치되어 있지 않습니다.
@@ -19,7 +18,6 @@ if errorlevel 1 (
   exit /b 1
 )
 
-REM 최초 실행 시 의존성 설치
 if not exist "node_modules" (
   echo   처음 실행이라 필요한 파일을 설치합니다. 1~2분 걸립니다...
   echo.
@@ -33,16 +31,12 @@ if not exist "node_modules" (
   echo.
 )
 
-echo   앱을 켜는 중입니다... 잠시 후 브라우저가 자동으로 열립니다.
+echo   앱을 켜는 중입니다. 잠시 후 브라우저가 자동으로 열립니다.
 echo.
-echo   ------------------------------------------------------------
-echo    앱을 사용하는 동안 이 창을 닫지 마세요.
-echo    종료하려면 이 창에서 Ctrl+C 를 누르거나 창을 닫으세요.
-echo   ------------------------------------------------------------
+echo   이 창을 닫으면 앱이 종료됩니다.
 echo.
 
-REM 서버가 뜰 시간을 준 뒤 브라우저 열기
-start "" /b cmd /c "timeout /t 6 /nobreak > nul & start http://localhost:3000"
+start "" /b cmd /c "timeout /t 8 /nobreak > nul & start http://localhost:3000"
 
 call npm run dev
 
