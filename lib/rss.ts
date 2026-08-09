@@ -53,8 +53,31 @@ async function fetchFeed(spec: FeedSpec): Promise<SourceItem[]> {
   for (const it of toArray(channel?.item)) {
     const sourceName =
       typeof it.source === 'object' ? it.source?.['#text'] : it.source;
-    // 구글 트렌드는 검색량을 별도 필드로 준다.
+
+    // 구글 트렌드는 검색량과 관련 뉴스를 별도 필드로 준다.
+    // 검색어 하나만으로는 무슨 맥락인지 알 수 없으므로 관련 뉴스를 본문에 합친다.
     const traffic = it['ht:approx_traffic'];
+    const newsItems = toArray(it['ht:news_item']);
+    const newsText = newsItems
+      .map((n: any) =>
+        [n?.['ht:news_item_title'], n?.['ht:news_item_snippet']]
+          .filter(Boolean)
+          .map(String)
+          .join(' — ')
+      )
+      .filter(Boolean)
+      .join(' / ');
+
+    const snippet = stripHtml(
+      [
+        traffic ? `검색량 ${traffic}` : '',
+        newsText,
+        String(it.description ?? ''),
+      ]
+        .filter(Boolean)
+        .join(' · ')
+    ).slice(0, 600);
+
     items.push({
       id: newId('item'),
       title: stripHtml(String(it.title ?? '')),
@@ -62,9 +85,7 @@ async function fetchFeed(spec: FeedSpec): Promise<SourceItem[]> {
       source: stripHtml(String(sourceName ?? channel?.title ?? '')),
       kind: spec.kind,
       publishedAt: it.pubDate ? new Date(it.pubDate).toISOString() : now,
-      snippet: stripHtml(
-        String(traffic ? `검색량 ${traffic} · ` : '') + String(it.description ?? '')
-      ).slice(0, 600),
+      snippet,
       collectedAt: now,
     });
   }
@@ -147,6 +168,35 @@ export function buildFeeds(settings: AppSettings): FeedSpec[] {
   return feeds;
 }
 
+/**
+ * 트렌드 소스는 카테고리와 무관한 전국 급상승 검색어를 모두 내려주므로
+ * ("주유소", "이혼 소송" …) 우리 분야와 실제로 맞닿은 것만 남긴다.
+ */
+function buildRelevanceTerms(settings: AppSettings): string[] {
+  const raw = [
+    settings.category,
+    ...settings.keywords,
+    ...(settings.englishKeywords ?? []),
+  ].filter(Boolean);
+
+  const terms = new Set<string>();
+  for (const phrase of raw) {
+    const normalized = phrase.toLowerCase().trim();
+    if (normalized.length >= 2) terms.add(normalized);
+    // "K뷰티 신상품" 처럼 여러 단어면 개별 단어로도 매칭한다.
+    for (const word of normalized.split(/[\s,/]+/)) {
+      if (word.length >= 2) terms.add(word);
+    }
+  }
+  return Array.from(terms);
+}
+
+function isRelevant(item: SourceItem, terms: string[]): boolean {
+  if (terms.length === 0) return true;
+  const haystack = `${item.title} ${item.snippet}`.toLowerCase();
+  return terms.some((t) => haystack.includes(t));
+}
+
 /** 피드들을 병렬 수집하고 제목 기준으로 중복을 제거한다. */
 export async function collectItems(
   settings: AppSettings
@@ -161,9 +211,12 @@ export async function collectItems(
     else errors.push(`${feeds[i].url}: ${r.reason?.message ?? r.reason}`);
   });
 
+  const terms = buildRelevanceTerms(settings);
   const seen = new Set<string>();
   const deduped = all.filter((it) => {
     if (!it.title || !it.link) return false;
+    // 트렌드는 분야 무관 검색어가 섞여 오므로 관련 있는 것만 통과시킨다.
+    if (it.kind === 'trend' && !isRelevant(it, terms)) return false;
     const key = it.title.toLowerCase().replace(/\s+/g, '').slice(0, 60);
     if (seen.has(key)) return false;
     seen.add(key);
@@ -172,10 +225,11 @@ export async function collectItems(
   deduped.sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1));
 
   // 한 종류가 목록을 독점하지 않도록 종류별 상한을 둔다.
+  const LIMIT_BY_KIND: Record<string, number> = { trend: 10 };
   const perKind: Record<string, number> = {};
   const balanced = deduped.filter((it) => {
     perKind[it.kind] = (perKind[it.kind] ?? 0) + 1;
-    return perKind[it.kind] <= 30;
+    return perKind[it.kind] <= (LIMIT_BY_KIND[it.kind] ?? 30);
   });
 
   return { items: balanced.slice(0, 80), errors };

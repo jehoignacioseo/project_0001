@@ -13,6 +13,7 @@ export default function CollectPage() {
   const [items, setItems] = useState<SourceItem[]>([]);
   const [loading, setLoading] = useState<'collect' | 'score' | string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [feedErrors, setFeedErrors] = useState<string[]>([]);
   const [sort, setSort] = useState<SortKey>('score');
   const [kindFilter, setKindFilter] = useState<KindFilter>('all');
   const [expanded, setExpanded] = useState<string | null>(null);
@@ -47,9 +48,7 @@ export default function CollectPage() {
       const d = await res.json();
       if (!res.ok) throw new Error(d.error);
       setItems(d.items);
-      if (d.errors?.length) {
-        setError(`일부 피드 수집 실패: ${d.errors.length}건`);
-      }
+      setFeedErrors(d.errors ?? []);
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -122,6 +121,25 @@ export default function CollectPage() {
         <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
           {error}
         </div>
+      )}
+
+      {feedErrors.length > 0 && (
+        <details className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          <summary className="cursor-pointer font-semibold">
+            일부 소스에서 소재를 가져오지 못했습니다 ({feedErrors.length}건)
+          </summary>
+          <ul className="mt-2 space-y-1 text-xs">
+            {feedErrors.map((e, i) => (
+              <li key={i} className="break-all">
+                • {e}
+              </li>
+            ))}
+          </ul>
+          <p className="mt-2 text-xs">
+            해당 소스가 일시적으로 접속을 차단했을 수 있습니다. 잠시 후 다시 시도하거나, 설정에서 다른
+            키워드·서브레딧으로 바꿔보세요.
+          </p>
+        </details>
       )}
 
       {items.length > 0 && (
