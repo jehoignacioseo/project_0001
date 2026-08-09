@@ -1,9 +1,17 @@
 // 앱 전역에서 쓰는 도메인 타입 정의
 
+/** 소재의 출처 성격 — 뉴스만이 아니라 실제 소비자·인플루언서 목소리까지 구분한다. */
+export type SourceKind = 'news' | 'community' | 'influencer' | 'trend' | 'blog';
+
 export interface AppSettings {
   category: string;            // 예: "캠핑 용품", "AI 트렌드", "홈카페"
   keywords: string[];          // 수집에 사용할 검색 키워드
   customFeeds: string[];       // 사용자가 추가한 RSS 피드 URL
+  enabledSources: SourceKind[];   // 수집할 소스 종류
+  englishKeywords: string[];      // 해외 커뮤니티 검색용 영문 키워드
+  subreddits: string[];           // 모니터링할 서브레딧 (예: AsianBeauty)
+  youtubeChannels: string[];      // 유튜브 채널 ID 또는 채널 RSS 주소
+  trendsGeo: string;              // 구글 트렌드 지역 코드 (KR, US ...)
   brandName: string;           // 계정/브랜드 이름 (콘텐츠 톤에 반영)
   brandTone: string;           // 톤앤매너 설명
   targetAudience: string;      // 타깃 독자 설명
@@ -23,6 +31,7 @@ export interface SourceItem {
   title: string;
   link: string;
   source: string;          // 매체명
+  kind: SourceKind;        // 출처 성격
   publishedAt: string;     // ISO
   snippet: string;
   collectedAt: string;

@@ -1,7 +1,26 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import type { AppSettings, SlideThemeId } from '@/lib/types';
+import type { AppSettings, SlideThemeId, SourceKind } from '@/lib/types';
+
+const SOURCE_OPTIONS: { id: SourceKind; label: string; desc: string }[] = [
+  { id: 'news', label: '뉴스', desc: '구글 뉴스에서 카테고리 관련 최신 기사를 수집합니다.' },
+  {
+    id: 'community',
+    label: '커뮤니티 (소비자 목소리)',
+    desc: 'Reddit에서 실사용 후기·질문·불만을 수집합니다. 해외 반응을 얻기에 가장 좋습니다.',
+  },
+  {
+    id: 'influencer',
+    label: '인플루언서 (유튜브)',
+    desc: '지정한 유튜브 채널의 최신 영상 주제를 수집합니다. 아래에 채널을 등록하세요.',
+  },
+  {
+    id: 'trend',
+    label: '검색 트렌드',
+    desc: '지금 사람들이 실제로 검색하는 급상승 키워드를 수집합니다.',
+  },
+];
 
 export default function SettingsPage() {
   const [s, setS] = useState<AppSettings | null>(null);
@@ -9,6 +28,9 @@ export default function SettingsPage() {
   // 저장 시점에만 배열로 파싱한다.
   const [keywordsText, setKeywordsText] = useState('');
   const [feedsText, setFeedsText] = useState('');
+  const [enKeywordsText, setEnKeywordsText] = useState('');
+  const [subredditsText, setSubredditsText] = useState('');
+  const [youtubeText, setYoutubeText] = useState('');
   const [saved, setSaved] = useState(false);
   const [busy, setBusy] = useState(false);
 
@@ -19,6 +41,9 @@ export default function SettingsPage() {
         setS(data);
         setKeywordsText(data.keywords.join(', '));
         setFeedsText(data.customFeeds.join('\n'));
+        setEnKeywordsText((data.englishKeywords ?? []).join(', '));
+        setSubredditsText((data.subreddits ?? []).join(', '));
+        setYoutubeText((data.youtubeChannels ?? []).join('\n'));
       });
   }, []);
 
@@ -30,10 +55,15 @@ export default function SettingsPage() {
   async function save() {
     if (!s) return;
     setBusy(true);
+    const list = (text: string, sep: ',' | '\n') =>
+      text.split(sep).map((v) => v.trim()).filter(Boolean);
     const payload: AppSettings = {
       ...s,
-      keywords: keywordsText.split(',').map((k) => k.trim()).filter(Boolean),
-      customFeeds: feedsText.split('\n').map((u) => u.trim()).filter(Boolean),
+      keywords: list(keywordsText, ','),
+      customFeeds: list(feedsText, '\n'),
+      englishKeywords: list(enKeywordsText, ','),
+      subreddits: list(subredditsText, ','),
+      youtubeChannels: list(youtubeText, '\n'),
     };
     setS(payload);
     await fetch('/api/settings', {
@@ -91,6 +121,100 @@ export default function SettingsPage() {
               setSaved(false);
             }}
           />
+        </div>
+      </section>
+
+      <section className="card space-y-4">
+        <div>
+          <h2 className="font-bold">소재 수집 소스</h2>
+          <p className="mt-1 text-xs leading-relaxed text-gray-500">
+            언론 기사만 모으면 콘텐츠가 보도자료처럼 딱딱해집니다. 실제 소비자·인플루언서의
+            목소리를 함께 모으면 훨씬 공감되는 콘텐츠가 나옵니다.
+          </p>
+        </div>
+
+        <div className="space-y-2">
+          {SOURCE_OPTIONS.map((opt) => (
+            <label key={opt.id} className="flex cursor-pointer items-start gap-3 rounded-lg bg-gray-50 p-3">
+              <input
+                type="checkbox"
+                className="mt-0.5"
+                checked={s.enabledSources?.includes(opt.id) ?? false}
+                onChange={(e) => {
+                  const cur = new Set(s.enabledSources ?? []);
+                  if (e.target.checked) cur.add(opt.id);
+                  else cur.delete(opt.id);
+                  set('enabledSources', Array.from(cur));
+                }}
+              />
+              <span>
+                <span className="text-sm font-semibold">{opt.label}</span>
+                <span className="block text-xs text-gray-500">{opt.desc}</span>
+              </span>
+            </label>
+          ))}
+        </div>
+
+        <div>
+          <label className="label">영문 키워드 (쉼표 구분 — 해외 커뮤니티 검색에 사용)</label>
+          <input
+            className="input"
+            value={enKeywordsText}
+            placeholder="예: korean skincare, k-beauty, korean sunscreen"
+            onChange={(e) => {
+              setEnKeywordsText(e.target.value);
+              setSaved(false);
+            }}
+          />
+          <p className="mt-1 text-xs text-gray-400">
+            해외 소비자 반응을 모으려면 꼭 채워주세요. 비워두면 한글 키워드로 검색합니다.
+          </p>
+        </div>
+
+        <div>
+          <label className="label">서브레딧 (쉼표 구분 — 커뮤니티 소스 사용 시)</label>
+          <input
+            className="input"
+            value={subredditsText}
+            placeholder="예: AsianBeauty, KoreanBeauty, SkincareAddiction"
+            onChange={(e) => {
+              setSubredditsText(e.target.value);
+              setSaved(false);
+            }}
+          />
+        </div>
+
+        <div>
+          <label className="label">유튜브 채널 (줄바꿈 구분 — 채널 ID 또는 채널 RSS 주소)</label>
+          <textarea
+            className="input"
+            rows={2}
+            value={youtubeText}
+            placeholder="UCxxxxxxxxxxxxxxxxxxxxxx"
+            onChange={(e) => {
+              setYoutubeText(e.target.value);
+              setSaved(false);
+            }}
+          />
+          <p className="mt-1 text-xs text-gray-400">
+            채널 페이지에서 오른쪽 클릭 → 페이지 소스 보기 후 &quot;UC&quot;로 시작하는 24자 ID를 찾아
+            넣으면 그 채널의 최신 영상이 소재로 들어옵니다.
+          </p>
+        </div>
+
+        <div>
+          <label className="label">검색 트렌드 지역</label>
+          <select
+            className="input"
+            value={s.trendsGeo || 'KR'}
+            onChange={(e) => set('trendsGeo', e.target.value)}
+          >
+            <option value="KR">대한민국</option>
+            <option value="US">미국</option>
+            <option value="JP">일본</option>
+            <option value="GB">영국</option>
+            <option value="SG">싱가포르</option>
+          </select>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
           <div>

@@ -2,9 +2,11 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import type { SourceItem } from '@/lib/types';
+import type { SourceItem, SourceKind } from '@/lib/types';
+import { SOURCE_KIND_LABEL, SOURCE_KIND_STYLE } from '@/lib/sources';
 
 type SortKey = 'score' | 'date';
+type KindFilter = SourceKind | 'all';
 
 export default function CollectPage() {
   const router = useRouter();
@@ -12,6 +14,7 @@ export default function CollectPage() {
   const [loading, setLoading] = useState<'collect' | 'score' | string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [sort, setSort] = useState<SortKey>('score');
+  const [kindFilter, setKindFilter] = useState<KindFilter>('all');
   const [expanded, setExpanded] = useState<string | null>(null);
 
   useEffect(() => {
@@ -21,14 +24,20 @@ export default function CollectPage() {
   }, []);
 
   const sorted = useMemo(() => {
-    const arr = [...items];
+    const arr = items.filter((it) => kindFilter === 'all' || it.kind === kindFilter);
     if (sort === 'score') {
       arr.sort((a, b) => (b.viralScore ?? -1) - (a.viralScore ?? -1));
     } else {
       arr.sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1));
     }
     return arr;
-  }, [items, sort]);
+  }, [items, sort, kindFilter]);
+
+  const kindCounts = useMemo(() => {
+    const counts = new Map<SourceKind, number>();
+    for (const it of items) counts.set(it.kind, (counts.get(it.kind) ?? 0) + 1);
+    return counts;
+  }, [items]);
 
   async function collect() {
     setLoading('collect');
@@ -115,9 +124,34 @@ export default function CollectPage() {
         </div>
       )}
 
+      {items.length > 0 && (
+        <div className="flex flex-wrap gap-1.5">
+          <button
+            className={`badge border ${kindFilter === 'all' ? 'border-ink bg-ink text-white' : 'border-gray-300 bg-white text-gray-600'}`}
+            onClick={() => setKindFilter('all')}
+          >
+            전체 {items.length}
+          </button>
+          {(Array.from(kindCounts.entries()) as [SourceKind, number][]).map(([kind, n]) => (
+            <button
+              key={kind}
+              className={`badge border ${
+                kindFilter === kind
+                  ? 'border-ink bg-ink text-white'
+                  : `border-transparent ${SOURCE_KIND_STYLE[kind]}`
+              }`}
+              onClick={() => setKindFilter(kind)}
+            >
+              {SOURCE_KIND_LABEL[kind]} {n}
+            </button>
+          ))}
+        </div>
+      )}
+
       <div className="flex items-center justify-between text-sm">
         <p className="text-gray-500">
-          총 {items.length}개 소재 · 선별 완료 {items.length - unscored}개
+          {kindFilter === 'all' ? '총' : `${SOURCE_KIND_LABEL[kindFilter]}`} {sorted.length}개 소재 ·
+          전체 선별 완료 {items.length - unscored}개
         </p>
         <div className="flex gap-1">
           <button
@@ -162,7 +196,10 @@ export default function CollectPage() {
                     onClick={() => setExpanded(open ? null : it.id)}
                   >
                     <p className="font-semibold leading-snug">{it.title}</p>
-                    <p className="mt-1 text-xs text-gray-500">
+                    <p className="mt-1 flex items-center gap-1.5 text-xs text-gray-500">
+                      <span className={`badge ${SOURCE_KIND_STYLE[it.kind] ?? ''}`}>
+                        {SOURCE_KIND_LABEL[it.kind] ?? it.kind}
+                      </span>
                       {it.source} · {new Date(it.publishedAt).toLocaleDateString('ko-KR')}
                     </p>
                   </button>

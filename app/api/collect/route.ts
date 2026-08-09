@@ -8,19 +8,22 @@ export const maxDuration = 60;
 export async function POST() {
   try {
     const settings = await getSettings();
-    const keywords = settings.keywords.length
-      ? settings.keywords
-      : settings.category
-        ? [settings.category]
-        : [];
-    if (keywords.length === 0 && settings.customFeeds.length === 0) {
+    const hasSearchTerm =
+      settings.keywords.length > 0 ||
+      settings.englishKeywords?.length > 0 ||
+      Boolean(settings.category);
+    const hasDirectFeed =
+      settings.customFeeds.length > 0 ||
+      settings.subreddits?.length > 0 ||
+      settings.youtubeChannels?.length > 0;
+    if (!hasSearchTerm && !hasDirectFeed) {
       return NextResponse.json(
         { error: '설정에서 카테고리 또는 키워드를 먼저 입력해 주세요.' },
         { status: 400 }
       );
     }
 
-    const { items, errors } = await collectItems(keywords, settings.customFeeds);
+    const { items, errors } = await collectItems(settings);
 
     // 기존에 점수가 매겨진 소재는 유지 (제목 기준 매칭)
     const prev = await getItems();
@@ -28,7 +31,14 @@ export async function POST() {
     const merged = items.map((it) => {
       const old = prevByTitle.get(it.title);
       return old
-        ? { ...it, id: old.id, viralScore: old.viralScore, scoreReason: old.scoreReason, contentAngle: old.contentAngle, hookIdea: old.hookIdea }
+        ? {
+            ...it,
+            id: old.id,
+            viralScore: old.viralScore,
+            scoreReason: old.scoreReason,
+            contentAngle: old.contentAngle,
+            hookIdea: old.hookIdea,
+          }
         : it;
     });
 
