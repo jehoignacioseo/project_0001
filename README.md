@@ -1,0 +1,63 @@
+# Insta Content Studio
+
+특정 카테고리(분야)의 정보·트렌드·제품·뉴스를 전하는 **인스타그램 비즈니스 계정 운영을 자동화**하는 앱입니다.
+
+```
+① 소재 수집·선별  →  ② 캐러셀 제작·수정  →  ③ 인스타그램 자동 발행
+```
+
+## 무엇을 해주나요
+
+### ① 소재 수집 · AI 선별
+- 설정한 카테고리/키워드로 **Google News RSS**(API 키 불필요) + 사용자 지정 RSS 피드에서 최신 소재를 자동 수집
+- Claude가 각 소재의 **바이럴 점수(0~100)** 를 판정 — 저장 가치, 훅 가능성, 시의성, 공유 동기, 시각화 용이성 기준
+- 점수 근거, 추천 콘텐츠 앵글, 훅 카피 아이디어까지 함께 제공 → 사용자가 콘텐츠화할 소재를 선택
+
+### ② 캐러셀 제작 · 수정
+- 선택한 소재로 **캐러셀 전체를 생성**: 훅 슬라이드 → 본문 4~6장 → CTA 슬라이드, 포스팅 본문(캡션), 해시태그 15~20개
+- 4가지 슬라이드 디자인 테마(볼드/클린/다크/매거진), 1080×1350(4:5) 규격
+- 슬라이드별 배경 이미지 URL 지정 가능 (AI가 슬라이드마다 이미지 생성 프롬프트도 제안)
+- **모든 텍스트 직접 편집** + **자연어로 AI 수정 요청** ("훅을 더 자극적으로" 등) 무제한 반복
+- "슬라이드 이미지 생성" 버튼으로 브라우저에서 PNG 렌더링 → 서버 저장 (수동 업로드용 다운로드도 가능)
+
+### ③ 인스타그램 자동 발행
+- **Instagram Graph API**(콘텐츠 발행 API)로 캐러셀을 자동 업로드
+- 요구 조건: Instagram **비즈니스/크리에이터 계정**, Facebook 개발자 앱의 액세스 토큰
+  (`instagram_basic`, `instagram_content_publish` 권한), 그리고 앱이 **공개 URL로 배포**되어 있을 것
+  (인스타그램 서버가 슬라이드 이미지를 가져가야 하기 때문)
+
+## 시작하기
+
+```bash
+npm install
+npm run dev
+# http://localhost:3000
+```
+
+1. **설정** 페이지에서 카테고리·키워드·Anthropic API 키 입력 (또는 `ANTHROPIC_API_KEY` 환경변수)
+2. **① 소재 수집·선별** → `소재 수집` → `AI 바이럴 점수 매기기`
+3. 마음에 드는 소재에서 `콘텐츠 만들기` → 편집 화면에서 수정·보완
+4. `슬라이드 이미지 생성` → (발행 설정이 되어 있다면) `인스타그램에 발행`
+
+## 인스타그램 발행 설정 방법 (요약)
+
+1. Instagram 계정을 **프로페셔널(비즈니스/크리에이터)** 로 전환하고 Facebook 페이지와 연결
+2. [Meta for Developers](https://developers.facebook.com)에서 앱 생성 → Instagram Graph API 추가
+3. Graph API Explorer 등에서 `instagram_basic`, `instagram_content_publish`, `pages_show_list` 권한의
+   **장기 액세스 토큰** 발급
+4. `GET /me/accounts` → 페이지 ID → `GET /{page-id}?fields=instagram_business_account` 로
+   **Instagram 비즈니스 계정 ID** 확인
+5. 앱을 Vercel 등으로 배포하고, 설정 페이지에 토큰·계정 ID·공개 base URL 입력
+
+## 기술 구성
+
+- **Next.js 14** (App Router, TypeScript, Tailwind)
+- **Claude API** (`@anthropic-ai/sdk`, 기본 모델 `claude-opus-5`) — 구조화 출력(JSON Schema)으로
+  선별 점수/캐러셀 생성/수정을 안정적으로 처리
+- 저장소: `data/` JSON 파일 (별도 DB 불필요), 슬라이드 이미지: `public/uploads/`
+- 슬라이드 렌더링: React 템플릿 → `html-to-image`로 브라우저에서 PNG 캡처
+
+## 참고
+
+- 로컬 실행만으로도 ①·②(제작·수정·이미지 다운로드)까지 전부 가능합니다. 자동 발행만 공개 배포가 필요합니다.
+- 발행 API 제한: 캐러셀 최대 10장, 계정당 24시간 내 게시물 발행 한도(현재 50개)는 Meta 정책을 따릅니다.
