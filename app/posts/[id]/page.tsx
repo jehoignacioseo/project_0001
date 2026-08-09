@@ -6,6 +6,112 @@ import { toPng } from 'html-to-image';
 import { SlideView } from '@/components/SlideView';
 import type { Post, Slide, SlideThemeId, AppSettings } from '@/lib/types';
 
+/**
+ * 슬라이드 배경 이미지 선택기.
+ * 파일 업로드와 URL 가져오기 모두 서버에 사본을 저장한 뒤 같은 출처 경로를 쓴다.
+ * (외부 URL을 그대로 쓰면 CORS 때문에 PNG 내보내기가 실패한다.)
+ */
+function SlideImagePicker({
+  slideIndex,
+  value,
+  onChange,
+}: {
+  slideIndex: number;
+  value?: string;
+  onChange: (url: string | undefined) => void;
+}) {
+  const [urlInput, setUrlInput] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+  const inputId = `slide-image-${slideIndex}`;
+
+  async function send(body: FormData | string) {
+    setBusy(true);
+    setErr(null);
+    try {
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        ...(typeof body === 'string'
+          ? { headers: { 'Content-Type': 'application/json' }, body }
+          : { body }),
+      });
+      const d = await res.json();
+      if (!res.ok) throw new Error(d.error);
+      onChange(d.url);
+      setUrlInput('');
+    } catch (e: any) {
+      setErr(e.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div className="rounded-lg bg-gray-50 p-3">
+      <p className="mb-2 text-xs font-semibold text-gray-600">
+        배경 이미지 <span className="font-normal text-gray-400">(선택 — 비우면 템플릿 배경)</span>
+      </p>
+
+      {value ? (
+        <div className="flex items-center gap-3">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={value} alt="" className="h-16 w-16 rounded object-cover" />
+          <span className="flex-1 truncate text-xs text-gray-500">적용됨</span>
+          <button
+            type="button"
+            className="btn-ghost !px-3 !py-1 text-xs"
+            onClick={() => onChange(undefined)}
+          >
+            제거
+          </button>
+        </div>
+      ) : (
+        <div className="space-y-2">
+          <div>
+            <input
+              id={inputId}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              disabled={busy}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                const fd = new FormData();
+                fd.append('file', file);
+                send(fd);
+                e.target.value = '';
+              }}
+            />
+            <label htmlFor={inputId} className="btn-ghost w-full cursor-pointer text-xs">
+              {busy ? '처리 중…' : '📁 내 컴퓨터에서 이미지 선택'}
+            </label>
+          </div>
+          <div className="flex gap-2">
+            <input
+              className="input text-xs"
+              value={urlInput}
+              placeholder="또는 이미지 주소 붙여넣기 (.jpg / .png)"
+              disabled={busy}
+              onChange={(e) => setUrlInput(e.target.value)}
+            />
+            <button
+              type="button"
+              className="btn-ghost shrink-0 text-xs"
+              disabled={busy || !urlInput.trim()}
+              onClick={() => send(JSON.stringify({ url: urlInput.trim() }))}
+            >
+              가져오기
+            </button>
+          </div>
+        </div>
+      )}
+
+      {err && <p className="mt-2 text-xs leading-relaxed text-red-600">{err}</p>}
+    </div>
+  );
+}
+
 const THEME_OPTIONS: { id: SlideThemeId; label: string }[] = [
   { id: 'bold', label: '볼드 (다크+오렌지)' },
   { id: 'clean', label: '클린 (밝은 톤)' },
@@ -275,11 +381,10 @@ export default function PostEditorPage() {
                 placeholder="보조 텍스트"
                 onChange={(e) => updateSlide(i, { body: e.target.value })}
               />
-              <input
-                className="input text-xs"
-                value={s.bgImageUrl ?? ''}
-                placeholder="배경 이미지 URL (선택 — 비우면 템플릿 배경)"
-                onChange={(e) => updateSlide(i, { bgImageUrl: e.target.value || undefined })}
+              <SlideImagePicker
+                slideIndex={i}
+                value={s.bgImageUrl}
+                onChange={(url) => updateSlide(i, { bgImageUrl: url })}
               />
               {s.imagePrompt && (
                 <p className="text-xs text-gray-400">

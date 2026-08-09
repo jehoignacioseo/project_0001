@@ -7,6 +7,15 @@ export const dynamic = 'force-dynamic';
 
 const UPLOADS_DIR = path.join(process.cwd(), 'data', 'uploads');
 
+const MIME_BY_EXT: Record<string, string> = {
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.webp': 'image/webp',
+  '.gif': 'image/gif',
+  '.avif': 'image/avif',
+};
+
 export async function GET(
   _req: Request,
   { params }: { params: { path: string[] } }
@@ -20,7 +29,7 @@ export async function GET(
     const buf = await fs.readFile(target);
     return new NextResponse(new Uint8Array(buf), {
       headers: {
-        'Content-Type': 'image/png',
+        'Content-Type': MIME_BY_EXT[path.extname(target).toLowerCase()] ?? 'image/png',
         'Cache-Control': 'public, max-age=3600',
       },
     });
