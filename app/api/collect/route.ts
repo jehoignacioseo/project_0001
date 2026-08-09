@@ -3,7 +3,7 @@ import { getSettings, getItems, saveItems } from '@/lib/store';
 import { collectItems } from '@/lib/rss';
 
 export const dynamic = 'force-dynamic';
-export const maxDuration = 60;
+export const maxDuration = 300;
 
 export async function POST() {
   try {

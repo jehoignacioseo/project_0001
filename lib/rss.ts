@@ -8,6 +8,7 @@ import {
   subredditFeed,
   youtubeChannelFeed,
   googleTrendsFeed,
+  SOURCE_KIND_LABEL,
   type FeedSpec,
 } from './sources';
 
@@ -31,18 +32,58 @@ function toArray<T>(v: T | T[] | undefined): T[] {
   return Array.isArray(v) ? v : [v];
 }
 
-async function fetchFeed(spec: FeedSpec): Promise<SourceItem[]> {
-  const res = await fetch(spec.url, {
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/**
+ * 피드 하나를 가져온다.
+ * 뉴스·커뮤니티 사이트는 짧은 시간에 여러 요청이 몰리면 429/403 으로 막으므로
+ * 실패 시 잠깐 쉬었다가 한 번 더 시도한다.
+ */
+async function fetchOnce(url: string): Promise<string> {
+  const res = await fetch(url, {
     headers: {
-      // Reddit 등은 브라우저형 User-Agent 가 없으면 차단한다.
+      // 브라우저형 User-Agent 가 없으면 Reddit 등이 차단한다.
       'User-Agent':
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0 Safari/537.36',
-      Accept: 'application/rss+xml, application/xml, text/xml, */*',
+      Accept: 'application/rss+xml, application/atom+xml, application/xml, text/xml, */*',
+      'Accept-Language': 'ko-KR,ko;q=0.9,en;q=0.8',
     },
-    signal: AbortSignal.timeout(15000),
+    signal: AbortSignal.timeout(20000),
   });
-  if (!res.ok) throw new Error(`요청 실패 (${res.status})`);
-  const xml = await res.text();
+  if (!res.ok) {
+    const reason =
+      res.status === 429
+        ? '요청이 너무 잦아 일시적으로 차단됨 (429)'
+        : res.status === 403
+          ? '접근이 차단됨 (403)'
+          : `요청 실패 (${res.status})`;
+    throw new Error(reason);
+  }
+  return res.text();
+}
+
+async function fetchFeed(spec: FeedSpec): Promise<SourceItem[]> {
+  // Reddit 은 www 가 막히는 경우가 있어 구버전 호스트로도 시도한다.
+  const candidates = [spec.url];
+  if (spec.url.includes('www.reddit.com')) {
+    candidates.push(spec.url.replace('www.reddit.com', 'old.reddit.com'));
+  }
+
+  let xml: string | undefined;
+  let lastError: unknown;
+  for (const url of candidates) {
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        xml = await fetchOnce(url);
+        break;
+      } catch (e) {
+        lastError = e;
+        if (attempt === 0) await sleep(1500);
+      }
+    }
+    if (xml) break;
+  }
+  if (!xml) throw lastError;
   const doc = parser.parse(xml);
 
   const items: SourceItem[] = [];
@@ -203,13 +244,32 @@ export async function collectItems(
 ): Promise<{ items: SourceItem[]; errors: string[] }> {
   const feeds = buildFeeds(settings);
   const errors: string[] = [];
-  const results = await Promise.allSettled(feeds.map(fetchFeed));
-
   const all: SourceItem[] = [];
-  results.forEach((r, i) => {
-    if (r.status === 'fulfilled') all.push(...r.value);
-    else errors.push(`${feeds[i].url}: ${r.reason?.message ?? r.reason}`);
-  });
+
+  // 동시에 여러 요청을 보내면 뉴스·커뮤니티 사이트가 차단하므로
+  // 소수씩 나눠 보내고 묶음 사이에 간격을 둔다.
+  const BATCH = 2;
+  for (let i = 0; i < feeds.length; i += BATCH) {
+    const batch = feeds.slice(i, i + BATCH);
+    const results = await Promise.allSettled(batch.map(fetchFeed));
+    results.forEach((r, j) => {
+      const spec = batch[j];
+      if (r.status === 'fulfilled') all.push(...r.value);
+      else {
+        const host = (() => {
+          try {
+            return new URL(spec.url).hostname;
+          } catch {
+            return spec.url;
+          }
+        })();
+        errors.push(
+          `[${SOURCE_KIND_LABEL[spec.kind]}] ${host} — ${r.reason?.message ?? r.reason}`
+        );
+      }
+    });
+    if (i + BATCH < feeds.length) await sleep(800);
+  }
 
   const terms = buildRelevanceTerms(settings);
   const seen = new Set<string>();
