@@ -108,6 +108,11 @@ export default function SettingsPage() {
               setSaved(false);
             }}
           />
+          <p className="mt-1 text-xs leading-relaxed text-gray-400">
+            💡 &quot;K관광&quot;, &quot;K뷰티&quot; 같은 업계 용어를 넣으면 수출·투자·실적 같은 B2B
+            기사가 주로 잡힙니다. 독자가 실제로 검색할 말(&quot;서울 가볼만한 곳&quot;, &quot;성수동
+            카페&quot;, &quot;올리브영 추천&quot;)로 적어야 소비자용 소재가 모입니다.
+          </p>
         </div>
         <div>
           <label className="label">추가 RSS 피드 URL (줄바꿈 구분, 선택)</label>
@@ -190,15 +195,16 @@ export default function SettingsPage() {
             className="input"
             rows={2}
             value={youtubeText}
-            placeholder="UCxxxxxxxxxxxxxxxxxxxxxx"
+            placeholder="https://www.youtube.com/@채널이름"
             onChange={(e) => {
               setYoutubeText(e.target.value);
               setSaved(false);
             }}
           />
-          <p className="mt-1 text-xs text-gray-400">
-            채널 페이지에서 오른쪽 클릭 → 페이지 소스 보기 후 &quot;UC&quot;로 시작하는 24자 ID를 찾아
-            넣으면 그 채널의 최신 영상이 소재로 들어옵니다.
+          <p className="mt-1 text-xs leading-relaxed text-gray-400">
+            채널 주소를 그대로 붙여넣으면 됩니다 (예:{' '}
+            <code className="rounded bg-gray-100 px-1">https://www.youtube.com/@채널이름</code>).
+            채널 ID를 직접 찾을 필요 없습니다.
           </p>
         </div>
 

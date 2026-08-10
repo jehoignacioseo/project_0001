@@ -84,6 +84,14 @@ async function fetchFeed(spec: FeedSpec): Promise<SourceItem[]> {
     if (xml) break;
   }
   if (!xml) throw lastError;
+
+  // 차단 페이지를 200 OK 로 돌려주는 사이트가 있다. 조용히 0건이 되지 않도록 걸러낸다.
+  const head = xml.slice(0, 400).toLowerCase();
+  if (!head.includes('<rss') && !head.includes('<feed') && !head.includes('<?xml')) {
+    throw new Error(
+      'RSS 대신 웹페이지가 반환되었습니다 (자동 수집이 차단된 것으로 보입니다)'
+    );
+  }
   const doc = parser.parse(xml);
 
   const items: SourceItem[] = [];
@@ -164,7 +172,9 @@ async function fetchFeed(spec: FeedSpec): Promise<SourceItem[]> {
 }
 
 /** 설정에 따라 수집할 피드 목록을 구성한다. */
-export function buildFeeds(settings: AppSettings): FeedSpec[] {
+export async function buildFeeds(
+  settings: AppSettings
+): Promise<{ feeds: FeedSpec[]; errors: string[] }> {
   const enabled = new Set<SourceKind>(
     settings.enabledSources?.length ? settings.enabledSources : ['news']
   );
@@ -177,6 +187,7 @@ export function buildFeeds(settings: AppSettings): FeedSpec[] {
   const enTerms = settings.englishKeywords?.filter(Boolean) ?? [];
 
   const feeds: FeedSpec[] = [];
+  const errors: string[] = [];
 
   if (enabled.has('news')) {
     feeds.push(...searchTerms.map((k) => googleNewsFeed(k, 'ko')));
@@ -192,8 +203,13 @@ export function buildFeeds(settings: AppSettings): FeedSpec[] {
 
   if (enabled.has('influencer')) {
     for (const ch of settings.youtubeChannels ?? []) {
-      const spec = youtubeChannelFeed(ch);
-      if (spec) feeds.push(spec);
+      try {
+        const spec = await youtubeChannelFeed(ch);
+        if (spec) feeds.push(spec);
+        else errors.push(`[인플루언서] 채널을 인식하지 못했습니다: ${ch}`);
+      } catch (e: any) {
+        errors.push(`[인플루언서] ${e.message ?? e}`);
+      }
     }
   }
 
@@ -206,7 +222,7 @@ export function buildFeeds(settings: AppSettings): FeedSpec[] {
     ...settings.customFeeds.filter(Boolean).map((url) => ({ url, kind: 'blog' as SourceKind }))
   );
 
-  return feeds;
+  return { feeds, errors };
 }
 
 /**
@@ -242,8 +258,7 @@ function isRelevant(item: SourceItem, terms: string[]): boolean {
 export async function collectItems(
   settings: AppSettings
 ): Promise<{ items: SourceItem[]; errors: string[] }> {
-  const feeds = buildFeeds(settings);
-  const errors: string[] = [];
+  const { feeds, errors } = await buildFeeds(settings);
   const all: SourceItem[] = [];
 
   // 동시에 여러 요청을 보내면 뉴스·커뮤니티 사이트가 차단하므로

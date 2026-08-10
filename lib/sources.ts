@@ -44,22 +44,52 @@ export function subredditFeed(name: string): FeedSpec {
 
 /**
  * 인플루언서 목소리 — 유튜브 채널 업로드 RSS.
- * 채널 URL 또는 채널 ID(UC로 시작)를 넣으면 최신 영상 제목·설명을 가져온다.
+ * 채널 ID(UC…), 완성된 피드 주소, 그리고 @핸들/채널 URL 을 모두 받는다.
+ * 핸들은 채널 페이지에서 실제 채널 ID 를 찾아 변환한다 (사용자가 ID를 직접 찾을 필요 없음).
  */
-export function youtubeChannelFeed(idOrUrl: string): FeedSpec | null {
+export async function youtubeChannelFeed(idOrUrl: string): Promise<FeedSpec | null> {
   const trimmed = idOrUrl.trim();
-  const idMatch = trimmed.match(/(UC[\w-]{20,})/);
+  if (!trimmed) return null;
+
+  // 이미 완성된 피드 주소
+  if (/youtube\.com\/feeds\/videos\.xml/.test(trimmed)) {
+    return { url: trimmed, kind: 'influencer' };
+  }
+
+  // 채널 ID 직접 입력 (UC로 시작하는 24자)
+  const idMatch = trimmed.match(/(UC[\w-]{22})/);
   if (idMatch) {
     return {
       url: `https://www.youtube.com/feeds/videos.xml?channel_id=${idMatch[1]}`,
       kind: 'influencer',
     };
   }
-  // 이미 완성된 피드 주소인 경우
-  if (/youtube\.com\/feeds\/videos\.xml/.test(trimmed)) {
-    return { url: trimmed, kind: 'influencer' };
-  }
-  return null;
+
+  // @핸들 또는 채널 URL → 페이지에서 채널 ID 추출
+  const handleMatch = trimmed.match(/@([\w.-]+)/);
+  const pageUrl = /^https?:\/\//i.test(trimmed)
+    ? trimmed
+    : handleMatch
+      ? `https://www.youtube.com/@${handleMatch[1]}`
+      : null;
+  if (!pageUrl) return null;
+
+  const res = await fetch(pageUrl, {
+    headers: {
+      'User-Agent':
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0 Safari/537.36',
+    },
+    signal: AbortSignal.timeout(15000),
+  });
+  if (!res.ok) throw new Error(`유튜브 채널 페이지를 열 수 없습니다 (${res.status}): ${trimmed}`);
+  const html = await res.text();
+  const found = html.match(/"channelId":"(UC[\w-]{22})"/) ?? html.match(/(UC[\w-]{22})/);
+  if (!found) throw new Error(`채널 ID를 찾지 못했습니다: ${trimmed}`);
+
+  return {
+    url: `https://www.youtube.com/feeds/videos.xml?channel_id=${found[1]}`,
+    kind: 'influencer',
+  };
 }
 
 /** 검색 트렌드 — 지금 사람들이 실제로 검색하는 키워드 */
