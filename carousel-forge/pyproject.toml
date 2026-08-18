@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "carousel-forge"
+version = "0.1.0"
+description = "스타일(벤치마크 계정 DNA) × 주제 → 업로드 가능한 캐러셀 + Figma 편집 가능 내보내기"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.115",
+  "uvicorn[standard]>=0.30",
+  "sqlmodel>=0.0.22",
+  "alembic>=1.13",
+  "pydantic>=2.9",
+  "jinja2>=3.1",
+  "pyyaml>=6.0",
+  "playwright>=1.47",
+  "jsonschema>=4.23",
+  "python-multipart>=0.0.9",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "datamodel-code-generator>=0.26", "httpx2>=0.1"]
+
+[tool.setuptools.packages.find]
+include = ["apps*", "core*"]
+exclude = ["apps.web*", "apps.figma-plugin*", "storage*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning"]
+markers = [
+  "browser: Chromium을 띄우는 테스트. `-m \"not browser\"`로 건너뛴다.",
+]

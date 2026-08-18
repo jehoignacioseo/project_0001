@@ -1,0 +1,34 @@
+{#-
+  모든 슬라이드 템플릿의 뼈대.
+
+  구조는 항상 [배경 레이어] + [오버레이] + [텍스트 레이어] 3층이며, 텍스트는
+  절대 배경에 합쳐지지 않는다. `data-copy-block` 속성이 붙은 요소가 측정 단위이고,
+  Playwright가 getBoundingClientRect()로 실측한 값이 manifest와 SVG 좌표가 된다.
+  좌표를 추정하는 코드는 어디에도 없다 (절대 규칙 #3).
+-#}
+{% macro copy(block) -%}
+<div class="copy-block" id="{{ block.id }}" data-copy-block data-role="{{ block.role }}">{% for seg in block.segments %}{% if seg.emphasis %}<span class="em">{{ seg.text }}</span>{% else %}{{ seg.text }}{% endif %}{% endfor %}</div>
+{%- endmacro %}
+<!DOCTYPE html>
+<html lang="{{ language }}">
+<head>
+<meta charset="utf-8">
+<title>{{ set_id }} — slide {{ "%02d"|format(slide.index) }} ({{ slide.role }})</title>
+<style>
+{% include "_fonts.css.j2" %}
+{% include "_base.css.j2" %}
+{% block extra_css %}{% endblock %}
+</style>
+</head>
+<body>
+<div id="slide" data-index="{{ slide.index }}" data-role="{{ slide.role }}">
+  <div id="bg-layer">
+    {%- if slide.background %}<img id="s{{ "%02d"|format(slide.index) }}_bg" src="{{ background_href }}" alt="">{% endif %}
+  </div>
+  <div id="overlay" class="{{ theme.overlay_type }}"></div>
+  <div id="text-layer" class="zone-{{ theme.text_zone }}">
+{% block text_layer %}{% endblock %}
+  </div>
+</div>
+</body>
+</html>

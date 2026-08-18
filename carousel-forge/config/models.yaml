@@ -1,0 +1,76 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# 모델·프로바이더 라우팅 — 에이전트가 어떤 모델을 쓰는지 여기서만 정한다.
+# 코드에 모델 ID를 하드코딩하지 않는다.
+#
+# M0에서는 설정과 로더만 존재한다. 실제 호출은 M2 이후.
+# ─────────────────────────────────────────────────────────────────────────────
+
+_meta:
+  schema_version: 1
+
+llm:
+  default: reasoning
+  profiles:
+    reasoning:                 # 구조 설계·품질 판정 등 사고량이 큰 작업
+      provider: anthropic
+      model: claude-opus-5
+      max_tokens: 8192
+      temperature: 0.3
+    drafting:                  # 카피 생성 등 생산량이 큰 작업
+      provider: anthropic
+      model: claude-sonnet-5
+      max_tokens: 4096
+      temperature: 0.8
+    cheap:                     # 정규화·분류 등 값싼 작업
+      provider: anthropic
+      model: claude-haiku-4-5-20251001
+      max_tokens: 2048
+      temperature: 0.2
+
+vision:
+  default: forensics
+  profiles:
+    forensics:                 # A1 StyleForensics — 피드 스크린샷 해체
+      provider: anthropic
+      model: claude-opus-5
+      max_tokens: 8192
+    quality_gate:              # A9 — "이 이미지가 AI 생성물로 보이는가?"
+      provider: anthropic
+      model: claude-opus-5
+      max_tokens: 2048
+
+image:
+  # 1순위부터 순서대로 시도하고, 실패 시 다음으로 폴백한다.
+  chain: [higgsfield, gpt_image, nano_banana]
+  providers:
+    higgsfield:
+      transport: mcp
+      default_model: soul
+      supports_identity_lock: true      # Soul/Element로 인물·오브젝트 정체성 고정
+    gpt_image:
+      transport: http
+      default_model: gpt-image-1
+      supports_identity_lock: false
+    nano_banana:
+      transport: http
+      default_model: nano-banana
+      supports_identity_lock: false
+  negative_prompt_always:
+    - text
+    - letters
+    - watermark
+    - logo
+    - hands with wrong fingers
+    - plastic smooth skin
+    - hyperreal glow
+    - oversaturated
+
+research:
+  providers: [web_search, web_fetch]
+  parallelism: 6
+  cache_ttl_seconds: 21600     # TrendScout 캐시 6시간
+
+embeddings:
+  provider: local
+  model: bge-m3
+  duplicate_similarity_threshold: 0.85   # 이 이상이면 TrendScout 제안에서 제외

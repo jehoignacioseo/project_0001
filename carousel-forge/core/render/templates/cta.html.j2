@@ -1,0 +1,27 @@
+{#-
+  cta — 마지막 장. 행동 유도. 카피 밀도는 최소.
+  저장 유발 요약본은 이 직전 슬라이드(summary role)가 맡는다.
+-#}
+{% extends "base.html.j2" %}
+{% block extra_css %}
+#text-layer.zone-bottom, #text-layer.zone-top { justify-content: center; }
+{% endblock %}
+{% block text_layer %}
+    <div class="stack gap-md">
+      {%- if by_role.get('eyebrow') %}
+      {{ copy(by_role.get('eyebrow')) }}
+      {%- endif %}
+      {%- if by_role.get('headline') %}
+      {{ copy(by_role.get('headline')) }}
+      {%- endif %}
+      {%- if by_role.get('body') %}
+      {{ copy(by_role.get('body')) }}
+      {%- endif %}
+      {%- if by_role.get('cta') %}
+      {%- if 'divider-rule' in theme.decorations %}
+      <hr class="deco-rule">
+      {%- endif %}
+      {{ copy(by_role.get('cta')) }}
+      {%- endif %}
+    </div>
+{% endblock %}

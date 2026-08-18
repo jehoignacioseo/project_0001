@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "copy.schema.json",
+  "title": "CopyBundle",
+  "description": "A5 CopySmith 산출물. 슬라이드 오버레이 카피 + 본문 캡션 + 해시태그.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["caption", "hashtags"],
+  "properties": {
+    "caption": { "$ref": "#/$defs/Caption" },
+    "hashtags": { "type": "array", "items": { "type": "string" }, "maxItems": 30 }
+  },
+  "$defs": {
+    "CopyBlock": {
+      "title": "CopyBlock",
+      "description": "슬라이드 위에 얹히는 편집 가능한 텍스트 한 덩어리. 절대 이미지에 굽지 않는다.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "role", "text"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^s[0-9]{2}_[a-z0-9_]+$", "examples": ["s01_headline"] },
+        "role": { "type": "string", "enum": ["eyebrow", "headline", "subhead", "body", "bullet", "badge", "caption_note", "cta", "page_number"] },
+        "text": { "type": "string" },
+        "max_chars": { "type": "integer", "minimum": 1 },
+        "emphasis_spans": {
+          "type": "array",
+          "description": "[start, end) 문자 인덱스 구간. 강조 처리 대상.",
+          "items": { "type": "array", "items": { "type": "integer", "minimum": 0 }, "minItems": 2, "maxItems": 2 }
+        },
+        "editable": { "type": "boolean", "default": true }
+      }
+    },
+    "Caption": {
+      "title": "Caption",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hook_line", "body", "cta"],
+      "properties": {
+        "hook_line": { "type": "string", "description": "IG는 첫 125자가 접힘 전 노출 — 훅은 그 안에서 끝나야 한다" },
+        "body": { "type": "string" },
+        "cta": { "type": "string" },
+        "hashtag_placement": { "type": "string", "enum": ["inline", "end", "first-comment"], "default": "end" }
+      }
+    }
+  }
+}

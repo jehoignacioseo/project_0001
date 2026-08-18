@@ -1,0 +1,226 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "style_dna.schema.json",
+  "title": "StyleDNA",
+  "description": "벤치마크 계정에서 역설계한 스타일 자산. 이 프로그램의 심장. 필드를 임의로 줄이지 않는다.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["identity", "visual", "structure", "copy", "caption", "evidence"],
+  "properties": {
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["archetype", "one_line", "target_reader"],
+      "properties": {
+        "archetype": {
+          "type": "string",
+          "enum": ["editorial-minimal", "meme-chaotic", "infographic-dense", "lifestyle-warm", "luxury-clean", "zine-collage"]
+        },
+        "one_line": { "type": "string", "description": "이 계정을 한 문장으로" },
+        "target_reader": { "type": "string", "description": "누가 이걸 저장하는가" }
+      }
+    },
+
+    "visual": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["palette", "typography", "layout", "imagery"],
+      "properties": {
+        "palette": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["primary", "accent", "background", "text", "usage_ratio"],
+          "properties": {
+            "primary": { "type": "array", "items": { "$ref": "#/$defs/HexColor" }, "minItems": 1 },
+            "accent": { "type": "array", "items": { "$ref": "#/$defs/HexColor" } },
+            "background": { "type": "array", "items": { "$ref": "#/$defs/HexColor" }, "minItems": 1 },
+            "text": { "type": "array", "items": { "$ref": "#/$defs/HexColor" }, "minItems": 1 },
+            "usage_ratio": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["bg", "primary", "accent"],
+              "properties": {
+                "bg": { "$ref": "#/$defs/Ratio" },
+                "primary": { "$ref": "#/$defs/Ratio" },
+                "accent": { "$ref": "#/$defs/Ratio" }
+              }
+            }
+          }
+        },
+        "typography": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["headline", "body", "accent", "korean_font", "chinese_font", "latin_font", "mixed_script_rule"],
+          "properties": {
+            "headline": { "$ref": "#/$defs/TypeSpec" },
+            "body": { "$ref": "#/$defs/TypeSpec" },
+            "accent": { "$ref": "#/$defs/TypeSpec" },
+            "korean_font": { "type": "string" },
+            "chinese_font": { "type": "string" },
+            "latin_font": { "type": "string" },
+            "mixed_script_rule": { "type": "string", "description": "한중영 혼용 시 폰트 폴백 순서" }
+          }
+        },
+        "layout": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["safe_margin_ratio", "text_zone", "text_block_max_lines", "alignment", "grid", "decorations"],
+          "properties": {
+            "safe_margin_ratio": { "$ref": "#/$defs/Ratio" },
+            "text_zone": { "type": "string", "enum": ["top", "center", "bottom", "split", "full-bleed"] },
+            "text_block_max_lines": { "type": "integer", "minimum": 1, "maximum": 12 },
+            "alignment": { "type": "string", "enum": ["left", "center", "justified"] },
+            "grid": { "type": "string", "enum": ["single", "two-column", "card-stack"] },
+            "decorations": {
+              "type": "array",
+              "items": { "type": "string", "enum": ["underline-highlight", "number-badge", "quote-mark", "divider-rule"] }
+            }
+          }
+        },
+        "imagery": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type_mix", "treatment", "grain_intensity", "subject_rules", "overlay"],
+          "properties": {
+            "type_mix": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["photo", "illustration", "solid_or_gradient"],
+              "properties": {
+                "photo": { "$ref": "#/$defs/Ratio" },
+                "illustration": { "$ref": "#/$defs/Ratio" },
+                "solid_or_gradient": { "$ref": "#/$defs/Ratio" }
+              }
+            },
+            "treatment": {
+              "type": "array",
+              "items": { "type": "string", "enum": ["film-grain", "desaturated", "high-contrast", "warm-shift", "duotone"] }
+            },
+            "grain_intensity": { "$ref": "#/$defs/Ratio" },
+            "subject_rules": { "type": "string", "description": "인물 등장 여부, 손/제품 등장 방식, 크롭 습관" },
+            "overlay": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["type", "opacity"],
+              "properties": {
+                "type": { "type": "string", "enum": ["scrim", "gradient", "none"] },
+                "opacity": { "$ref": "#/$defs/Ratio" }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "structure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slide_count_range", "slide_count_mode", "hook_type", "narrative_pattern", "slide_roles_sequence", "cta_type", "cover_rule"],
+      "properties": {
+        "slide_count_range": {
+          "type": "array", "items": { "type": "integer", "minimum": 1, "maximum": 20 },
+          "minItems": 2, "maxItems": 2
+        },
+        "slide_count_mode": { "type": "integer", "minimum": 1, "maximum": 20 },
+        "hook_type": {
+          "type": "string",
+          "enum": ["question", "number-promise", "contrarian", "pain-point", "curiosity-gap", "result-first"]
+        },
+        "narrative_pattern": {
+          "type": "string",
+          "enum": ["problem-solution", "listicle", "story-arc", "comparison", "tutorial", "myth-bust"]
+        },
+        "slide_roles_sequence": { "type": "array", "items": { "$ref": "#/$defs/SlideRole" }, "minItems": 1 },
+        "cta_type": { "type": "string", "enum": ["save", "share", "comment-keyword", "link-in-bio", "follow"] },
+        "cover_rule": { "type": "string", "enum": ["title-only", "title+sub", "title+sub+badge"] }
+      }
+    },
+
+    "copy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["language", "register", "sentence_length_avg", "headline_char_limit", "body_char_limit_per_slide", "emoji_density", "emoji_palette", "punctuation_habits", "signature_phrases", "forbidden_words"],
+      "properties": {
+        "language": { "$ref": "#/$defs/Language" },
+        "register": { "type": "string", "description": "반말 | 존댓말 | 해요체 | 중국어 구어체" },
+        "sentence_length_avg": { "type": "number", "minimum": 1 },
+        "headline_char_limit": { "type": "integer", "minimum": 1 },
+        "body_char_limit_per_slide": { "type": "integer", "minimum": 1 },
+        "emoji_density": { "$ref": "#/$defs/Ratio" },
+        "emoji_palette": { "type": "array", "items": { "type": "string" } },
+        "punctuation_habits": { "type": "string" },
+        "signature_phrases": { "type": "array", "items": { "type": "string" } },
+        "forbidden_words": { "type": "array", "items": { "type": "string" }, "description": "이 계정이 절대 안 쓰는 말" }
+      }
+    },
+
+    "caption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["length_range", "first_line_rule", "structure", "hashtag_strategy"],
+      "properties": {
+        "length_range": { "type": "array", "items": { "type": "integer", "minimum": 0 }, "minItems": 2, "maxItems": 2 },
+        "first_line_rule": { "type": "string", "description": "첫 줄 훅 공식 (IG는 첫 125자가 접힘 전 노출)" },
+        "structure": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["hook", "body", "line_break", "cta", "hashtag_block"] }
+        },
+        "hashtag_strategy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["count", "mix", "placement"],
+          "properties": {
+            "count": { "type": "integer", "minimum": 0, "maximum": 30 },
+            "mix": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["broad", "niche", "branded", "community"],
+              "properties": {
+                "broad": { "type": "integer", "minimum": 0 },
+                "niche": { "type": "integer", "minimum": 0 },
+                "branded": { "type": "integer", "minimum": 0 },
+                "community": { "type": "integer", "minimum": 0 }
+              }
+            },
+            "placement": { "type": "string", "enum": ["inline", "end", "first-comment"] }
+          }
+        }
+      }
+    },
+
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sampled_posts", "notes", "low_confidence_fields"],
+      "properties": {
+        "sampled_posts": { "type": "integer", "minimum": 0, "description": "최소 6, 권장 12 이상. 6 미만이면 confidence_score < 0.6" },
+        "notes": { "type": "string", "description": "추출 근거 메모" },
+        "low_confidence_fields": { "type": "array", "items": { "type": "string" }, "description": "샘플 부족으로 추정한 필드 목록" }
+      }
+    }
+  },
+
+  "$defs": {
+    "HexColor": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+    "Ratio": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+    "Language": { "type": "string", "enum": ["ko", "zh", "en"] },
+    "SlideRole": {
+      "type": "string",
+      "enum": ["hook", "context", "point", "proof", "example", "summary", "cta"]
+    },
+    "TypeSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family", "weight", "size_ratio"],
+      "properties": {
+        "family": { "type": "string" },
+        "fallback": { "type": "array", "items": { "type": "string" }, "description": "정확 식별이 어려우므로 유사 계열 + 사용 가능한 대체 폰트 쌍으로 저장" },
+        "weight": { "type": "integer", "minimum": 100, "maximum": 900 },
+        "size_ratio": { "type": "number", "exclusiveMinimum": 0, "maximum": 1, "description": "절대 px가 아니라 캔버스 짧은 변 대비 비율" },
+        "letter_spacing_em": { "type": "number" },
+        "line_height": { "type": "number", "exclusiveMinimum": 0 },
+        "case": { "type": "string", "enum": ["as-is", "upper", "lower"] }
+      }
+    }
+  }
+}

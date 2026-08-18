@@ -1,0 +1,70 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# QualityGate(A9) 규칙 — 폐기·재생성 결정권자의 체크리스트
+#
+# 절대 규칙 #6: 품질 미달을 통과시키지 않는다. blocking 항목이 하나라도 FAIL이면
+# 세트는 통과하지 못한다. 재시도가 소진되면 조용히 넘기지 말고 명시적으로 실패한다.
+#
+# M0에서는 규칙 정의와 로더만 존재한다. 실제 판정 로직은 M4에서 붙는다.
+# ─────────────────────────────────────────────────────────────────────────────
+
+_meta:
+  schema_version: 1
+
+blocking:                       # 즉시 폐기 → 재생성
+  - id: ai_text_artifact
+    description: "이미지 안에 왜곡된 글자·워터마크·로고가 렌더링됨"
+    detector: vision            # vision | geometric | rule
+  - id: hand_finger_anomaly
+    description: "손가락 개수·형태 이상"
+    detector: vision
+  - id: identity_drift
+    description: "슬라이드 간 인물 얼굴 불일치"
+    detector: vision
+  - id: plastic_skin
+    description: "하이퍼스무스 피부 — AI 티의 대표 신호"
+    detector: vision
+  - id: morphing_artifact
+    description: "구조 왜곡·녹아내린 형태"
+    detector: vision
+  - id: text_overflow
+    description: "텍스트가 안전영역(safe margin)을 침범"
+    detector: geometric
+  - id: contrast_below_wcag
+    description: "텍스트/배경 대비비가 임계 미만"
+    detector: geometric
+  - id: factcheck_false
+    description: "FactChecker가 false/disputed 판정한 주장이 카피에 남아 있음"
+    detector: rule
+  - id: style_deviation
+    description: "StyleDNA 팔레트/타이포 이탈 임계 초과"
+    detector: rule
+
+warning:                        # 사용자에게 보고, 진행은 허용
+  - id: hook_strength_low
+    description: "커버 훅의 스크롤 정지력이 약함"
+  - id: hashtag_saturation
+    description: "해시태그가 포화 구간(경쟁 과열)에 몰려 있음"
+  - id: caption_length_out_of_range
+    description: "캡션 길이가 StyleDNA length_range 밖"
+
+thresholds:
+  contrast_min_ratio: 4.5       # WCAG AA (일반 텍스트)
+  contrast_min_ratio_large: 3.0 # WCAG AA (24px 이상 볼드/굵은 텍스트)
+  safe_area_tolerance_px: 0     # 안전영역은 0px 허용 — 침범하면 곧바로 FAIL
+  style_deviation:
+    palette_delta_e_max: 12.0   # CIEDE2000
+    font_size_ratio_tolerance: 0.15
+    headline_char_overflow: 0   # 글자수 상한은 하드 제약
+  hook_strength_min: 0.6
+
+retry:
+  max_attempts_per_slide: 3
+  max_attempts_per_set: 8
+  on_exhaust: fail_loudly       # 조용히 통과 금지. 실패를 명시 보고
+  backoff_seconds: [0, 2, 5]
+
+logging:
+  # 판정 근거를 반드시 텍스트로 남긴다 (GenerationLog.reason).
+  require_reason: true
+  min_reason_chars: 20
+  persist_discarded_assets: true   # 절대 규칙 #9: 폐기본도 DB에 남긴다

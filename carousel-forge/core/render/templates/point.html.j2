@@ -1,0 +1,37 @@
+{#-
+  point — 본문 슬라이드. 핵심 주장 하나 + 그것을 받치는 본문.
+  context / proof / example / summary role도 이 템플릿을 쓴다.
+-#}
+{% extends "base.html.j2" %}
+{% block text_layer %}
+    <div class="stack gap-sm">
+      {%- if by_role.get('badge') %}
+      <div class="badge">{{ copy(by_role.get('badge')) }}</div>
+      {%- endif %}
+      {%- if by_role.get('eyebrow') %}
+      {{ copy(by_role.get('eyebrow')) }}
+      {%- endif %}
+      {%- if by_role.get('headline') %}
+      {{ copy(by_role.get('headline')) }}
+      {%- endif %}
+      {%- if 'divider-rule' in theme.decorations %}
+      <hr class="deco-rule">
+      {%- endif %}
+      {%- if by_role.get('body') %}
+      {{ copy(by_role.get('body')) }}
+      {%- endif %}
+      {%- if bullets %}
+      <div class="stack gap-xs">
+        {%- for bullet in bullets %}
+        {{ copy(bullet) }}
+        {%- endfor %}
+      </div>
+      {%- endif %}
+      {%- if by_role.get('caption_note') %}
+      {{ copy(by_role.get('caption_note')) }}
+      {%- endif %}
+    </div>
+    {%- if by_role.get('page_number') %}
+    <div class="footer">{{ copy(by_role.get('page_number')) }}</div>
+    {%- endif %}
+{% endblock %}

@@ -1,0 +1,99 @@
+{
+  "identity": {
+    "archetype": "editorial-minimal",
+    "one_line": "일하는 사람의 집중 환경을 절제된 톤으로 기록하는 계정",
+    "target_reader": "책상 위 환경을 바꿔 집중력을 되찾고 싶은 20~30대 직장인"
+  },
+  "visual": {
+    "palette": {
+      "primary": ["#f4f1ec"],
+      "accent": ["#c8a15a"],
+      "background": ["#111111"],
+      "text": ["#f4f1ec"],
+      "usage_ratio": { "bg": 0.6, "primary": 0.25, "accent": 0.15 }
+    },
+    "typography": {
+      "headline": {
+        "family": "Pretendard",
+        "fallback": ["Noto Sans KR", "sans-serif"],
+        "weight": 800,
+        "size_ratio": 0.085,
+        "letter_spacing_em": -0.03,
+        "line_height": 1.18,
+        "case": "as-is"
+      },
+      "body": {
+        "family": "Pretendard",
+        "fallback": ["Noto Sans KR", "sans-serif"],
+        "weight": 400,
+        "size_ratio": 0.036,
+        "letter_spacing_em": -0.01,
+        "line_height": 1.62
+      },
+      "accent": {
+        "family": "Pretendard",
+        "fallback": ["Noto Sans KR", "sans-serif"],
+        "weight": 700,
+        "size_ratio": 0.026,
+        "letter_spacing_em": 0.06,
+        "line_height": 1.4,
+        "case": "upper"
+      },
+      "korean_font": "Pretendard",
+      "chinese_font": "Noto Sans SC",
+      "latin_font": "Pretendard",
+      "mixed_script_rule": "Pretendard → Noto Sans SC → sans-serif 순서로 폴백한다"
+    },
+    "layout": {
+      "safe_margin_ratio": 0.085,
+      "text_zone": "bottom",
+      "text_block_max_lines": 4,
+      "alignment": "left",
+      "grid": "single",
+      "decorations": ["divider-rule", "number-badge"]
+    },
+    "imagery": {
+      "type_mix": { "photo": 0.7, "illustration": 0.1, "solid_or_gradient": 0.2 },
+      "treatment": ["film-grain", "desaturated"],
+      "grain_intensity": 0.35,
+      "subject_rules": "인물 얼굴은 드물게, 손과 사물 위주. 크롭은 타이트하게.",
+      "overlay": { "type": "gradient", "opacity": 0.72 }
+    }
+  },
+  "structure": {
+    "slide_count_range": [7, 10],
+    "slide_count_mode": 9,
+    "hook_type": "number-promise",
+    "narrative_pattern": "listicle",
+    "slide_roles_sequence": ["hook", "context", "point", "point", "point", "point", "proof", "summary", "cta"],
+    "cta_type": "save",
+    "cover_rule": "title+sub"
+  },
+  "copy": {
+    "language": "ko",
+    "register": "해요체",
+    "sentence_length_avg": 17,
+    "headline_char_limit": 24,
+    "body_char_limit_per_slide": 80,
+    "emoji_density": 0.0,
+    "emoji_palette": [],
+    "punctuation_habits": "마침표는 쓰되 느낌표는 거의 쓰지 않는다. 줄바꿈으로 호흡을 만든다.",
+    "signature_phrases": ["오늘부터", "딱 하나만"],
+    "forbidden_words": ["대박", "미쳤다", "존맛"]
+  },
+  "caption": {
+    "length_range": [220, 520],
+    "first_line_rule": "숫자로 시작해 약속을 먼저 던진다. 125자 안에서 훅을 끝낸다.",
+    "structure": ["hook", "body", "line_break", "cta", "hashtag_block"],
+    "hashtag_strategy": {
+      "count": 12,
+      "mix": { "broad": 3, "niche": 6, "branded": 2, "community": 1 },
+      "placement": "end"
+    }
+  },
+  "evidence": {
+    "sampled_posts": 0,
+    "notes": "M1 렌더 파이프라인 검증용 더미 DNA. 실제 계정에서 추출한 값이 아니다 (A1 StyleForensics는 M3).",
+    "low_confidence_fields": ["전 필드 — 추출이 아니라 손으로 적은 값이다"]
+  }
+}

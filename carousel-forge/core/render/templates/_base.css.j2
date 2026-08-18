@@ -1,0 +1,103 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: {{ canvas.width }}px;
+  height: {{ canvas.height }}px;
+  overflow: hidden;
+  background: #000;
+  /* 렌더 재현성: 브라우저 기본 텍스트 보정을 끈다 */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+  font-kerning: normal;
+}
+
+#slide {
+  position: relative;
+  width: {{ canvas.width }}px;
+  height: {{ canvas.height }}px;
+  overflow: hidden;
+  background: {{ slide.background_fill or theme.palette_background }};
+}
+
+/* 배경 레이어 — 텍스트가 없는 원본. 텍스트 레이어와 끝까지 분리된다. */
+#bg-layer { position: absolute; inset: 0; }
+#bg-layer img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  display: block;
+}
+
+/* 스크림/그라디언트 오버레이 — 대비 확보용. 텍스트를 굽는 것과는 무관하다. */
+#overlay { position: absolute; inset: 0; pointer-events: none; }
+#overlay.scrim   { background: {{ overlay_color }}; opacity: {{ theme.overlay_opacity }}; }
+#overlay.gradient {
+  background: linear-gradient(
+    {{ gradient_direction }},
+    rgba(0,0,0,0) 0%,
+    {{ overlay_color }} 100%
+  );
+  opacity: {{ theme.overlay_opacity }};
+}
+#overlay.none { display: none; }
+
+/* 안전영역 — 텍스트는 이 박스를 절대 벗어나지 않는다 */
+#text-layer {
+  position: absolute;
+  left: {{ theme.safe_margin_px }}px;
+  right: {{ theme.safe_margin_px }}px;
+  top: {{ theme.safe_margin_px }}px;
+  bottom: {{ theme.safe_margin_px }}px;
+  display: flex;
+  flex-direction: column;
+}
+
+#text-layer.zone-top    { justify-content: flex-start; }
+#text-layer.zone-center { justify-content: center; }
+#text-layer.zone-bottom { justify-content: flex-end; }
+#text-layer.zone-split  { justify-content: space-between; }
+#text-layer.zone-full-bleed { justify-content: center; }
+
+.stack { display: flex; flex-direction: column; }
+
+.copy-block {
+  display: block;
+  white-space: pre-wrap;
+  word-break: keep-all;      /* 한국어 어절 단위 줄바꿈 */
+  overflow-wrap: break-word;
+}
+
+.copy-block .em { /* 강조 구간 — 별도 텍스트 노드라 측정 시 독립 run으로 잡힌다 */ }
+
+{% for block in blocks %}
+#{{ block.id }} {
+  font-family: {{ block.style.css_font_family | safe }};
+  font-weight: {{ block.style.weight }};
+  font-size: {{ block.style.size_px }}px;
+  letter-spacing: {{ (block.style.letter_spacing_em * block.style.size_px) | round(4) }}px;
+  line-height: {{ block.style.line_height }};
+  color: {{ block.color }};
+  text-align: {{ block.align }};
+  {% if block.style.case != 'as-is' %}text-transform: {{ 'uppercase' if block.style.case == 'upper' else 'lowercase' }};{% endif %}
+}
+#{{ block.id }} .em { color: {{ block.emphasis_color }}; }
+{% endfor %}
+
+/* 장식 — StyleDNA의 decorations 목록에 따라 켜진다 */
+.deco-rule {
+  height: {{ (canvas.short_side * 0.006) | round(0) | int }}px;
+  background: {{ theme.palette_accent }};
+  border: 0;
+}
+.badge {
+  align-self: flex-start;
+  padding: {{ (canvas.short_side * 0.012) | round(0) | int }}px {{ (canvas.short_side * 0.024) | round(0) | int }}px;
+  background: {{ theme.palette_accent }};
+  color: {{ theme.palette_background }};
+  border-radius: {{ (canvas.short_side * 0.5) | round(0) | int }}px;
+}
+
+.footer { margin-top: auto; }
+.stack.gap-xs { gap: {{ (canvas.short_side * 0.012) | round(0) | int }}px; }
+.stack.gap-sm { gap: {{ (canvas.short_side * 0.022) | round(0) | int }}px; }
+.stack.gap-md { gap: {{ (canvas.short_side * 0.038) | round(0) | int }}px; }
+.stack.gap-lg { gap: {{ (canvas.short_side * 0.060) | round(0) | int }}px; }

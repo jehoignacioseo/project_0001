@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "topic.schema.json",
+  "title": "TopicBriefPayload",
+  "description": "A2 TopicIntake가 어떤 입력(문서/채팅/키워드/URL/시스템 제안)이든 수렴시키는 정규화 형태.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["title_working", "angle", "audience", "key_message", "supporting_points", "evidence_needed", "cta_intent", "constraints", "source_fidelity"],
+  "properties": {
+    "title_working": { "type": "string" },
+    "angle": { "type": "string", "description": "이 주제를 어느 각도로 자를 것인가" },
+    "audience": { "type": "string" },
+    "key_message": { "type": "string", "description": "독자가 단 하나만 기억한다면" },
+    "supporting_points": { "type": "array", "items": { "type": "string" }, "minItems": 3, "maxItems": 7 },
+    "evidence_needed": { "type": "array", "items": { "type": "string" }, "description": "검증이 필요한 주장 목록" },
+    "cta_intent": { "type": "string" },
+    "constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["must_include", "must_avoid"],
+      "properties": {
+        "must_include": { "type": "array", "items": { "type": "string" } },
+        "must_avoid": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "source_fidelity": {
+      "type": "string",
+      "enum": ["strict", "flexible"],
+      "description": "strict이면 원문에 없는 사실을 창작하지 않는다. 문서 입력의 기본값은 strict."
+    }
+  }
+}

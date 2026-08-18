@@ -1,0 +1,10 @@
+{#- 폰트는 @font-face로 로컬 임베드한다. 웹폰트 네트워크 의존은 렌더 불일치의 원인이다. -#}
+{% for font in fonts %}
+@font-face {
+  font-family: "{{ font.family }}";
+  src: url("{{ font.url }}") format("woff2");
+  font-weight: {{ font.weight }};
+  font-style: normal;
+  font-display: block;
+}
+{% endfor %}

@@ -1,0 +1,73 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# 플랫폼 규격 — 단일 진실 소스 (Single Source of Truth)
+#
+# 절대 규칙 #2: 플랫폼 규격을 코드에 하드코딩하지 않는다. 코드는 이 파일만 읽는다.
+# 규격이 바뀌면 이 파일만 고치면 된다. `python scripts/validate_platforms.py`로
+# 스키마 정합성을 검증한다.
+#
+# 갱신 이력:
+#   2026-08 — 최초 작성. 값의 출처·최종 확인일은 `_meta.verified_at`에 기록한다.
+# ─────────────────────────────────────────────────────────────────────────────
+
+_meta:
+  schema_version: 1
+  verified_at: "2026-08-18"
+  note: >
+    canvas/caption/hashtag 수치는 각 플랫폼 정책 변경에 따라 달라진다.
+    빌드 파이프라인은 verified_at이 180일 이상 지나면 경고를 낸다.
+
+defaults:
+  # 플랫폼별 값이 없을 때만 적용되는 폴백
+  export_format: ["png"]
+  quality: 95
+  dpi: 72
+
+instagram:
+  display_name: "Instagram"
+  canvas: { width: 1080, height: 1350, ratio: "4:5" }   # 2026 기준 피드 기본 세로형
+  alt_canvas:
+    square: { width: 1080, height: 1080, ratio: "1:1" }
+    portrait_story: { width: 1080, height: 1920, ratio: "9:16" }
+  max_slides: 20
+  min_slides: 2
+  caption_max_chars: 2200
+  caption_fold_at: 125              # 이 지점 전에 훅이 끝나야 함
+  hashtag_max: 30
+  hashtag_recommended: [8, 15]
+  safe_margin_px: 90
+  export_format: ["jpg", "png"]
+  quality: 95
+  title_max_chars: null             # IG는 커버 제목 글자수 제한 없음
+  body_max_chars: null
+  cover_info_density: low           # 커버는 훅 한 문장
+  emoji_density: low
+  default_language: ko
+  culture_prompt: >
+    여백과 절제, 비주얼 우선. 커버는 훅 한 문장으로 끝낸다.
+    정보를 커버에 몰아넣지 않고 2번 슬라이드부터 전개한다.
+    이모지는 최소한으로, 문장 부호는 담백하게.
+
+xiaohongshu:
+  display_name: "小红书 (RED)"
+  canvas: { width: 1080, height: 1440, ratio: "3:4" }   # 피드 노출 면적 최대
+  alt_canvas:
+    square: { width: 1080, height: 1080, ratio: "1:1" }
+  max_slides: 18
+  min_slides: 1
+  caption_max_chars: 1000
+  caption_fold_at: 80
+  hashtag_max: 10                   # 话题 태그
+  hashtag_recommended: [5, 10]
+  safe_margin_px: 96
+  export_format: ["jpg", "png"]
+  quality: 95
+  title_max_chars: 20               # ★ 제목 20자 제한 — 커버 카피 설계의 핵심 제약
+  body_max_chars: 1000
+  topic_tag_max: 10
+  cover_info_density: high          # IG 대비 커버에 정보를 더 싣는 문화
+  emoji_density: high
+  default_language: zh
+  culture_prompt: >
+    정보 밀도 우선. 커버에 제목 + 부제 + 뱃지 + 포인트까지 싣는다.
+    이모지와 색상 대비를 강하게 쓰고 「」·【】 괄호 장식을 관용적으로 사용한다.
+    제목은 20자를 넘기면 잘리므로 20자 안에서 승부한다.

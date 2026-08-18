@@ -1,0 +1,27 @@
+{#-
+  hook — 커버. 스크롤을 멈추는 단 하나의 문장.
+
+  커버에는 리소스의 40%가 들어간다. 정보를 몰아넣지 않고 훅 하나로 승부하되,
+  플랫폼 문화가 고밀도(샤오홍슈)면 subhead와 badge를 함께 노출한다.
+-#}
+{% extends "base.html.j2" %}
+{% block text_layer %}
+    <div class="stack gap-md">
+      {%- if by_role.get('badge') %}
+      <div class="badge">{{ copy(by_role.get('badge')) }}</div>
+      {%- endif %}
+      {%- if by_role.get('eyebrow') %}
+      {{ copy(by_role.get('eyebrow')) }}
+      {%- endif %}
+      {{ copy(by_role.get('headline')) }}
+      {%- if 'divider-rule' in theme.decorations %}
+      <hr class="deco-rule">
+      {%- endif %}
+      {%- if by_role.get('subhead') %}
+      {{ copy(by_role.get('subhead')) }}
+      {%- endif %}
+    </div>
+    {%- if by_role.get('page_number') %}
+    <div class="footer">{{ copy(by_role.get('page_number')) }}</div>
+    {%- endif %}
+{% endblock %}

@@ -1,0 +1,13 @@
+Jinja2==3.1.6
+PyYAML==6.0.3
+alembic==1.19.1
+datamodel-code-generator==0.74.0
+fastapi==0.141.1
+httpx2==2.11.0
+jsonschema==4.26.0
+playwright==1.62.0
+pydantic==2.13.4
+pytest==9.1.1
+python-multipart==0.0.32
+sqlmodel==0.0.39
+uvicorn==0.52.3

@@ -1,0 +1,327 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "carousel_manifest.schema.json",
+  "title": "CarouselManifest",
+  "description": "백엔드와 Figma 플러그인이 공유하는 계약. 좌표는 Playwright getBoundingClientRect() 실측값만 사용한다. 추정 금지.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "set_id",
+    "account",
+    "platform",
+    "language",
+    "canvas",
+    "fonts_required",
+    "slides"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "set_id": {
+      "type": "string"
+    },
+    "account": {
+      "type": "string"
+    },
+    "platform": {
+      "type": "string",
+      "enum": [
+        "instagram",
+        "xiaohongshu"
+      ]
+    },
+    "language": {
+      "type": "string",
+      "enum": [
+        "ko",
+        "zh",
+        "en"
+      ]
+    },
+    "canvas": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "width",
+        "height"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "safe_margin_px": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "fonts_required": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "family",
+          "style"
+        ],
+        "properties": {
+          "family": {
+            "type": "string"
+          },
+          "style": {
+            "type": "string",
+            "examples": [
+              "Regular",
+              "Bold",
+              "ExtraBold"
+            ]
+          },
+          "file": {
+            "type": "string",
+            "description": "내보내기 ZIP 안의 상대 경로 (04_reference/fonts/…)"
+          }
+        }
+      }
+    },
+    "slides": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ManifestSlide"
+      },
+      "minItems": 1
+    }
+  },
+  "$defs": {
+    "ManifestSlide": {
+      "title": "ManifestSlide",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "index",
+        "role",
+        "layout_template",
+        "copy_blocks"
+      ],
+      "properties": {
+        "index": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "hook",
+            "context",
+            "point",
+            "proof",
+            "example",
+            "summary",
+            "cta"
+          ]
+        },
+        "layout_template": {
+          "type": "string"
+        },
+        "background_url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "텍스트 없는 배경 원본. null이면 단색/그라디언트."
+        },
+        "background_fill": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "배경 이미지가 없을 때의 CSS 배경값"
+        },
+        "overlay": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "opacity",
+            "color"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "scrim",
+                "gradient",
+                "none"
+              ]
+            },
+            "opacity": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "color": {
+              "type": "string"
+            }
+          }
+        },
+        "copy_blocks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ManifestCopyBlock"
+          }
+        }
+      }
+    },
+    "ManifestCopyBlock": {
+      "title": "ManifestCopyBlock",
+      "description": "실측 좌표가 붙은 CopyBlock. Figma TextNode 1:1 대응.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "role",
+        "text",
+        "x",
+        "y",
+        "width",
+        "height",
+        "align",
+        "color",
+        "font"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "width": {
+          "type": "number"
+        },
+        "height": {
+          "type": "number"
+        },
+        "align": {
+          "type": "string",
+          "enum": [
+            "left",
+            "center",
+            "right",
+            "justified"
+          ]
+        },
+        "color": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "font": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "family",
+            "style",
+            "size",
+            "letter_spacing",
+            "line_height"
+          ],
+          "properties": {
+            "family": {
+              "type": "string"
+            },
+            "style": {
+              "type": "string"
+            },
+            "size": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "letter_spacing": {
+              "type": "number",
+              "description": "em 단위"
+            },
+            "line_height": {
+              "type": "number",
+              "description": "배수 (1.15 = 115%)"
+            }
+          }
+        },
+        "line_boxes": {
+          "type": "array",
+          "description": "줄 단위 실측 박스. 오버플로 검사·SVG tspan 좌표에 사용.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "text",
+              "x",
+              "y",
+              "width",
+              "height",
+              "baseline"
+            ],
+            "properties": {
+              "text": {
+                "type": "string"
+              },
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "width": {
+                "type": "number"
+              },
+              "height": {
+                "type": "number"
+              },
+              "baseline": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "emphasis_spans": {
+          "type": "array",
+          "description": "[start, end) 문자 인덱스 구간. Figma에서 setRangeFills 등으로 강조 처리한다.",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "minItems": 2,
+            "maxItems": 2
+          }
+        },
+        "emphasis_color": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "강조 구간에 적용된 색"
+        }
+      }
+    }
+  }
+}
