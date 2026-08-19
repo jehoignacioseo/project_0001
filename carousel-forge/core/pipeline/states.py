@@ -33,6 +33,8 @@ OPTIONAL: frozenset[PipelineStage] = frozenset({PipelineStage.LOCALIZE})
 #: QualityGate가 폐기 판정을 내렸을 때 되감을 지점.
 #: 실패 종류마다 어디까지 되돌릴지가 다르다.
 REWIND_TARGET: dict[str, PipelineStage] = {
+    # 전체 인상이 AI 같다는 판정도 결국 배경을 다시 만들어야 풀린다.
+    "ai_look": PipelineStage.VISUAL_GEN,
     "ai_text_artifact": PipelineStage.VISUAL_GEN,
     "hand_finger_anomaly": PipelineStage.VISUAL_GEN,
     "identity_drift": PipelineStage.VISUAL_GEN,

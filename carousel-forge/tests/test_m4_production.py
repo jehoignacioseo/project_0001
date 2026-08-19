@@ -424,3 +424,46 @@ def test_regeneration_uses_a_new_seed_each_attempt(ctx, tmp_path):
             work_dir=tmp_path / "w", png_dir=tmp_path / "p", background_dir=tmp_path / "bg",
         )
     assert len(seen) == len(set(seen)), f"seed가 반복됐다: {seen}"
+
+
+def test_ai_look_is_a_blocking_rule():
+    """절대 규칙 #7: "AI 생성물로 보이는가"에 YES면 폐기한다.
+
+    개별 결함(글자·손가락·피부·모핑)이 없어도 전체 인상이 AI면 걸려야 한다.
+    """
+    from core.config import quality_rules
+
+    blocking = {r["id"] for r in quality_rules()["blocking"]}
+    assert "ai_look" in blocking
+
+
+def test_the_vision_verdict_maps_looks_ai_generated_to_ai_look(monkeypatch):
+    """비전 판정의 looks_ai_generated가 실제로 폐기로 이어지는지."""
+    from core.agents.quality_gate import VisionVerdict
+
+    gate = QualityGate(use_vision=True)
+
+    class StubLLM:
+        def structured(self, **kwargs):
+            class R:
+                parsed = VisionVerdict(
+                    looks_ai_generated=True,
+                    ai_text_artifact=False,
+                    hand_finger_anomaly=False,
+                    plastic_skin=False,
+                    morphing_artifact=False,
+                    reason="그레인이 광량과 무관하게 등밀도로 깔려 합성 노이즈로 보인다.",
+                )
+            return R()
+
+    gate._llm = StubLLM()
+    measurement = SlideMeasurement(
+        index=1, role="hook", layout_template="hook",
+        canvas={"width": 1080, "height": 1350},
+        safe_area={"x": 92, "y": 92, "width": 896, "height": 1166},
+        background=None, blocks=[], background_png_path=Path("stub.png"),
+    )
+    judgements = gate._vision([measurement], {"ai_look", "ai_text_artifact"}, None)
+    ai_look = next(j for j in judgements if j.rule_id == "ai_look")
+    assert not ai_look.passed
+    assert "그레인" in ai_look.reason

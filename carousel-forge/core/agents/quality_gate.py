@@ -326,6 +326,9 @@ class QualityGate(Agent):
             ).parsed
 
             checks = (
+                # 절대 규칙 #7: "이 이미지가 AI 생성물로 보이는가"에 YES면 폐기한다.
+                # 개별 결함이 없어도 전체 인상이 AI면 걸린다.
+                ("ai_look", verdict.looks_ai_generated),
                 ("ai_text_artifact", verdict.ai_text_artifact),
                 ("hand_finger_anomaly", verdict.hand_finger_anomaly),
                 ("plastic_skin", verdict.plastic_skin),
