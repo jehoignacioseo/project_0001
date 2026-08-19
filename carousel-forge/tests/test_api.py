@@ -56,7 +56,6 @@ def test_duplicate_handle_is_rejected(client):
 @pytest.mark.parametrize(
     ("method", "path"),
     [
-        ("post", "/styles/extract"),
         ("post", "/topics/ingest"),
         ("post", "/carousels"),
         ("post", "/carousels/x/regenerate"),
@@ -73,3 +72,11 @@ def test_unbuilt_endpoints_return_501_with_the_milestone(client, method, path):
 
 def test_missing_export_is_404_not_501(client):
     assert client.get("/exports/nope/manifest").status_code == 404
+
+
+def test_implemented_endpoints_no_longer_return_501(client):
+    """M3가 붙은 뒤 /styles/extract는 501이 아니다 — 없는 계정에 404를 낸다."""
+    response = client.post(
+        "/styles/extract", json={"account_id": "nope", "name": "x", "screenshots": ["a.png"]}
+    )
+    assert response.status_code == 404

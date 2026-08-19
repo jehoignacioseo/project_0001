@@ -19,7 +19,7 @@ from .layout_compositor import LayoutCompositor
 from .localizer import Localizer
 from .narrative_architect import NarrativeArchitect, OutlineError, check_outline
 from .quality_gate import QualityGate
-from .style_forensics import StyleForensics
+from .style_forensics import ForensicsError, ForensicsResult, StyleForensics
 from .topic_intake import NeedsUserInput, TopicIntake
 from .trend_scout import TrendScout
 
@@ -37,6 +37,8 @@ __all__ = [
     "NeedsUserInput",
     "OutlineError",
     "QualityGate",
+    "ForensicsError",
+    "ForensicsResult",
     "StyleForensics",
     "TopicIntake",
     "TrendScout",

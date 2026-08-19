@@ -12,8 +12,11 @@ Opus 5 기준 주의사항:
 
 from __future__ import annotations
 
+import base64
+import mimetypes
 import os
-from typing import TypeVar
+from pathlib import Path
+from typing import Any, TypeVar
 
 from pydantic import BaseModel
 
@@ -52,6 +55,7 @@ class AnthropicClient(LLMClient):
         user: str,
         output_model: type[T],
         profile: str | None = None,
+        images: list[Path] | None = None,
     ) -> LLMResult[T]:
         spec = Profile.load(profile)
 
@@ -59,7 +63,7 @@ class AnthropicClient(LLMClient):
             "model": spec.model,
             "max_tokens": spec.max_tokens,
             "system": system,
-            "messages": [{"role": "user", "content": user}],
+            "messages": [{"role": "user", "content": _content(user, images)}],
             "output_format": output_model,
             # 구조 설계·카피 제약 검토는 사고가 필요한 작업이라 항상 켜 둔다.
             "thinking": {"type": "adaptive"},
@@ -106,3 +110,33 @@ class AnthropicClient(LLMClient):
 def fallbacks_enabled() -> bool:
     """서버측 거절 폴백 사용 여부. 실제 키로 검증한 뒤 켠다 (OPEN_QUESTIONS 16번)."""
     return bool(model_routing()["llm"].get("fallbacks_enabled", False))
+
+
+_SUPPORTED_IMAGE_TYPES = {"image/png", "image/jpeg", "image/gif", "image/webp"}
+
+
+def _content(user: str, images: list[Path] | None) -> list[dict[str, Any]] | str:
+    """이미지가 있으면 이미지 → 텍스트 순으로 블록을 쌓는다."""
+    if not images:
+        return user
+
+    blocks: list[dict[str, Any]] = []
+    for path in images:
+        media_type = mimetypes.guess_type(path.name)[0]
+        if media_type not in _SUPPORTED_IMAGE_TYPES:
+            raise LLMError(
+                f"지원하지 않는 이미지 형식: {path.name} ({media_type}). "
+                f"가능한 형식: {', '.join(sorted(_SUPPORTED_IMAGE_TYPES))}"
+            )
+        blocks.append(
+            {
+                "type": "image",
+                "source": {
+                    "type": "base64",
+                    "media_type": media_type,
+                    "data": base64.b64encode(path.read_bytes()).decode("ascii"),
+                },
+            }
+        )
+    blocks.append({"type": "text", "text": user})
+    return blocks

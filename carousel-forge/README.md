@@ -14,7 +14,7 @@
 | **M1** | 렌더 파이프라인 (HTML → PNG + SVG + manifest) | ✅ 완료 |
 | M2~M8 | 에이전트·Figma 플러그인·라이브러리 UI | ⬜ 미착수 |
 
-구현된 에이전트는 A2·A4·A5 셋이다. 나머지(A1·A3·A6~A10)는 클래스와 단계만
+구현된 에이전트는 A1·A2·A4·A5 넷이다. 나머지(A3·A6~A10)는 클래스와 단계만
 정의돼 있고 `run`은 `NotImplementedError`를 낸다. API도 해당 엔드포인트에서 501을
 낸다. **미구현을 빈 결과로 감추지 않는다.**
 
@@ -41,6 +41,10 @@ python3.11 -m venv .venv && .venv/bin/pip install -e ".[dev]"
 export ANTHROPIC_API_KEY=...
 .venv/bin/python scripts/demo_m2.py --keyword 러닝입문
 .venv/bin/python scripts/demo_m2.py --keyword 러닝입문 --resume --render   # M1 렌더까지
+
+# M3 end-to-end: 벤치마크 피드 → StyleDNA + 검증 렌더 + 정답 대조
+.venv/bin/python scripts/make_benchmark_feed.py
+.venv/bin/python scripts/demo_m3.py
 
 # PNG과 SVG가 정말 같은 좌표에서 나왔는지 픽셀로 대조
 .venv/bin/python scripts/verify_render.py storage/exports/deskreset_demo0001_instagram_ko
@@ -71,6 +75,12 @@ API를 띄우려면:
 manifest와 SVG의 모든 좌표는 Playwright가 페이지 안에서 잰 값이다
 (`core/render/measure.js`). 베이스라인조차 폰트 메트릭으로 계산하지 않고,
 높이 0짜리 inline-block을 같은 줄에 놓아 **잰다**.
+
+**4. 스타일도 추정하지 않는다.**
+색은 픽셀 k-means에서, 텍스트 위치·여백·정렬은 경사 기하에서, 말투·이모지 밀도·
+해시태그 전략은 캡션 통계에서 **센다**(`core/agents/forensics/`). 모델은 잰 값을
+쥔 채로 세어서는 알 수 없는 것(아키타입·서사 패턴·훅 공식)만 해석하고, 측정 가능한
+필드는 모델이 뭐라 답하든 측정값으로 덮어쓴다.
 
 ## 렌더 파이프라인
 
@@ -121,3 +131,21 @@ scripts/             codegen · 검증 · 데모
 
 `OPEN_QUESTIONS.md`에 15건을 적어 뒀다. 전부 기본값을 정해 진행했고, 무엇을
 바꾸면 되는지도 함께 적었다.
+
+## 스타일 추출 정확도
+
+알려진 StyleDNA로 피드를 렌더한 뒤 그것만 보고 다시 추출하는 왕복 검증으로 잰다
+(`scripts/make_benchmark_feed.py` → `scripts/demo_m3.py`). 실제 계정 스크린샷은
+정답이 없고 남의 저작물이기도 해서, 정답을 아는 피드를 직접 만든다.
+
+샘플 6장 기준 최근 측정:
+
+| 층 | 결과 |
+|---|---|
+| 측정 (픽셀·기하·통계) | 8/8 — 팔레트 ΔE 0.0 / 0.7 / 0.6, 텍스트존·정렬 일치, 여백 오차 0.022 |
+| 해석 (모델 판단) | 6/8 |
+| 전체 | 88% |
+
+해석 층에서 어긋난 둘은 벤치마크 피드의 한계에서 온다 — 커버만 렌더해서 본문
+텍스트가 없으니 본문 크기를 볼 수 없고, 여백이 넓어 실제보다 미니멀해 보인다
+(`OPEN_QUESTIONS.md` 24번).

@@ -12,6 +12,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any, TypeVar
 
 from pydantic import BaseModel
@@ -29,6 +30,7 @@ class Call:
     user: str
     output_model: type[BaseModel]
     profile: str | None
+    images: tuple[Path, ...] = ()
 
 
 @dataclass
@@ -51,8 +53,15 @@ class ScriptedLLM(LLMClient):
         user: str,
         output_model: type[T],
         profile: str | None = None,
+        images: list[Path] | None = None,
     ) -> LLMResult[T]:
-        call = Call(system=system, user=user, output_model=output_model, profile=profile)
+        call = Call(
+            system=system,
+            user=user,
+            output_model=output_model,
+            profile=profile,
+            images=tuple(images or ()),
+        )
         self.calls.append(call)
 
         if self._cursor >= len(self.responses):

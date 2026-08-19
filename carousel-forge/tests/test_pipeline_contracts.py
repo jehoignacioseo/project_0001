@@ -40,16 +40,16 @@ def test_unimplemented_agents_raise_instead_of_returning_empty():
 
 
 def test_orchestrator_stops_at_the_first_unimplemented_stage():
-    """M2가 붙었어도 상태 머신은 A1(M3) 자리에서 멈춘다.
+    """M3까지 붙은 지금, 상태 머신은 A3 TrendScout(M5) 자리에서 멈춘다.
 
-    파이프라인 순서(STYLE_RESOLVE가 ARCHITECT보다 앞)와 마일스톤 순서가 다르기
-    때문이다. M2 산출물은 오케스트레이터가 아니라 세 에이전트를 직접 이어 확인한다.
+    파이프라인 순서와 마일스톤 순서가 다르기 때문에 전 구간은 M5까지 가야 열린다.
+    그 전까지 각 마일스톤 산출물은 데모 스크립트가 에이전트를 직접 이어 확인한다.
     """
     result = Orchestrator(AgentContext("a", "instagram", "ko")).run(
-        {}, start=PipelineStage.STYLE_RESOLVE
+        {}, start=PipelineStage.RESEARCH
     )
-    assert result.stopped_at is PipelineStage.STYLE_RESOLVE
-    assert "M3" in result.error
+    assert result.stopped_at is PipelineStage.RESEARCH
+    assert "M5" in result.error
 
 
 def test_retry_budget_fails_loudly_when_exhausted():

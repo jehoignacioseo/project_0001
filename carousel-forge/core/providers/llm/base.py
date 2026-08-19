@@ -10,6 +10,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any, Generic, TypeVar
 
 from pydantic import BaseModel
@@ -85,5 +86,10 @@ class LLMClient(ABC):
         user: str,
         output_model: type[T],
         profile: str | None = None,
+        images: list[Path] | None = None,
     ) -> LLMResult[T]:
-        """`output_model` 형태의 응답을 강제해서 받아온다."""
+        """`output_model` 형태의 응답을 강제해서 받아온다.
+
+        `images`를 주면 텍스트보다 **앞에** 붙는다. 스타일 추출처럼 이미지가
+        본체이고 텍스트가 지시인 경우 그 순서가 맞다.
+        """
