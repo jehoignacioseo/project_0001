@@ -10,22 +10,32 @@ _meta:
 
 llm:
   default: reasoning
+  # 모델은 전부 Opus 5로 두고, 작업의 무게는 effort로 조절한다.
+  # 비용 때문에 모델을 낮추는 것은 사용자가 결정할 일이므로 여기서 임의로 내리지 않는다.
+  # 낮추고 싶으면 profiles의 model만 바꾸면 되고 코드는 손댈 필요가 없다.
+  #
+  # 주의: Opus 5에서 temperature/top_p/top_k와 thinking.budget_tokens는 제거됐다(400).
+  #       사고량은 thinking: adaptive + effort로 제어한다.
   profiles:
     reasoning:                 # 구조 설계·품질 판정 등 사고량이 큰 작업
       provider: anthropic
       model: claude-opus-5
-      max_tokens: 8192
-      temperature: 0.3
+      max_tokens: 16000
+      effort: high
     drafting:                  # 카피 생성 등 생산량이 큰 작업
       provider: anthropic
-      model: claude-sonnet-5
-      max_tokens: 4096
-      temperature: 0.8
+      model: claude-opus-5
+      max_tokens: 16000
+      effort: medium
     cheap:                     # 정규화·분류 등 값싼 작업
       provider: anthropic
-      model: claude-haiku-4-5-20251001
-      max_tokens: 2048
-      temperature: 0.2
+      model: claude-opus-5
+      max_tokens: 8000
+      effort: low
+
+  # 정책상 거절(stop_reason=refusal) 시 서버측 폴백. 키가 생겨 실제로 검증한 뒤 켠다.
+  # OPEN_QUESTIONS.md 16번 참고.
+  fallbacks_enabled: false
 
 vision:
   default: forensics

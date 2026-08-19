@@ -143,3 +143,32 @@ Pretendard는 SIL OFL 1.1이라 임베드·재배포가 가능하고, 내보내�
   최적 이동이 `(0,0)`이므로 좌표가 밀린 것은 아니다.
 - **기본값**: 불일치 비율 상한 2.5%, 그리고 **최적 이동이 (0,0)이 아니면 실패**.
   후자가 좌표 회귀를 잡는 진짜 지표다.
+
+---
+
+## 16. 거절(refusal) 시 서버측 폴백을 아직 켜지 않았다
+
+Opus 5는 정책상 요청을 거절할 수 있고(`stop_reason: "refusal"`), 그때 같은 요청을
+다른 모델로 자동 재시도하는 서버측 `fallbacks` 파라미터가 있다.
+
+- **기본값**: 끔(`config/models.yaml`의 `llm.fallbacks_enabled: false`).
+  현재는 거절이 오면 `LLMRefusalError`로 **명시적으로 실패**한다.
+- **이유**: API 키가 없어 이 경로를 한 번도 실행해 보지 못했다. 검증하지 않은
+  베타 파라미터를 기본 경로에 넣으면, 정작 거절이 났을 때 폴백이 아니라 400이
+  날 수 있다. 키가 생기면 켜고 실제로 확인한 뒤 기본값을 바꾼다.
+
+## 17. LLM 프로필이 전부 Opus 5다
+
+`config/models.yaml`의 세 프로필(reasoning/drafting/cheap)이 모두 `claude-opus-5`고,
+작업의 무게는 `effort`(high/medium/low)로만 구분한다.
+
+- **기본값**: 모델은 고정, effort로 조절. 비용 때문에 모델 등급을 낮추는 것은
+  사용자가 결정할 일이라 임의로 내리지 않았다.
+- 낮추고 싶으면 `profiles.<이름>.model`만 바꾸면 되고 코드는 손댈 필요가 없다.
+  단, Haiku 계열은 `effort`를 지원하지 않으므로 함께 지워야 한다.
+
+## 18. M0의 models.yaml에 Opus 5에서 제거된 파라미터가 있었다
+
+최초 작성 시 `temperature`를 넣어 뒀는데, Opus 5는 `temperature`/`top_p`/`top_k`와
+`thinking.budget_tokens`를 모두 400으로 거부한다. M2 작업 중 발견해 `effort`로
+교체했고, 회귀를 막는 테스트(`test_config_has_no_removed_sampling_params`)를 붙였다.

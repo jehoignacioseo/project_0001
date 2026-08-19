@@ -15,3 +15,8 @@ storage/*.db
 # 프론트/플러그인
 node_modules/
 dist/
+
+# 비밀값 — 절대 커밋하지 않는다
+.env
+.env.*
+!.env.example
