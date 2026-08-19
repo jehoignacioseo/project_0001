@@ -24,9 +24,9 @@ from typing import Any
 
 from core.config import FONTS_DIR
 from core.render.geometry import Overflow, find_overflows
-from core.render.html_renderer import SlideMeasurement, SlideRenderer
+from core.render.html_renderer import RenderError, SlideMeasurement, SlideRenderer
 from core.render.manifest import build_manifest, write_manifest
-from core.render.model import FONT_FILES, RenderSet
+from core.render.model import FONT_FILES, FONT_LICENSES, RenderSet
 from core.render.svg_exporter import build_svg
 
 README = """# {account} — {set_id}
@@ -231,11 +231,20 @@ def _write_reference(render_set: RenderSet, ref_dir: Path, *, style_dna: dict[st
         (ref_dir / "style_dna.json").write_text(
             json.dumps(style_dna, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
         )
-    for font in render_set.fonts_required():
+    required = render_set.fonts_required()
+    for font in required:
         src = FONTS_DIR / font["file"]
         shutil.copyfile(src, ref_dir / "fonts" / font["file"])
-    license_file = FONTS_DIR / "Pretendard-LICENSE.txt"
-    if license_file.exists() and any(
-        f["family"] == "Pretendard" for f in render_set.fonts_required()
-    ):
-        shutil.copyfile(license_file, ref_dir / "fonts" / license_file.name)
+    # 폰트를 넣었으면 라이선스도 같이 넣는다 (절대 규칙 #10).
+    for family in {f["family"] for f in required}:
+        name = FONT_LICENSES.get(family)
+        if name is None:
+            raise RenderError(
+                f"{family}의 라이선스 파일이 등록돼 있지 않다. "
+                "core.render.model.FONT_LICENSES에 추가하라 — 폰트를 라이선스 없이 "
+                "내보내지 않는다."
+            )
+        license_file = FONTS_DIR / name
+        if not license_file.exists():
+            raise RenderError(f"라이선스 파일이 없다: {license_file}")
+        shutil.copyfile(license_file, ref_dir / "fonts" / name)

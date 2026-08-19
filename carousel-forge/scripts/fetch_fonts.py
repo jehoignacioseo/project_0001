@@ -40,8 +40,12 @@ SETS: dict[str, dict] = {
         "package": "@fontsource/noto-sans-sc",
         "license": "SIL OFL 1.1",
         "files": {
-            # @fontsource는 subset별로 파일이 쪼개져 있다. 전체 커버리지가 필요하므로
-            # 실제로 어떤 파일을 쓸지는 M7(중국어 지원) 시점에 확정한다.
+            # @fontsource는 subset별로 파일이 쪼개져 있지만 `chinese-simplified`
+            # 하나가 상용 한자 전체를 담은 통합 파일이다. 나머지 번호 붙은 subset은
+            # latin·기호 조각이라 본문 렌더에는 필요 없다.
+            "package/files/noto-sans-sc-chinese-simplified-400-normal.woff2": "NotoSansSC-Regular.woff2",
+            "package/files/noto-sans-sc-chinese-simplified-700-normal.woff2": "NotoSansSC-Bold.woff2",
+            "package/files/noto-sans-sc-chinese-simplified-800-normal.woff2": "NotoSansSC-ExtraBold.woff2",
             "package/LICENSE": "NotoSansSC-LICENSE.txt",
         },
     },

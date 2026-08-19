@@ -33,13 +33,21 @@ def test_localize_is_skipped_unless_requested():
 
 
 def test_unimplemented_agents_raise_instead_of_returning_empty():
-    """M5의 A6까지 붙은 지금 남은 미구현은 A3 TrendScout와 A10 Localizer다."""
-    from core.agents import Localizer, TrendScout
+    """M7의 A10까지 붙은 지금 남은 미구현은 A3 TrendScout뿐이다."""
+    from core.agents import TrendScout
 
     ctx = AgentContext(account_id="a", platform="instagram", language="ko")
-    for agent in (TrendScout(), Localizer()):
-        with pytest.raises(NotImplementedError):
-            agent.run({}, ctx)
+    with pytest.raises(NotImplementedError):
+        TrendScout().run({}, ctx)
+
+
+def test_a10_refuses_to_localize_without_a_target():
+    """대상 없이 부르면 조용히 원본을 되돌려주지 않는다."""
+    from core.agents import LocalizationError, Localizer
+
+    ctx = AgentContext(account_id="a", platform="instagram", language="ko")
+    with pytest.raises(LocalizationError, match="대상이 지정되지 않았다"):
+        Localizer().run({}, ctx)
 
 
 def test_a8_refuses_the_state_dict_interface():

@@ -90,3 +90,27 @@ def test_fonts_required_lists_embeddable_files():
     fonts = demo_render_set().fonts_required()
     assert {f["style"] for f in fonts} == {"Regular", "Bold", "ExtraBold"}
     assert all(f["file"].endswith(".woff2") for f in fonts)
+
+
+def test_every_registered_font_file_exists_with_its_license():
+    """폰트를 등록해 놓고 파일이 없으면 렌더가 폴백으로 조용히 떨어진다.
+
+    라이선스도 함께 본다 — OFL은 폰트를 재배포할 때 사본 동봉을 요구하고,
+    내보내기 폴더가 곧 재배포다 (절대 규칙 #10).
+    """
+    from core.config import FONTS_DIR
+    from core.render.model import FONT_FILES, FONT_LICENSES
+
+    for (family, _style), filename in FONT_FILES.items():
+        assert (FONTS_DIR / filename).exists(), f"{filename}이 없다"
+        assert family in FONT_LICENSES, f"{family}의 라이선스 파일이 등록되지 않았다"
+        assert (FONTS_DIR / FONT_LICENSES[family]).exists()
+
+
+def test_the_chinese_font_is_registered_for_every_weight_korean_has():
+    """언어를 바꿨을 때 굵기가 하나라도 비면 그 역할만 폴백으로 떨어진다."""
+    from core.render.model import FONT_FILES
+
+    korean = {s for (f, s) in FONT_FILES if f == "Pretendard"}
+    chinese = {s for (f, s) in FONT_FILES if f == "Noto Sans SC"}
+    assert korean <= chinese

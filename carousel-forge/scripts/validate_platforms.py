@@ -71,6 +71,13 @@ def check_platform(key: str) -> list[str]:
             problems.append(f"{key}: 지원하지 않는 export_format {fmt!r}")
     if not 1 <= spec.quality <= 100:
         problems.append(f"{key}: quality는 1~100이어야 한다 (현재 {spec.quality})")
+    if "{tag}" not in spec.topic_tag_format:
+        problems.append(
+            f"{key}: topic_tag_format에 '{{tag}}' 자리가 없다 — 모든 태그가 같은 "
+            "문자열이 된다"
+        )
+    if spec.cover_min_blocks < 1:
+        problems.append(f"{key}: cover_min_blocks는 1 이상이어야 한다")
     if not spec.culture_prompt:
         problems.append(
             f"{key}: culture_prompt가 비어 있다 — 플랫폼 문화 차이는 코드 주석이 아니라 "

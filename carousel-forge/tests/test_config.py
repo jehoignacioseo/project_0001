@@ -64,3 +64,40 @@ def test_quality_rules_have_blocking_and_retry_budget():
 
 def test_verified_at_is_not_in_the_future():
     assert platforms_verified_at() <= date.today()
+
+
+# ── 현지화 설정 ─────────────────────────────────────────────────────────
+
+def test_every_language_pair_names_languages_that_exist():
+    from core.config import language_keys, load_yaml, localization_pair
+
+    known = set(language_keys())
+    for key in load_yaml("localization.yaml").get("pairs", {}):
+        source, target = key.split("->")
+        assert source in known and target in known, f"{key}에 정의되지 않은 언어가 있다"
+        pair = localization_pair(source, target)
+        assert pair.guidance, f"{key}: 현지화 지침이 비어 있다"
+        assert pair.hashtag_note, f"{key}: 해시태그 지침이 비어 있다"
+
+
+def test_the_char_ratio_is_a_range_not_a_single_guess():
+    from core.config import localization_pair
+
+    lo, hi = localization_pair("ko", "zh").char_ratio
+    assert 0 < lo < hi <= 1
+    assert localization_pair("ko", "zh").hard_ratio == hi
+
+
+def test_an_unknown_language_is_not_guessed():
+    from core.config import ConfigError, language_spec
+
+    with pytest.raises(ConfigError, match="알 수 없는 언어"):
+        language_spec("xx")
+
+
+def test_the_tag_format_keeps_the_placeholder():
+    """`{tag}`가 없으면 모든 태그가 같은 문자열이 된다."""
+    from core.config import platform_keys, platform_spec
+
+    for key in platform_keys():
+        assert "{tag}" in platform_spec(key).topic_tag_format

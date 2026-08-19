@@ -85,14 +85,29 @@ def _jinja_env() -> Environment:
 
 
 def _font_faces(render_set: RenderSet) -> list[dict[str, Any]]:
+    """이 세트가 실제로 쓰는 폰트만 @font-face로 넣는다.
+
+    등록된 폰트를 전부 넣으면 중국어 세트를 추가한 순간 한국어 렌더마다 3MB가
+    넘는 한자 폰트를 함께 지고 간다. 폴백 이름도 포함하는 이유는 폴백이 실제로
+    쓰이는 경우(한글 폰트 + 한자 폴백)에 그 파일이 없으면 조용히 시스템 폰트로
+    떨어지고, 그러면 실측 좌표와 실제 조판이 갈라지기 때문이다.
+    """
+    families: list[str] = []
+    for style in (render_set.theme.headline, render_set.theme.body, render_set.theme.accent):
+        for name in (style.family, *style.fallback):
+            if name not in families:
+                families.append(name)
+
     faces = []
-    for (family, style), filename in FONT_FILES.items():
+    for (family, style_name), filename in FONT_FILES.items():
+        if family not in families:
+            continue
         path = FONTS_DIR / filename
         if not path.exists():
             raise RenderError(
                 f"폰트 파일이 없다: {path}. `python scripts/fetch_fonts.py`로 내려받아라."
             )
-        faces.append({"family": family, "url": path.as_uri(), "weight": _STYLE_WEIGHT[style]})
+        faces.append({"family": family, "url": path.as_uri(), "weight": _STYLE_WEIGHT[style_name]})
     return faces
 
 
@@ -242,6 +257,20 @@ class SlideRenderer:
         # 폰트가 다 붙기 전에 찍으면 폴백 폰트로 렌더된 PNG가 나온다.
         page.evaluate("document.fonts.ready")
         page.wait_for_function("document.fonts.status === 'loaded'")
+        # `status === 'loaded'`는 "로딩이 끝났다"는 뜻이지 "다 성공했다"가 아니다.
+        # 실패한 face는 status가 'error'로 남고 브라우저는 조용히 폴백으로 찍는다.
+        # 한글은 폴백으로 떨어지면 폭이 눈에 띄게 달라지지만, 한자는 폴백(두부
+        # 상자)도 1em 정사각이라 폭이 그대로다 — 실측 좌표가 멀쩡해 보이는 채로
+        # 글자만 상자가 된다. 그래서 여기서 명시적으로 막는다.
+        broken = page.evaluate(
+            "() => [...document.fonts].filter(f => f.status === 'error')"
+            ".map(f => `${f.family} ${f.weight}`)"
+        )
+        if broken:
+            raise RenderError(
+                f"@font-face 로드에 실패했다: {', '.join(broken)}. "
+                "폴백으로 렌더하면 조판이 원본과 달라지므로 진행하지 않는다."
+            )
 
         ext = "jpg" if image_format in ("jpg", "jpeg") else image_format
         png_path = png_dir / f"slide_{slide.index:02d}.{ext}"

@@ -166,3 +166,40 @@ def demo_render_set(platform: str = "instagram", language: str = "ko") -> Render
         theme=theme,
         slides=slides,
     )
+
+
+def demo_copy(platform: str = "instagram") -> dict:
+    """A5 CopySmith가 냈을 법한 모양의 카피 묶음.
+
+    A10 Localizer의 입력은 렌더 세트가 아니라 이 dict다 — 현지화는 좌표가 아니라
+    문장을 다루는 일이고, 좌표는 도착 캔버스에서 다시 실측된다.
+    """
+    render_set = demo_render_set(platform=platform)
+    slides = []
+    for slide in render_set.slides:
+        slides.append(
+            {
+                "index": slide.index,
+                "role": slide.role,
+                "layout_template": slide.template(),
+                "copy_blocks": [
+                    {
+                        "id": block.id,
+                        "role": block.role,
+                        "text": block.text,
+                        "max_chars": block.max_chars,
+                        "emphasis_spans": [list(s) for s in block.emphasis_spans],
+                        "editable": True,
+                    }
+                    for block in slide.blocks
+                ],
+            }
+        )
+    return {
+        "slides": slides,
+        "caption": dict(CAPTION),
+        "hashtags": list(HASHTAGS),
+        "template_swaps": {},
+        "warnings": [],
+        "attempts": 1,
+    }

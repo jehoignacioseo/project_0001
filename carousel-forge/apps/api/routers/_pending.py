@@ -8,5 +8,5 @@ from fastapi import HTTPException, status
 def not_yet(milestone: str, what: str) -> HTTPException:
     return HTTPException(
         status_code=status.HTTP_501_NOT_IMPLEMENTED,
-        detail=f"{what} — {milestone}에서 구현 예정. 현재 마일스톤(M0/M1) 범위 밖.",
+        detail=f"{what} — {milestone}에서 구현 예정. 아직 이 엔드포인트로는 열려 있지 않다.",
     )

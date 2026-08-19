@@ -297,9 +297,13 @@ class CopySmith(Agent):
                 if block.role in seen and block.role != "bullet":
                     out.append((index, Violation(field_name, "같은 역할의 블록이 중복됐다")))
                 seen.add(block.role)
-                for v in blocking(
-                    constraints.check_text(block.text, field_name=field_name, role=block.role)
-                ):
+                checks = constraints.check_text(
+                    block.text, field_name=field_name, role=block.role
+                )
+                # 커버(1번 슬라이드) 헤드라인은 플랫폼이 제목으로 자르는 자리다.
+                if index == 1 and block.role == "headline":
+                    checks += constraints.check_cover_title(block.text, field_name=field_name)
+                for v in blocking(checks):
                     out.append((index, v))
                 for start, end in block.emphasis_spans:
                     if not 0 <= start < end <= len(block.text):

@@ -17,12 +17,12 @@
 | **M4** | A7 ArtDirector + A8 Compositor + A9 QualityGate + 폐기·재생성 루프 | ✅ 완료 |
 | **M5** | A6 FactChecker (출처 링크 포함 fact_report) | ✅ 완료 · A3 TrendScout는 미착수 |
 | **M6** | Figma 플러그인 (manifest → 편집 가능한 프레임) | ✅ 완료 |
-| M7 | A10 Localizer + 샤오홍슈 어댑터 | ⬜ 미착수 |
+| **M7** | A10 Localizer + 샤오홍슈 어댑터 | ✅ 완료 |
 | M8 | 라이브러리 UI + 리믹스 + 성과 피드백 | ⬜ 미착수 |
 
-구현된 에이전트는 A1·A2·A4·A5·A6·A7·A8·A9 여덟이다. 나머지(A3·A10)는 클래스와 단계만
-정의돼 있고 `run`은 `NotImplementedError`를 낸다. API도 해당 엔드포인트에서 501을
-낸다. **미구현을 빈 결과로 감추지 않는다.**
+구현된 에이전트는 A1·A2·A4·A5·A6·A7·A8·A9·A10 아홉이다. 남은 A3 TrendScout는
+클래스와 단계만 정의돼 있고 `run`은 `NotImplementedError`를 낸다. API도 해당
+엔드포인트에서 501을 낸다. **미구현을 빈 결과로 감추지 않는다.**
 
 ## 빠른 시작
 
@@ -62,6 +62,11 @@ export ANTHROPIC_API_KEY=...
 # M6 Figma 플러그인
 cd apps/figma-plugin && npm install && npm run build && npm test
 
+# M7: 한국어 IG 세트 → 중국어 샤오홍슈 세트 (수용량 실측 + 해시태그 재조사)
+.venv/bin/python scripts/fetch_fonts.py --set zh    # 중국어 폰트 (이미 저장소에 있다)
+.venv/bin/python scripts/demo_m7.py
+.venv/bin/python scripts/demo_m7.py --render        # 3:4 캔버스로 실제 렌더까지
+
 # PNG과 SVG가 정말 같은 좌표에서 나왔는지 픽셀로 대조
 .venv/bin/python scripts/verify_render.py storage/exports/deskreset_demo0001_instagram_ko
 
@@ -98,6 +103,13 @@ manifest와 SVG의 모든 좌표는 Playwright가 페이지 안에서 잰 값이
 쥔 채로 세어서는 알 수 없는 것(아키타입·서사 패턴·훅 공식)만 해석하고, 측정 가능한
 필드는 모델이 뭐라 답하든 측정값으로 덮어쓴다.
 
+**5. 글자수 상한도 추정하지 않는다.**
+언어를 바꾸면 상한이 바뀐다. "중국어는 15~30% 짧다"는 문장만 믿고 상한을 올리면
+넘친다 — 한자는 한글보다 넓어서 같은 폭에 **더 적게** 들어가기 때문이다. 두 힘이
+반대로 작용하므로 `core/render/capacity.py`가 도착 캔버스·도착 폰트로 실제 렌더해
+한 줄에 몇 글자가 들어가는지 센다. 최종 상한은 계정 문체 상한과 실측 수용량 중
+작은 쪽이다.
+
 ## 렌더 파이프라인
 
 ```
@@ -130,6 +142,30 @@ RenderSet (배경 참조 + CopyBlock, 분리 상태)
    `02_figma/manifest.json`을 불러오거나 `slide_01.svg`를 캔버스로 끌어다 놓고
    텍스트를 더블클릭한다. 커서가 들어가 글자를 고칠 수 있으면 통과. 벡터
    도형(Vector)으로 잡히면 실패다. **이 단계만은 사람이 한 번 해봐야 한다.**
+
+## 현지화 (M7)
+
+번역이 아니라 현지화다. 한국어 인스타그램 세트를 중국어 샤오홍슈 세트로 옮길 때
+서로 다른 네 가지가 동시에 바뀐다.
+
+| | 바뀌는 것 | 어디서 |
+|---|---|---|
+| 언어 | 직역이 아니라 그 언어 독자가 쓸 법한 문장 | A10 프롬프트 + `config/localization.yaml` |
+| 조판 | 폰트·글자수 상한 — **실측**한다 | `core/render/capacity.py` |
+| 캔버스 | 4:5 → 3:4. 좌표는 전부 다시 실측된다 | `Theme.from_dna(dna, spec, canvas)` |
+| 해시태그 | 재번역이 아니라 **재조사** (서버측 web_search) | A10 `_research_hashtags` |
+
+원본과의 연결은 `parent_set_id` + `variant_type='translation'`으로 남는다.
+
+지키는 선이 세 군데 있다.
+
+- **샤오홍슈 커버 제목 20자**를 프롬프트에만 싣지 않고 실제로 센다. 이 값은
+  `platforms.yaml`의 `source_check.unverified`에 있다 — A6가 1차 출처를 못 찾았다.
+  값은 유지하되 확정된 규격으로 취급하지 않는다.
+- **해시태그 검색이 페이지를 하나도 열지 못하면 실패**한다. 원본 태그를 직역해
+  넘기지 않는다 — 검색량이 사실상 0인 태그가 된다.
+- **StyleDNA는 언어가 바뀌어도 하드 제약**이다. 샤오홍슈는 이모지를 많이 쓰는
+  문화지만 계정 DNA가 이모지 0이면 이모지 없이 간다. 대신 그 충돌을 경고로 남긴다.
 
 ## 디렉터리
 

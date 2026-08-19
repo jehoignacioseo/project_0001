@@ -28,7 +28,13 @@ from .layout_compositor import (
     NeedsNewBackground,
     NeedsShorterCopy,
 )
-from .localizer import Localizer
+from .localizer import (
+    LocalizationError,
+    LocalizationResult,
+    Localizer,
+    cover_title_report,
+    retarget_dna,
+)
 from .narrative_architect import NarrativeArchitect, OutlineError, check_outline
 from .quality_gate import (
     Judgement,
@@ -57,7 +63,11 @@ __all__ = [
     "LayoutCompositor",
     "NeedsNewBackground",
     "NeedsShorterCopy",
+    "LocalizationError",
+    "LocalizationResult",
     "Localizer",
+    "cover_title_report",
+    "retarget_dna",
     "NarrativeArchitect",
     "NeedsUserInput",
     "OutlineError",

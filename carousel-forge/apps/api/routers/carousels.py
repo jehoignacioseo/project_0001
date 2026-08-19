@@ -33,7 +33,10 @@ def regenerate(set_id: str) -> None:
 
 @router.post("/{set_id}/localize")
 def localize(set_id: str) -> None:
-    raise not_yet("M7", "다국어·플랫폼 변주")
+    # A10 Localizer 자체는 M7에서 동작한다(`scripts/demo_m7.py`). 여기서 막히는 것은
+    # 에이전트가 아니라 **세트 영속화**다 — 이 엔드포인트는 저장된 세트를 읽어
+    # 변주를 다시 저장해야 하는데, 세트를 쓰는 경로가 아직 API에 없다.
+    raise not_yet("M8", "저장된 세트의 다국어·플랫폼 변주 (A10 자체는 scripts/demo_m7.py로 동작한다)")
 
 
 @router.post("/{set_id}/approve")

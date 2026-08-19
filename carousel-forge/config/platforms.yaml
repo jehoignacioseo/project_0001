@@ -35,6 +35,17 @@ _meta:
         note: >
           Hootsuite·Sendible 등 2차 출처가 일관되게 125자를 말하지만 Meta의
           1차 출처를 찾지 못했다. 값은 유지하되 확정된 규격으로 취급하지 않는다.
+      - field: xiaohongshu.topic_tag_format
+        value: "#{tag}[话题]#"
+        note: >
+          샤오홍슈 앱이 话题(토픽) 태그를 본문에 삽입할 때 넣는 표기다. 널리
+          관찰되지만 공식 문서로 확인하지 못했다. 표기가 틀리면 태그가 일반
+          텍스트로 들어가 노출이 되지 않으므로, 첫 게시 때 사람이 확인해야 한다.
+      - field: xiaohongshu.cover_min_blocks
+        value: 3
+        note: >
+          "커버 정보 밀도가 높다"는 문화적 관찰을 판정 가능한 수치로 옮긴 값이며
+          플랫폼 규격이 아니다. 넘으면 막는 하드 제약이 아니라 경고로만 쓴다.
       - field: xiaohongshu.title_max_chars
         value: 20
         note: >
@@ -66,6 +77,8 @@ instagram:
   title_max_chars: null             # IG는 커버 제목 글자수 제한 없음
   body_max_chars: null
   cover_info_density: low           # 커버는 훅 한 문장
+  cover_min_blocks: 1               # 헤드라인 하나로 끝나도 된다
+  topic_tag_format: "#{tag}"
   emoji_density: low
   default_language: ko
   culture_prompt: >
@@ -91,6 +104,8 @@ xiaohongshu:
   body_max_chars: 1000
   topic_tag_max: 10
   cover_info_density: high          # IG 대비 커버에 정보를 더 싣는 문화
+  cover_min_blocks: 3               # 제목만 있는 커버는 이 플랫폼에서 심심하게 읽힌다
+  topic_tag_format: "#{tag}[话题]#"  # 话题 태그의 앱 삽입 표기
   emoji_density: high
   default_language: zh
   culture_prompt: >

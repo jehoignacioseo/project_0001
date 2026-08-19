@@ -155,6 +155,26 @@ class CopyConstraints:
             )
         return out
 
+    def check_cover_title(self, text: str, *, field_name: str) -> list[Violation]:
+        """커버 제목 글자수. 플랫폼이 제목을 자르는 경우에만 적용된다.
+
+        `cover_title_limit`을 프롬프트에만 싣고 세어 보지 않으면, 20자를 넘긴
+        커버가 그대로 나가서 피드에서 잘린다. 프롬프트에 싣는 것과 결과를 세는
+        것은 별개다.
+        """
+        if self.cover_title_limit is None:
+            return []
+        length = visible_length(text)
+        if length <= self.cover_title_limit:
+            return []
+        return [
+            Violation(
+                field_name,
+                f"커버 제목이 {length}자다. {self.cover_title_limit}자를 넘으면 "
+                f"피드에서 잘린다",
+            )
+        ]
+
 
 @dataclass
 class CaptionConstraints:

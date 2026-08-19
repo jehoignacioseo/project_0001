@@ -72,6 +72,11 @@ class PlatformSpec:
     title_max_chars: int | None
     body_max_chars: int | None
     cover_info_density: str
+    #: 커버에 실릴 것으로 기대되는 최소 블록 수. 플랫폼 규격이 아니라
+    #: "커버 정보 밀도" 문화를 판정 가능한 수치로 옮긴 값이라 경고에만 쓴다.
+    cover_min_blocks: int
+    #: 해시태그 표기 틀. `{tag}` 자리에 '#' 없는 태그 이름이 들어간다.
+    topic_tag_format: str
     emoji_density: str
     default_language: str
     culture_prompt: str
@@ -117,6 +122,8 @@ def platform_spec(key: str) -> PlatformSpec:
         title_max_chars=block.get("title_max_chars"),
         body_max_chars=block.get("body_max_chars"),
         cover_info_density=block.get("cover_info_density", "low"),
+        cover_min_blocks=int(block.get("cover_min_blocks", 1)),
+        topic_tag_format=str(block.get("topic_tag_format", "#{tag}")),
         emoji_density=block.get("emoji_density", "low"),
         default_language=block.get("default_language", "ko"),
         culture_prompt=(block.get("culture_prompt") or "").strip(),
@@ -140,6 +147,79 @@ def platforms_are_stale(today: date | None = None) -> bool:
     if verified is None:
         return True
     return (today or date.today()) - verified > STALE_AFTER
+
+
+@dataclass(frozen=True)
+class LanguageSpec:
+    """`config/localization.yaml`의 languages 한 항목."""
+
+    code: str
+    display_name: str
+    script: str
+    monospaced_script: bool
+    register_note: str
+
+
+@dataclass(frozen=True)
+class LocalizationPair:
+    """출발 언어 → 도착 언어 한 쌍."""
+
+    source: str
+    target: str
+    #: 같은 의미를 쓸 때 도착 언어가 필요로 하는 글자수 비율 (최소, 최대)
+    char_ratio: tuple[float, float]
+    guidance: str
+    hashtag_note: str
+
+    @property
+    def hard_ratio(self) -> float:
+        """하드 제약으로 쓸 비율. 상한이다 — 짧게 쓴 것은 위반이 아니다."""
+        return self.char_ratio[1]
+
+
+@lru_cache(maxsize=None)
+def language_spec(code: str) -> LanguageSpec:
+    languages = load_yaml("localization.yaml").get("languages", {})
+    if code not in languages:
+        raise ConfigError(
+            f"알 수 없는 언어: {code!r}. config/localization.yaml에 정의된 값: "
+            f"{sorted(languages)}"
+        )
+    block = languages[code]
+    return LanguageSpec(
+        code=code,
+        display_name=block.get("display_name", code),
+        script=block.get("script", ""),
+        monospaced_script=bool(block.get("monospaced_script", False)),
+        register_note=(block.get("register_note") or "").strip(),
+    )
+
+
+def language_keys() -> list[str]:
+    return sorted(load_yaml("localization.yaml").get("languages", {}))
+
+
+@lru_cache(maxsize=None)
+def localization_pair(source: str, target: str) -> LocalizationPair:
+    """언어 쌍 설정. 없는 쌍을 임의의 기본값으로 대신하지 않는다."""
+    pairs = load_yaml("localization.yaml").get("pairs", {})
+    key = f"{source}->{target}"
+    if key not in pairs:
+        raise ConfigError(
+            f"현지화 설정이 없는 언어 쌍: {key}. config/localization.yaml에 "
+            f"추가하라. 정의된 쌍: {sorted(pairs)}"
+        )
+    block = pairs[key]
+    ratio = block["char_ratio"]
+    if len(ratio) != 2 or not 0 < ratio[0] <= ratio[1] <= 2:
+        raise ConfigError(f"{key}.char_ratio가 [최소, 최대] 형태가 아니다: {ratio}")
+    return LocalizationPair(
+        source=source,
+        target=target,
+        char_ratio=(float(ratio[0]), float(ratio[1])),
+        guidance=(block.get("guidance") or "").strip(),
+        hashtag_note=(block.get("hashtag_note") or "").strip(),
+    )
 
 
 def quality_rules() -> dict[str, Any]:

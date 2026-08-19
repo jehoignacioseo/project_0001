@@ -35,6 +35,19 @@ FONT_FILES: dict[tuple[str, str], str] = {
     ("Pretendard", "Regular"): "Pretendard-Regular.woff2",
     ("Pretendard", "Bold"): "Pretendard-Bold.woff2",
     ("Pretendard", "ExtraBold"): "Pretendard-ExtraBold.woff2",
+    # 중국어(간체). Pretendard에는 한자 글리프가 없어 폴백으로 떨어지고, 그러면
+    # 측정한 좌표와 실제 조판이 갈라진다. 굵기는 Pretendard와 같은 이름으로 맞췄다.
+    ("Noto Sans SC", "Regular"): "NotoSansSC-Regular.woff2",
+    ("Noto Sans SC", "Bold"): "NotoSansSC-Bold.woff2",
+    ("Noto Sans SC", "ExtraBold"): "NotoSansSC-ExtraBold.woff2",
+}
+
+#: 폰트 패밀리 → 함께 배포해야 하는 라이선스 파일.
+#: OFL은 폰트 파일을 재배포할 때 라이선스 사본을 동봉하도록 요구한다. 내보내기
+#: 폴더에 폰트만 넣고 라이선스를 빼면 절대 규칙 #10을 절반만 지킨 것이다.
+FONT_LICENSES: dict[str, str] = {
+    "Pretendard": "Pretendard-LICENSE.txt",
+    "Noto Sans SC": "NotoSansSC-LICENSE.txt",
 }
 
 #: CSS font-weight → Figma가 이해하는 스타일 이름
