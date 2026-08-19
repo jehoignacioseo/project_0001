@@ -218,6 +218,12 @@ class RenderSlide:
     layout_template: str | None = None
     notes: str | None = None
 
+    #: A8 오토핏이 조절하는 값들. 스타일 자체를 바꾸는 게 아니라 **이 슬라이드만**
+    #: 조금 줄여 안전영역에 넣는 것이므로 StyleDNA가 아니라 슬라이드에 붙는다.
+    fit_scale: float = 1.0        # 폰트 크기 배수
+    tracking_scale: float = 1.0   # 자간 배수
+    overlay_boost: float = 0.0    # 대비 확보용 스크림 추가 불투명도
+
     def template(self) -> str:
         if self.layout_template:
             return self.layout_template

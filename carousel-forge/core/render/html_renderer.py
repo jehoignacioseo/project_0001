@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import os
 import shutil
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 from typing import Any
 
@@ -68,6 +68,9 @@ class SlideMeasurement:
     blocks: list[dict[str, Any]]
     png_path: Path | None = None
     html_path: Path | None = None
+    #: 텍스트 레이어를 숨기고 찍은 배경만의 이미지.
+    #: 대비 판정은 팔레트 값이 아니라 **텍스트 뒤에 실제로 깔린 픽셀**로 해야 한다.
+    background_png_path: Path | None = None
     source: RenderSlide | None = field(default=None, repr=False)
 
 
@@ -101,6 +104,13 @@ def _template_context(render_set: RenderSet, slide: RenderSlide, background_href
 
     for block in slide.blocks:
         style = theme.style_for(block.role)
+        if slide.fit_scale != 1.0 or slide.tracking_scale != 1.0:
+            # 오토핏 조정. 원본 TypeStyle은 그대로 두고 이 슬라이드용 사본만 만든다.
+            style = replace(
+                style,
+                size_px=round(style.size_px * slide.fit_scale, 2),
+                letter_spacing_em=style.letter_spacing_em * slide.tracking_scale,
+            )
         view = {
             "id": block.id,
             "role": block.role,
@@ -117,6 +127,12 @@ def _template_context(render_set: RenderSet, slide: RenderSlide, background_href
             by_role[block.role] = view
 
     overlay_color = theme.palette_background if theme.overlay_type != "none" else "transparent"
+    overlay_opacity = min(1.0, theme.overlay_opacity + slide.overlay_boost)
+    overlay_type = theme.overlay_type
+    if overlay_type == "none" and slide.overlay_boost > 0:
+        # 원래 오버레이가 없던 스타일이라도 대비가 모자라면 스크림을 넣는다.
+        overlay_type = "scrim"
+        overlay_color = theme.palette_background
     return {
         "set_id": render_set.set_id,
         "language": render_set.language,
@@ -129,6 +145,8 @@ def _template_context(render_set: RenderSet, slide: RenderSlide, background_href
         "fonts": _font_faces(render_set),
         "background_href": background_href,
         "overlay_color": overlay_color,
+        "overlay_opacity": overlay_opacity,
+        "overlay_type": overlay_type,
         "gradient_direction": "to top" if theme.text_zone == "bottom" else "to bottom",
     }
 
@@ -159,6 +177,7 @@ class SlideRenderer:
         background_dir: Path | None = None,
         image_format: str = "png",
         quality: int | None = None,
+        capture_background: bool = False,
     ) -> list[SlideMeasurement]:
         render_set.validate()
         work_dir.mkdir(parents=True, exist_ok=True)
@@ -183,6 +202,7 @@ class SlideRenderer:
                             work_dir=work_dir, png_dir=png_dir,
                             background_dir=background_dir,
                             image_format=image_format, quality=quality,
+                            capture_background=capture_background,
                         )
                     )
             finally:
@@ -200,6 +220,7 @@ class SlideRenderer:
         background_dir: Path | None,
         image_format: str,
         quality: int | None,
+        capture_background: bool = False,
     ) -> SlideMeasurement:
         # 배경은 HTML 파일 기준 상대 경로로 참조한다. 내보내기 ZIP 안에서도
         # 같은 상대 구조(02_figma/slide_XX.svg ↔ 02_figma/backgrounds/bg_XX.png)를
@@ -230,6 +251,15 @@ class SlideRenderer:
             quality=quality if ext == "jpg" else None,
         )
 
+        background_png_path = None
+        if capture_background:
+            # 텍스트를 숨기고 한 장 더 찍는다. 같은 페이지·같은 레이아웃이므로
+            # 좌표가 그대로 맞고, 대비를 실제 배경 픽셀로 잴 수 있다.
+            page.evaluate("document.getElementById('text-layer').style.visibility = 'hidden'")
+            background_png_path = work_dir / f"background_{slide.index:02d}.png"
+            page.screenshot(path=str(background_png_path), type="png")
+            page.evaluate("document.getElementById('text-layer').style.visibility = 'visible'")
+
         measured = page.evaluate(self._measure_js)
         return SlideMeasurement(
             index=slide.index,
@@ -241,5 +271,6 @@ class SlideRenderer:
             blocks=measured["blocks"],
             png_path=png_path,
             html_path=html_path,
+            background_png_path=background_png_path,
             source=slide,
         )

@@ -2,13 +2,19 @@
 
 from .base import ImageProvider, ImageRequest, ImageResult, TextInPromptError
 from .gpt_image import GptImageProvider
+from .local_files import FileProvider, NoMoreImages
 from .higgsfield import HiggsfieldProvider
+from .procedural import ProceduralProvider, write_png
 
 __all__ = [
+    "FileProvider",
     "GptImageProvider",
     "HiggsfieldProvider",
     "ImageProvider",
     "ImageRequest",
     "ImageResult",
+    "NoMoreImages",
+    "ProceduralProvider",
     "TextInPromptError",
+    "write_png",
 ]

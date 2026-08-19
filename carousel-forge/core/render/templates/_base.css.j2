@@ -29,14 +29,14 @@ html, body {
 
 /* 스크림/그라디언트 오버레이 — 대비 확보용. 텍스트를 굽는 것과는 무관하다. */
 #overlay { position: absolute; inset: 0; pointer-events: none; }
-#overlay.scrim   { background: {{ overlay_color }}; opacity: {{ theme.overlay_opacity }}; }
+#overlay.scrim   { background: {{ overlay_color }}; opacity: {{ overlay_opacity }}; }
 #overlay.gradient {
   background: linear-gradient(
     {{ gradient_direction }},
     rgba(0,0,0,0) 0%,
     {{ overlay_color }} 100%
   );
-  opacity: {{ theme.overlay_opacity }};
+  opacity: {{ overlay_opacity }};
 }
 #overlay.none { display: none; }
 

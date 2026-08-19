@@ -27,6 +27,7 @@ from apps.api.schemas.generated.outline import (
 from core.agents.base import Agent, AgentContext
 from core.agents.constraints import Violation
 from core.config import PlatformSpec, platform_spec
+from core.providers.image.base import find_text_requests
 from core.providers.llm import LLMClient, default_client
 from core.render.model import ROLE_TO_TEMPLATE
 
@@ -251,14 +252,15 @@ def check_outline(outline: dict[str, Any], spec: PlatformSpec) -> list[Violation
         out.append(Violation("outline.hook_candidates", "훅 후보는 3개여야 한다"))
 
     for slide in slides:
-        brief = slide["visual_brief"].lower()
-        for marker in ("text saying", "with the words", "글자", "텍스트를 넣", "문구를 넣"):
-            if marker in brief:
-                out.append(
-                    Violation(
-                        f"slides[{slide['index']}].visual_brief",
-                        f"배경에 글자를 넣으라는 요구가 있다 ({marker!r}) — "
-                        "글자는 렌더 레이어에서만 처리한다",
-                    )
+        # 판정은 프로바이더 쪽 구현을 그대로 쓴다. 같은 규칙이 두 벌이면
+        # 한쪽만 고쳐지고 동작이 갈린다.
+        requests = find_text_requests(slide["visual_brief"])
+        if requests:
+            out.append(
+                Violation(
+                    f"slides[{slide['index']}].visual_brief",
+                    f"배경에 글자를 넣으라는 요구가 있다 ({requests}) — "
+                    "글자는 렌더 레이어에서만 처리한다",
                 )
+            )
     return out

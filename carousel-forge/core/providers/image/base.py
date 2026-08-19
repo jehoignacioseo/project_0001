@@ -7,6 +7,7 @@
 
 from __future__ import annotations
 
+import re
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 
@@ -22,6 +23,35 @@ _TEXT_REQUEST_MARKERS = (
     "텍스트를 넣",
     "문구를 넣",
 )
+
+#: 같은 절 안에 이런 말이 있으면 **글자를 넣지 말라는 뜻**이다.
+#: 좋은 프롬프트일수록 "글자 없음", "로고는 배제"처럼 부정형으로 쓰기 때문에,
+#: 부분 문자열만 보면 잘 쓴 프롬프트가 오히려 걸린다.
+_NEGATION_MARKERS = (
+    "없", "배제", "제외", "금지", "넣지 마", "쓰지 마", "빼고",
+    "no ", "without", "avoid", "exclude", "free of", "devoid",
+)
+
+#: 절 경계. 한 문장 안에서도 "…는 배제"처럼 부정이 걸리는 단위로 쪼갠다.
+_CLAUSE_SPLIT = re.compile(r"[.。;\n]+")
+
+
+def find_text_requests(prompt: str) -> list[str]:
+    """프롬프트가 **글자를 그려 달라고** 요구하는 지점을 찾는다.
+
+    부정문은 요구가 아니다. "글자 없음"과 "글자를 넣어라"를 같은 것으로 취급하면
+    잘 쓴 프롬프트를 막게 된다.
+    """
+    found: list[str] = []
+    for clause in _CLAUSE_SPLIT.split(prompt):
+        lowered = clause.lower()
+        hits = [m for m in _TEXT_REQUEST_MARKERS if m in lowered]
+        if not hits:
+            continue
+        if any(negation in lowered for negation in _NEGATION_MARKERS):
+            continue        # 넣지 말라는 뜻이다
+        found += hits
+    return found
 
 
 class TextInPromptError(ValueError):
@@ -60,10 +90,9 @@ class ImageProvider(ABC):
 
     @staticmethod
     def assert_no_text_request(prompt: str) -> None:
-        lowered = prompt.lower()
-        for marker in _TEXT_REQUEST_MARKERS:
-            if marker in lowered:
-                raise TextInPromptError(
-                    f"배경 프롬프트에 텍스트 요청이 있다: {marker!r}. "
-                    "글자는 항상 렌더 레이어(core.render)에서 처리한다."
-                )
+        requests = find_text_requests(prompt)
+        if requests:
+            raise TextInPromptError(
+                f"배경 프롬프트에 텍스트 요청이 있다: {requests}. "
+                "글자는 항상 렌더 레이어(core.render)에서 처리한다."
+            )

@@ -5,7 +5,7 @@ from __future__ import annotations
 import pytest
 
 from apps.api.models import PipelineStage
-from core.agents import ArtDirector, CopySmith, QualityGate
+from core.agents import CopySmith, QualityGate
 from core.agents.base import AgentContext
 from core.config import quality_rules
 from core.pipeline import Orchestrator, RetryBudget, RetryExhausted, next_stage, rewind_for
@@ -33,10 +33,22 @@ def test_localize_is_skipped_unless_requested():
 
 
 def test_unimplemented_agents_raise_instead_of_returning_empty():
+    """M4까지 붙은 지금 남은 미구현은 A3·A6·A10이다."""
+    from core.agents import FactChecker, Localizer, TrendScout
+
     ctx = AgentContext(account_id="a", platform="instagram", language="ko")
-    for agent in (QualityGate(), ArtDirector()):
+    for agent in (TrendScout(), FactChecker(), Localizer()):
         with pytest.raises(NotImplementedError):
             agent.run({}, ctx)
+
+
+def test_a8_refuses_the_state_dict_interface():
+    """A8은 RenderSet을 받는다. 상태 딕셔너리로 부르면 조용히 아무것도 안 하지 않는다."""
+    from core.agents import LayoutCompositor
+
+    ctx = AgentContext(account_id="a", platform="instagram", language="ko")
+    with pytest.raises(NotImplementedError, match="compose"):
+        LayoutCompositor().run({}, ctx)
 
 
 def test_orchestrator_stops_at_the_first_unimplemented_stage():

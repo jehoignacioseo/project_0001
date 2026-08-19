@@ -10,15 +10,26 @@ INTAKE → STYLE_RESOLVE → RESEARCH → FACTCHECK → ARCHITECT → COPY 순�
 아니라 세 에이전트를 직접 이어 붙여 확인한다 (`scripts/demo_m2.py`).
 """
 
-from .art_director import ArtDirector
+from .art_director import ArtDirectionError, ArtDirector, build_prompt
 from .base import Agent, AgentContext
 from .constraints import CopyConstraints, Violation
 from .copysmith import CopyError, CopySmith
 from .fact_checker import FactChecker
-from .layout_compositor import LayoutCompositor
+from .layout_compositor import (
+    CompositionError,
+    LayoutCompositor,
+    NeedsNewBackground,
+    NeedsShorterCopy,
+)
 from .localizer import Localizer
 from .narrative_architect import NarrativeArchitect, OutlineError, check_outline
-from .quality_gate import QualityGate
+from .quality_gate import (
+    Judgement,
+    QualityGate,
+    QualityGateError,
+    QualityReport,
+    verdict_for,
+)
 from .style_forensics import ForensicsError, ForensicsResult, StyleForensics
 from .topic_intake import NeedsUserInput, TopicIntake
 from .trend_scout import TrendScout
@@ -26,22 +37,31 @@ from .trend_scout import TrendScout
 __all__ = [
     "Agent",
     "AgentContext",
+    "ArtDirectionError",
     "ArtDirector",
+    "CompositionError",
     "CopyConstraints",
     "CopyError",
     "CopySmith",
     "FactChecker",
     "LayoutCompositor",
+    "NeedsNewBackground",
+    "NeedsShorterCopy",
     "Localizer",
     "NarrativeArchitect",
     "NeedsUserInput",
     "OutlineError",
+    "Judgement",
     "QualityGate",
+    "QualityGateError",
+    "QualityReport",
     "ForensicsError",
     "ForensicsResult",
     "StyleForensics",
     "TopicIntake",
     "TrendScout",
     "Violation",
+    "build_prompt",
     "check_outline",
+    "verdict_for",
 ]

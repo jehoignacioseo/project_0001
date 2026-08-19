@@ -14,7 +14,7 @@
 | **M1** | 렌더 파이프라인 (HTML → PNG + SVG + manifest) | ✅ 완료 |
 | M2~M8 | 에이전트·Figma 플러그인·라이브러리 UI | ⬜ 미착수 |
 
-구현된 에이전트는 A1·A2·A4·A5 넷이다. 나머지(A3·A6~A10)는 클래스와 단계만
+구현된 에이전트는 A1·A2·A4·A5·A7·A8·A9 일곱이다. 나머지(A3·A6·A10)는 클래스와 단계만
 정의돼 있고 `run`은 `NotImplementedError`를 낸다. API도 해당 엔드포인트에서 501을
 낸다. **미구현을 빈 결과로 감추지 않는다.**
 
@@ -45,6 +45,10 @@ export ANTHROPIC_API_KEY=...
 # M3 end-to-end: 벤치마크 피드 → StyleDNA + 검증 렌더 + 정답 대조
 .venv/bin/python scripts/make_benchmark_feed.py
 .venv/bin/python scripts/demo_m3.py
+
+# M4 end-to-end: 배경 생성 → 합성 → 품질 게이트 → 폐기·재생성
+.venv/bin/python scripts/demo_m4.py --keyword 러닝입문 --from-briefs
+.venv/bin/python scripts/demo_m4.py --keyword 러닝입문 --from-briefs --fail-slides 3  # 재생성 루프 확인
 
 # PNG과 SVG가 정말 같은 좌표에서 나왔는지 픽셀로 대조
 .venv/bin/python scripts/verify_render.py storage/exports/deskreset_demo0001_instagram_ko
@@ -131,6 +135,22 @@ scripts/             codegen · 검증 · 데모
 
 `OPEN_QUESTIONS.md`에 15건을 적어 뒀다. 전부 기본값을 정해 진행했고, 무엇을
 바꾸면 되는지도 함께 적었다.
+
+## 폐기·재생성 루프
+
+품질 게이트가 폐기를 판정하면 통과시키지 않는다. 문제가 생긴 슬라이드만 되감아
+새 seed로 다시 만들고, `config/quality_rules.yaml`의 예산이 바닥나면 **명시적으로
+실패한다**. 통과 경로만 보고 루프가 돈다고 말할 수 없으므로 데모에 실패 주입
+모드(`--fail-slides`)를 두어 되감기·재생성·예산 소진을 실제로 밟는다.
+
+조정에도 순서가 있다. 안전영역을 넘으면 폰트 −5% → 자간 축소 순으로 줄이고
+(자간부터 줄이면 글자가 붙어 읽기 어렵다), 그래도 안 들어가면 여기서 카피를
+자르지 않고 **A5에 축약을 요청한다**. 대비가 모자라면 스크림을 단계적으로 올리고,
+한계까지 올려도 안 되면 **A7에 배경 재생성을 요청한다**.
+
+대비는 팔레트 값이 아니라 **텍스트 뒤에 실제로 깔린 픽셀**로 잰다. 텍스트를 숨기고
+한 장 더 찍어 그 위에서 가장 불리한 픽셀을 찾는다 — 평균을 쓰면 밝은 배경에 밝은
+글자가 한쪽에서만 겹치는 경우를 놓친다.
 
 ## 스타일 추출 정확도
 

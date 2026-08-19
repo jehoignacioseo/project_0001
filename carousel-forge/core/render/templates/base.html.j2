@@ -25,7 +25,7 @@
   <div id="bg-layer">
     {%- if slide.background %}<img id="s{{ "%02d"|format(slide.index) }}_bg" src="{{ background_href }}" alt="">{% endif %}
   </div>
-  <div id="overlay" class="{{ theme.overlay_type }}"></div>
+  <div id="overlay" class="{{ overlay_type }}"></div>
   <div id="text-layer" class="zone-{{ theme.text_zone }}">
 {% block text_layer %}{% endblock %}
   </div>
