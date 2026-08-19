@@ -65,6 +65,14 @@ class Profile:
 
 
 @dataclass
+class SearchHit:
+    """서버측 web_search가 실제로 본 페이지 하나."""
+
+    title: str
+    url: str
+
+
+@dataclass
 class LLMResult(Generic[T]):
     """구조화 호출 결과. 사용량을 함께 들고 다녀 GenerationLog.cost에 쓴다."""
 
@@ -72,6 +80,10 @@ class LLMResult(Generic[T]):
     model: str
     input_tokens: int = 0
     output_tokens: int = 0
+    #: 서버측 검색이 실제로 열어 본 페이지들. 모델이 답에 적은 URL과 대조하는 데 쓴다
+    #: — 모델이 지어낸 URL을 출처로 통과시키지 않기 위해서다.
+    search_hits: list[SearchHit] = field(default_factory=list)
+    search_calls: int = 0
     raw: Any = field(default=None, repr=False)
 
 
@@ -87,9 +99,13 @@ class LLMClient(ABC):
         output_model: type[T],
         profile: str | None = None,
         images: list[Path] | None = None,
+        search: bool = False,
     ) -> LLMResult[T]:
         """`output_model` 형태의 응답을 강제해서 받아온다.
 
         `images`를 주면 텍스트보다 **앞에** 붙는다. 스타일 추출처럼 이미지가
         본체이고 텍스트가 지시인 경우 그 순서가 맞다.
+
+        `search=True`면 서버측 web_search/web_fetch를 붙인다. 검색은 Anthropic
+        서버에서 돌기 때문에 우리 쪽 아웃바운드가 막혀 있어도 동작한다.
         """

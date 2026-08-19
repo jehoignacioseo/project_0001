@@ -40,6 +40,11 @@ blocking:                       # 즉시 폐기 → 재생성
   - id: factcheck_false
     description: "FactChecker가 false/disputed 판정한 주장이 카피에 남아 있음"
     detector: rule
+  - id: unsourced_claim
+    description: >
+      카피의 숫자·통계·연도·인용이 검증된 주장으로 덮이지 않음.
+      절대 규칙 #4 — 출처 없는 숫자는 파이프라인이 거부한다.
+    detector: rule
   - id: style_deviation
     description: "StyleDNA 팔레트/타이포 이탈 임계 초과"
     detector: rule

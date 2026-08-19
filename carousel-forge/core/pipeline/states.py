@@ -44,6 +44,8 @@ REWIND_TARGET: dict[str, PipelineStage] = {
     "text_overflow": PipelineStage.COPY,
     "style_deviation": PipelineStage.COMPOSE,
     "factcheck_false": PipelineStage.COPY,
+    # 출처 없는 숫자는 카피를 고쳐야 풀린다 — 숫자를 빼거나 근거를 붙인다.
+    "unsourced_claim": PipelineStage.COPY,
 }
 
 

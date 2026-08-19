@@ -245,7 +245,7 @@ class QualityGate(Agent):
     ) -> list[Judgement]:
         out: list[Judgement] = []
 
-        # factcheck_false — A6(M5)이 붙기 전에는 검증 자체가 없었다는 사실을 남긴다.
+        # factcheck_false — 보고서가 아예 없으면 "검증하지 않았다"는 사실을 남긴다.
         if fact_report is None:
             out.append(
                 Judgement(
@@ -253,8 +253,8 @@ class QualityGate(Agent):
                     passed=True,
                     severity="warning",
                     reason=(
-                        "팩트체크 보고서가 없다 — A6 FactChecker는 M5다. "
-                        "출처가 필요한 주장이 검증되지 않은 채로 통과했다."
+                        "팩트체크 보고서가 없다. 출처가 필요한 주장이 검증되지 않은 채로 "
+                        "통과했다 — A6 FactChecker를 먼저 돌려야 한다."
                     ),
                 )
             )
@@ -268,11 +268,36 @@ class QualityGate(Agent):
                     rule_id="factcheck_false",
                     passed=not bad,
                     severity="blocking",
+                    detector="rule",
                     reason=(
                         "false/disputed 판정이 없다"
                         if not bad
                         else "; ".join(
                             f"{c['verdict']}: {c['claim']}" for c in bad
+                        )
+                    ),
+                )
+            )
+
+            # 절대 규칙 #4: 출처 없는 숫자·통계·인용은 출력하지 않는다.
+            # false/disputed가 없어도 근거 없는 숫자가 남아 있으면 통과가 아니다.
+            unsourced = fact_report.get("unsourced_numbers", [])
+            out.append(
+                Judgement(
+                    rule_id="unsourced_claim",
+                    passed=not unsourced,
+                    severity="blocking",
+                    detector="rule",
+                    slide_index=(
+                        unsourced[0].get("slide_index") if len(unsourced) == 1 else None
+                    ),
+                    reason=(
+                        "카피의 모든 숫자·인용이 검증된 주장으로 덮인다"
+                        if not unsourced
+                        else "; ".join(
+                            f"슬라이드 {u['slide_index']} {u['block_id']}: "
+                            f"{u['found']!r}에 대응하는 출처가 없다"
+                            for u in unsourced
                         )
                     ),
                 )

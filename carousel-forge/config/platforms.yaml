@@ -11,10 +11,36 @@
 
 _meta:
   schema_version: 1
-  verified_at: "2026-08-18"
+  verified_at: "2026-08-19"
   note: >
     canvas/caption/hashtag 수치는 각 플랫폼 정책 변경에 따라 달라진다.
     빌드 파이프라인은 verified_at이 180일 이상 지나면 경고를 낸다.
+  # A6 FactChecker(`scripts/demo_m5.py`)가 이 파일의 값을 웹에서 검증한 결과다.
+  # 1차 출처로 확인된 값과 그렇지 않은 값을 구분해 둔다 — 근거가 약한 값을
+  # 확신하는 척하지 않기 위해서다.
+  source_check:
+    checked_at: "2026-08-19"
+    verified:
+      - field: instagram.max_slides
+        value: 20
+        source: https://help.instagram.com/269314186824048/
+        note: 인스타그램 공식 고객센터 문서에 "최대 20개" 명시
+      - field: instagram.caption_max_chars
+        value: 2200
+        source: https://developers.facebook.com/docs/instagram-platform/instagram-graph-api/reference/ig-user/media
+        note: Meta 개발자 문서의 caption 파라미터에 "Maximum 2200 characters" 명시
+    unverified:
+      - field: instagram.caption_fold_at
+        value: 125
+        note: >
+          Hootsuite·Sendible 등 2차 출처가 일관되게 125자를 말하지만 Meta의
+          1차 출처를 찾지 못했다. 값은 유지하되 확정된 규격으로 취급하지 않는다.
+      - field: xiaohongshu.title_max_chars
+        value: 20
+        note: >
+          중국어권 운영 콘텐츠에서 널리 반복되나 샤오홍슈 공식 문서를 확인하지
+          못했고 출처 간 설명이 갈린다(disputed). 커버 카피 설계의 핵심 제약이므로
+          실제 게시로 한 번 확인해 볼 필요가 있다.
 
 defaults:
   # 플랫폼별 값이 없을 때만 적용되는 폴백

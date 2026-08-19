@@ -27,7 +27,16 @@ from core.providers.llm.base import (
     LLMRefusalError,
     LLMResult,
     Profile,
+    SearchHit,
 )
+
+#: 서버측 도구. Anthropic 인프라에서 돌기 때문에 우리 컨테이너의 아웃바운드가
+#: 막혀 있어도 검색이 된다. 동적 필터링이 내장돼 있으므로 code_execution을
+#: 따로 선언하지 않는다 — 실행 환경이 둘이 되면 모델이 헷갈린다.
+SERVER_SEARCH_TOOLS = [
+    {"type": "web_search_20260209", "name": "web_search"},
+    {"type": "web_fetch_20260209", "name": "web_fetch"},
+]
 
 T = TypeVar("T", bound=BaseModel)
 
@@ -56,6 +65,7 @@ class AnthropicClient(LLMClient):
         output_model: type[T],
         profile: str | None = None,
         images: list[Path] | None = None,
+        search: bool = False,
     ) -> LLMResult[T]:
         spec = Profile.load(profile)
 
@@ -70,6 +80,8 @@ class AnthropicClient(LLMClient):
         }
         if spec.effort:
             kwargs["output_config"] = {"effort": spec.effort}
+        if search:
+            kwargs["tools"] = SERVER_SEARCH_TOOLS
 
         try:
             response = self._client.messages.parse(**kwargs)
@@ -98,11 +110,14 @@ class AnthropicClient(LLMClient):
             raise LLMError("구조화 출력이 비어 있다 — 모델이 계약을 지키지 못했다")
 
         usage = response.usage
+        hits, calls = _search_evidence(response)
         return LLMResult(
             parsed=parsed,
             model=response.model,
             input_tokens=getattr(usage, "input_tokens", 0),
             output_tokens=getattr(usage, "output_tokens", 0),
+            search_hits=hits,
+            search_calls=calls,
             raw=response,
         )
 
@@ -140,3 +155,28 @@ def _content(user: str, images: list[Path] | None) -> list[dict[str, Any]] | str
         )
     blocks.append({"type": "text", "text": user})
     return blocks
+
+
+def _search_evidence(response: Any) -> tuple[list[SearchHit], int]:
+    """응답에서 서버측 검색이 실제로 본 페이지를 긁어낸다.
+
+    이 목록이 있어야 "모델이 답에 적은 출처 URL"이 진짜 열어 본 페이지인지
+    대조할 수 있다. 대조 없이 받으면 지어낸 URL이 출처로 통과한다.
+
+    주의: 서버 도구 오류는 예외를 던지지 않는다. HTTP 200으로 오면서 content가
+    리스트가 아니라 오류 객체로 온다 — 인덱싱 전에 형태를 확인해야 한다.
+    """
+    hits: list[SearchHit] = []
+    calls = 0
+    for block in getattr(response, "content", []) or []:
+        if getattr(block, "type", None) != "web_search_tool_result":
+            continue
+        calls += 1
+        content = getattr(block, "content", None)
+        if not isinstance(content, list):
+            continue  # 오류 객체다. 결과가 없는 것이지 예외 상황은 아니다.
+        for item in content:
+            url = getattr(item, "url", None)
+            if url:
+                hits.append(SearchHit(title=getattr(item, "title", "") or "", url=url))
+    return hits, calls

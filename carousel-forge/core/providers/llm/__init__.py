@@ -13,6 +13,7 @@ from core.providers.llm.base import (
     LLMRefusalError,
     LLMResult,
     Profile,
+    SearchHit,
 )
 from core.providers.llm.fake import Call, ScriptedLLM
 
@@ -23,6 +24,7 @@ __all__ = [
     "LLMRefusalError",
     "LLMResult",
     "Profile",
+    "SearchHit",
     "ScriptedLLM",
     "default_client",
 ]

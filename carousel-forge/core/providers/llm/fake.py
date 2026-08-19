@@ -31,6 +31,7 @@ class Call:
     output_model: type[BaseModel]
     profile: str | None
     images: tuple[Path, ...] = ()
+    search: bool = False
 
 
 @dataclass
@@ -44,6 +45,8 @@ class ScriptedLLM(LLMClient):
 
     responses: list[Any]
     calls: list[Call] = field(default_factory=list)
+    #: search=True 호출에 돌려줄 가짜 검색 근거.
+    search_hits: list[Any] = field(default_factory=list)
     _cursor: int = 0
 
     def structured(
@@ -54,6 +57,7 @@ class ScriptedLLM(LLMClient):
         output_model: type[T],
         profile: str | None = None,
         images: list[Path] | None = None,
+        search: bool = False,
     ) -> LLMResult[T]:
         call = Call(
             system=system,
@@ -61,6 +65,7 @@ class ScriptedLLM(LLMClient):
             output_model=output_model,
             profile=profile,
             images=tuple(images or ()),
+            search=search,
         )
         self.calls.append(call)
 
@@ -78,7 +83,13 @@ class ScriptedLLM(LLMClient):
             raise LLMError(
                 f"준비된 응답이 {output_model.__name__}이 아니라 {type(value).__name__}이다"
             )
-        return LLMResult(parsed=value, model="scripted", input_tokens=0, output_tokens=0)
+        return LLMResult(
+            parsed=value,
+            model="scripted",
+            input_tokens=0,
+            output_tokens=0,
+            search_hits=list(self.search_hits),
+        )
 
     @property
     def call_count(self) -> int:

@@ -14,7 +14,14 @@ from .art_director import ArtDirectionError, ArtDirector, build_prompt
 from .base import Agent, AgentContext
 from .constraints import CopyConstraints, Violation
 from .copysmith import CopyError, CopySmith
-from .fact_checker import FactChecker
+from .fact_checker import (
+    ClaimCheck,
+    FactChecker,
+    FactCheckError,
+    FactReport,
+    find_claims_needing_sources,
+    find_unsourced_numbers,
+)
 from .layout_compositor import (
     CompositionError,
     LayoutCompositor,
@@ -43,7 +50,10 @@ __all__ = [
     "CopyConstraints",
     "CopyError",
     "CopySmith",
+    "ClaimCheck",
+    "FactCheckError",
     "FactChecker",
+    "FactReport",
     "LayoutCompositor",
     "NeedsNewBackground",
     "NeedsShorterCopy",
@@ -63,5 +73,7 @@ __all__ = [
     "Violation",
     "build_prompt",
     "check_outline",
+    "find_claims_needing_sources",
+    "find_unsourced_numbers",
     "verdict_for",
 ]

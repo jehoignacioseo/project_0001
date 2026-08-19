@@ -15,12 +15,12 @@
 | **M2** | A2 TopicIntake + A4 Architect + A5 CopySmith | ✅ 완료 |
 | **M3** | A1 StyleForensics (스크린샷 → StyleDNA + 검증 렌더) | ✅ 완료 |
 | **M4** | A7 ArtDirector + A8 Compositor + A9 QualityGate + 폐기·재생성 루프 | ✅ 완료 |
+| **M5** | A6 FactChecker (출처 링크 포함 fact_report) | ✅ 완료 · A3 TrendScout는 미착수 |
 | **M6** | Figma 플러그인 (manifest → 편집 가능한 프레임) | ✅ 완료 |
-| M5 | A6 FactChecker + A3 TrendScout | ⬜ 미착수 |
 | M7 | A10 Localizer + 샤오홍슈 어댑터 | ⬜ 미착수 |
 | M8 | 라이브러리 UI + 리믹스 + 성과 피드백 | ⬜ 미착수 |
 
-구현된 에이전트는 A1·A2·A4·A5·A7·A8·A9 일곱이다. 나머지(A3·A6·A10)는 클래스와 단계만
+구현된 에이전트는 A1·A2·A4·A5·A6·A7·A8·A9 여덟이다. 나머지(A3·A10)는 클래스와 단계만
 정의돼 있고 `run`은 `NotImplementedError`를 낸다. API도 해당 엔드포인트에서 501을
 낸다. **미구현을 빈 결과로 감추지 않는다.**
 
@@ -55,6 +55,9 @@ export ANTHROPIC_API_KEY=...
 # M4 end-to-end: 배경 생성 → 합성 → 품질 게이트 → 폐기·재생성
 .venv/bin/python scripts/demo_m4.py --keyword 러닝입문 --from-briefs
 .venv/bin/python scripts/demo_m4.py --keyword 러닝입문 --from-briefs --fail-slides 3  # 재생성 루프 확인
+
+# M5: 웹 검색으로 주장 검증 → 출처 링크 포함 fact_report
+.venv/bin/python scripts/demo_m5.py
 
 # M6 Figma 플러그인
 cd apps/figma-plugin && npm install && npm run build && npm test
@@ -148,6 +151,37 @@ scripts/             codegen · 검증 · 데모
 
 `OPEN_QUESTIONS.md`에 15건을 적어 뒀다. 전부 기본값을 정해 진행했고, 무엇을
 바꾸면 되는지도 함께 적었다.
+
+## 팩트체크는 서버측 검색으로 돈다
+
+이 환경은 조직 egress 정책으로 아웃바운드가 막혀 있다. 그래서 A6는 우리 쪽에서
+HTTP를 쏘지 않고 **Anthropic 서버에서 도는 `web_search`/`web_fetch`**를 쓴다.
+검색이 우리 컨테이너를 거치지 않으므로 네트워크 정책과 무관하게 검증이 된다.
+
+지키는 규칙 셋:
+
+- **주장마다 따로 묻는다.** 한 번에 몰아 물으면 모델이 앞 판정에 뒤 판정을 맞춘다.
+- **출처 없이 verified는 없다.** 모델이 verified라고 답해도 검색이 실제로 연 페이지가
+  없으면 unverified로 내린다.
+- **지어낸 URL은 출처로 세지 않는다.** 모델이 적은 URL을 서버 검색이 실제로 열어 본
+  목록과 대조한다. 대조하지 않으면 그럴듯한 주소가 근거로 통과한다.
+
+그리고 `unsourced_claim` 규칙이 카피의 숫자·연도·인용이 검증된 주장으로 덮이는지
+센다. 덮이지 않으면 품질 게이트가 폐기한다 (절대 규칙 #4).
+
+### 이 검증이 우리 config에 대해 알려준 것
+
+`scripts/demo_m5.py`를 `platforms.yaml`의 값에 돌린 결과다.
+
+| 값 | 판정 | 근거 |
+|---|---|---|
+| `instagram.max_slides: 20` | verified | 인스타그램 공식 고객센터 문서 |
+| `instagram.caption_max_chars: 2200` | verified | Meta 개발자 문서 |
+| `instagram.caption_fold_at: 125` | **unverified** | 2차 출처만 반복, 1차 없음 |
+| `xiaohongshu.title_max_chars: 20` | **disputed** | 공식 문서 없고 출처 간 설명이 갈림 |
+
+뒤 둘은 값을 유지하되 확정된 규격으로 취급하지 않는다. `platforms.yaml`의
+`_meta.source_check`에 근거와 함께 적어 뒀다.
 
 ## 폐기·재생성 루프
 

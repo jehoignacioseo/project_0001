@@ -33,11 +33,11 @@ def test_localize_is_skipped_unless_requested():
 
 
 def test_unimplemented_agents_raise_instead_of_returning_empty():
-    """M4까지 붙은 지금 남은 미구현은 A3·A6·A10이다."""
-    from core.agents import FactChecker, Localizer, TrendScout
+    """M5의 A6까지 붙은 지금 남은 미구현은 A3 TrendScout와 A10 Localizer다."""
+    from core.agents import Localizer, TrendScout
 
     ctx = AgentContext(account_id="a", platform="instagram", language="ko")
-    for agent in (TrendScout(), FactChecker(), Localizer()):
+    for agent in (TrendScout(), Localizer()):
         with pytest.raises(NotImplementedError):
             agent.run({}, ctx)
 
