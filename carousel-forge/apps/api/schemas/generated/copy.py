@@ -56,6 +56,10 @@ class CopyBlock(BaseModel):
 
 
 class HashtagPlacement(StrEnum):
+    """
+    해시태그 배치. 비우면 StyleDNA의 hashtag_strategy.placement를 따른다.
+    """
+
     INLINE = 'inline'
     END = 'end'
     FIRST_COMMENT = 'first-comment'
@@ -71,7 +75,10 @@ class Caption(BaseModel):
     """
     body: str
     cta: str
-    hashtag_placement: HashtagPlacement | None = 'end'
+    hashtag_placement: HashtagPlacement | None = None
+    """
+    해시태그 배치. 비우면 StyleDNA의 hashtag_strategy.placement를 따른다.
+    """
 
 
 class CopyBundle(BaseModel):

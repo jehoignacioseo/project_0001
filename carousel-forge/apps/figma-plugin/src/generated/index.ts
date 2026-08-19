@@ -3,5 +3,6 @@
 
 export * from "./carousel_manifest";
 export * from "./copy";
+export * from "./outline";
 export * from "./style_dna";
 export * from "./topic";

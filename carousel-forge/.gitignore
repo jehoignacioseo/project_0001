@@ -5,12 +5,11 @@ __pycache__/
 .pytest_cache/
 *.egg-info/
 
-# 렌더 산출물 — 재생성 가능하므로 커밋하지 않는다.
+# 산출물 — 재생성 가능하므로 커밋하지 않는다. README만 남긴다.
 # (DB에 남기는 것은 파일이 아니라 레코드다. 절대 규칙 #9는 storage/ 실물이
 #  아니라 Asset/GenerationLog 레코드를 말한다.)
-storage/assets/
-storage/exports/
-storage/*.db
+storage/*
+!storage/README.md
 
 # 프론트/플러그인
 node_modules/

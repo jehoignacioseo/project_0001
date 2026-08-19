@@ -17,6 +17,7 @@ export interface Caption {
   hook_line: string;
   body: string;
   cta: string;
+  /** 해시태그 배치. 비우면 StyleDNA의 hashtag_strategy.placement를 따른다. */
   hashtag_placement?: "inline" | "end" | "first-comment";
 }
 

@@ -5,7 +5,7 @@ from __future__ import annotations
 import pytest
 
 from apps.api.models import PipelineStage
-from core.agents import CopySmith, QualityGate
+from core.agents import ArtDirector, CopySmith, QualityGate
 from core.agents.base import AgentContext
 from core.config import quality_rules
 from core.pipeline import Orchestrator, RetryBudget, RetryExhausted, next_stage, rewind_for
@@ -34,15 +34,22 @@ def test_localize_is_skipped_unless_requested():
 
 def test_unimplemented_agents_raise_instead_of_returning_empty():
     ctx = AgentContext(account_id="a", platform="instagram", language="ko")
-    for agent in (CopySmith(), QualityGate()):
+    for agent in (QualityGate(), ArtDirector()):
         with pytest.raises(NotImplementedError):
             agent.run({}, ctx)
 
 
 def test_orchestrator_stops_at_the_first_unimplemented_stage():
-    result = Orchestrator(AgentContext("a", "instagram", "ko")).run({})
-    assert result.stopped_at is PipelineStage.INTAKE
-    assert "M2" in result.error
+    """M2가 붙었어도 상태 머신은 A1(M3) 자리에서 멈춘다.
+
+    파이프라인 순서(STYLE_RESOLVE가 ARCHITECT보다 앞)와 마일스톤 순서가 다르기
+    때문이다. M2 산출물은 오케스트레이터가 아니라 세 에이전트를 직접 이어 확인한다.
+    """
+    result = Orchestrator(AgentContext("a", "instagram", "ko")).run(
+        {}, start=PipelineStage.STYLE_RESOLVE
+    )
+    assert result.stopped_at is PipelineStage.STYLE_RESOLVE
+    assert "M3" in result.error
 
 
 def test_retry_budget_fails_loudly_when_exhausted():

@@ -14,9 +14,9 @@
 | **M1** | 렌더 파이프라인 (HTML → PNG + SVG + manifest) | ✅ 완료 |
 | M2~M8 | 에이전트·Figma 플러그인·라이브러리 UI | ⬜ 미착수 |
 
-M2 이후의 에이전트(A1~A10)는 클래스와 단계만 정의돼 있고 `run`은
-`NotImplementedError`를 낸다. API도 해당 엔드포인트에서 501을 낸다.
-**미구현을 빈 결과로 감추지 않는다.**
+구현된 에이전트는 A2·A4·A5 셋이다. 나머지(A1·A3·A6~A10)는 클래스와 단계만
+정의돼 있고 `run`은 `NotImplementedError`를 낸다. API도 해당 엔드포인트에서 501을
+낸다. **미구현을 빈 결과로 감추지 않는다.**
 
 ## 빠른 시작
 
@@ -36,6 +36,11 @@ python3.11 -m venv .venv && .venv/bin/pip install -e ".[dev]"
 # M1 end-to-end: 더미 9장 → PNG + SVG + manifest
 .venv/bin/python scripts/make_dummy_backgrounds.py
 .venv/bin/python scripts/demo_render.py
+
+# M2 end-to-end: 키워드 1개 → 구조 + 카피 JSON (실제 Claude 호출)
+export ANTHROPIC_API_KEY=...
+.venv/bin/python scripts/demo_m2.py --keyword 러닝입문
+.venv/bin/python scripts/demo_m2.py --keyword 러닝입문 --resume --render   # M1 렌더까지
 
 # PNG과 SVG가 정말 같은 좌표에서 나왔는지 픽셀로 대조
 .venv/bin/python scripts/verify_render.py storage/exports/deskreset_demo0001_instagram_ko

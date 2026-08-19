@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "outline.schema.json",
+  "title": "CarouselOutline",
+  "description": "A4 NarrativeArchitect 산출물. 슬라이드 골격이자 A5 CopySmith와 A7 ArtDirector의 입력이다.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["title_working", "slide_count", "narrative_pattern", "hook_type", "cta_type", "hook_candidates", "chosen_hook_index", "slides"],
+  "properties": {
+    "title_working": { "type": "string" },
+    "slide_count": { "type": "integer", "minimum": 1, "maximum": 20 },
+    "narrative_pattern": {
+      "type": "string",
+      "enum": ["problem-solution", "listicle", "story-arc", "comparison", "tutorial", "myth-bust"]
+    },
+    "hook_type": {
+      "type": "string",
+      "enum": ["question", "number-promise", "contrarian", "pain-point", "curiosity-gap", "result-first"]
+    },
+    "cta_type": { "type": "string", "enum": ["save", "share", "comment-keyword", "link-in-bio", "follow"] },
+    "hook_candidates": {
+      "type": "array",
+      "description": "커버에 전체 리소스의 40%를 쓴다. 훅은 반드시 3개를 만들어 비교한 뒤 고른다.",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["text", "rationale", "strength_score"],
+        "properties": {
+          "text": { "type": "string" },
+          "rationale": { "type": "string", "description": "왜 이 훅이 스크롤을 멈추는가" },
+          "strength_score": { "type": "number", "minimum": 0, "maximum": 1 }
+        }
+      }
+    },
+    "chosen_hook_index": { "type": "integer", "minimum": 0, "maximum": 2 },
+    "slides": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/OutlineSlide" } }
+  },
+  "$defs": {
+    "OutlineSlide": {
+      "title": "OutlineSlide",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["index", "role", "single_message", "visual_brief"],
+      "properties": {
+        "index": { "type": "integer", "minimum": 1 },
+        "role": {
+          "type": "string",
+          "enum": ["hook", "context", "point", "proof", "example", "summary", "cta"]
+        },
+        "single_message": {
+          "type": "string",
+          "description": "이 슬라이드가 전달하는 단 하나의 메시지. 카피가 아니라 의도다."
+        },
+        "visual_brief": {
+          "type": "string",
+          "description": "필요한 비주얼 설명. A7이 배경 프롬프트로 옮긴다. 텍스트 렌더링 요구를 넣지 않는다."
+        },
+        "supporting_point": {
+          "type": ["string", "null"],
+          "description": "이 슬라이드가 다루는 TopicSchema.supporting_points 항목"
+        },
+        "layout_template": { "type": ["string", "null"], "description": "비우면 role에서 정해진다" }
+      }
+    }
+  }
+}
