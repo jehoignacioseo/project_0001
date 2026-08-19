@@ -1,0 +1,1180 @@
+{
+  "schema_version": 1,
+  "set_id": "demo0001",
+  "account": "deskreset",
+  "platform": "instagram",
+  "language": "ko",
+  "canvas": {
+    "width": 1080,
+    "height": 1350,
+    "safe_margin_px": 92
+  },
+  "fonts_required": [
+    {
+      "family": "Pretendard",
+      "style": "ExtraBold",
+      "file": "04_reference/fonts/Pretendard-ExtraBold.woff2"
+    },
+    {
+      "family": "Pretendard",
+      "style": "Regular",
+      "file": "04_reference/fonts/Pretendard-Regular.woff2"
+    },
+    {
+      "family": "Pretendard",
+      "style": "Bold",
+      "file": "04_reference/fonts/Pretendard-Bold.woff2"
+    }
+  ],
+  "slides": [
+    {
+      "index": 1,
+      "role": "hook",
+      "layout_template": "hook",
+      "background_url": "backgrounds/bg_01.png",
+      "background_fill": null,
+      "overlay": {
+        "type": "gradient",
+        "opacity": 0.72,
+        "color": "#111111"
+      },
+      "copy_blocks": [
+        {
+          "id": "s01_eyebrow",
+          "role": "eyebrow",
+          "text": "DESK RESET",
+          "x": 92,
+          "y": 725.47,
+          "width": 896,
+          "height": 39.3,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "Bold",
+            "size": 28.08,
+            "letter_spacing": 0.06,
+            "line_height": 1.4
+          },
+          "line_boxes": [
+            {
+              "text": "DESK RESET",
+              "x": 92,
+              "y": 727.47,
+              "width": 182.39,
+              "height": 34,
+              "baseline": 754.47
+            }
+          ]
+        },
+        {
+          "id": "s01_headline",
+          "role": "headline",
+          "text": "집중이 끊기는 건\n의지가 아니라 책상 탓이에요",
+          "x": 92,
+          "y": 805.77,
+          "width": 896,
+          "height": 324.94,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "ExtraBold",
+            "size": 91.8,
+            "letter_spacing": -0.03,
+            "line_height": 1.18
+          },
+          "line_boxes": [
+            {
+              "text": "집중이 끊기는 건",
+              "x": 92,
+              "y": 804.77,
+              "width": 571.62,
+              "height": 109,
+              "baseline": 890.77
+            },
+            {
+              "text": "의지가 아니라 책상",
+              "x": 92,
+              "y": 913.08,
+              "width": 648.22,
+              "height": 109,
+              "baseline": 999.08
+            },
+            {
+              "text": "탓이에요",
+              "x": 92,
+              "y": 1021.39,
+              "width": 306.34,
+              "height": 109,
+              "baseline": 1107.39
+            }
+          ],
+          "emphasis_spans": [
+            [
+              10,
+              12
+            ]
+          ],
+          "emphasis_color": "#c8a15a"
+        },
+        {
+          "id": "s01_subhead",
+          "role": "subhead",
+          "text": "오늘 저녁에 끝낼 수 있는 9가지",
+          "x": 92,
+          "y": 1218.7,
+          "width": 896,
+          "height": 39.3,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "Bold",
+            "size": 28.08,
+            "letter_spacing": 0.06,
+            "line_height": 1.4
+          },
+          "line_boxes": [
+            {
+              "text": "오늘 저녁에 끝낼 수 있는 9가지",
+              "x": 92,
+              "y": 1220.7,
+              "width": 371.94,
+              "height": 34,
+              "baseline": 1247.7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "role": "context",
+      "layout_template": "point",
+      "background_url": "backgrounds/bg_02.png",
+      "background_fill": null,
+      "overlay": {
+        "type": "gradient",
+        "opacity": 0.72,
+        "color": "#111111"
+      },
+      "copy_blocks": [
+        {
+          "id": "s02_badge",
+          "role": "badge",
+          "text": "왜",
+          "x": 118,
+          "y": 785.14,
+          "width": 25.95,
+          "height": 39.3,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "Bold",
+            "size": 28.08,
+            "letter_spacing": 0.06,
+            "line_height": 1.4
+          },
+          "line_boxes": [
+            {
+              "text": "왜",
+              "x": 118,
+              "y": 787.14,
+              "width": 25.95,
+              "height": 34,
+              "baseline": 814.14
+            }
+          ]
+        },
+        {
+          "id": "s02_headline",
+          "role": "headline",
+          "text": "손이 먼저 멈추는\n지점을 찾으세요",
+          "x": 92,
+          "y": 861.44,
+          "width": 896,
+          "height": 216.62,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "ExtraBold",
+            "size": 91.8,
+            "letter_spacing": -0.03,
+            "line_height": 1.18
+          },
+          "line_boxes": [
+            {
+              "text": "손이 먼저 멈추는",
+              "x": 92,
+              "y": 860.44,
+              "width": 571.62,
+              "height": 109,
+              "baseline": 946.44
+            },
+            {
+              "text": "지점을 찾으세요",
+              "x": 92,
+              "y": 968.75,
+              "width": 553.86,
+              "height": 109,
+              "baseline": 1054.75
+            }
+          ]
+        },
+        {
+          "id": "s02_body",
+          "role": "body",
+          "text": "앉아서 일을 시작하기까지 몇 번 손이 멈추는지 세어보세요.\n그 지점이 전부 고칠 곳이에요.",
+          "x": 92,
+          "y": 1132.06,
+          "width": 896,
+          "height": 125.94,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "Regular",
+            "size": 38.88,
+            "letter_spacing": -0.01,
+            "line_height": 1.62
+          },
+          "line_boxes": [
+            {
+              "text": "앉아서 일을 시작하기까지 몇 번 손이 멈추는지 세어보세요.",
+              "x": 92,
+              "y": 1140.06,
+              "width": 872.09,
+              "height": 46,
+              "baseline": 1176.06
+            },
+            {
+              "text": "그 지점이 전부 고칠 곳이에요.",
+              "x": 92,
+              "y": 1203.03,
+              "width": 445.47,
+              "height": 46,
+              "baseline": 1239.03
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "role": "point",
+      "layout_template": "point",
+      "background_url": "backgrounds/bg_03.png",
+      "background_fill": null,
+      "overlay": {
+        "type": "gradient",
+        "opacity": 0.72,
+        "color": "#111111"
+      },
+      "copy_blocks": [
+        {
+          "id": "s03_badge",
+          "role": "badge",
+          "text": "01",
+          "x": 118,
+          "y": 785.14,
+          "width": 35.08,
+          "height": 39.3,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "Bold",
+            "size": 28.08,
+            "letter_spacing": 0.06,
+            "line_height": 1.4
+          },
+          "line_boxes": [
+            {
+              "text": "01",
+              "x": 118,
+              "y": 787.14,
+              "width": 35.08,
+              "height": 34,
+              "baseline": 814.14
+            }
+          ]
+        },
+        {
+          "id": "s03_headline",
+          "role": "headline",
+          "text": "모니터는\n눈높이보다 살짝 아래",
+          "x": 92,
+          "y": 861.44,
+          "width": 896,
+          "height": 216.62,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "ExtraBold",
+            "size": 91.8,
+            "letter_spacing": -0.03,
+            "line_height": 1.18
+          },
+          "line_boxes": [
+            {
+              "text": "모니터는",
+              "x": 92,
+              "y": 860.44,
+              "width": 306.34,
+              "height": 109,
+              "baseline": 946.44
+            },
+            {
+              "text": "눈높이보다 살짝 아래",
+              "x": 92,
+              "y": 968.75,
+              "width": 724.8,
+              "height": 109,
+              "baseline": 1054.75
+            }
+          ]
+        },
+        {
+          "id": "s03_body",
+          "role": "body",
+          "text": "화면 상단이 눈높이에 오도록 올리면 목이 앞으로 빠지지 않아요.",
+          "x": 92,
+          "y": 1132.06,
+          "width": 896,
+          "height": 125.94,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "Regular",
+            "size": 38.88,
+            "letter_spacing": -0.01,
+            "line_height": 1.62
+          },
+          "line_boxes": [
+            {
+              "text": "화면 상단이 눈높이에 오도록 올리면 목이 앞으로 빠지지",
+              "x": 92,
+              "y": 1140.06,
+              "width": 829.39,
+              "height": 46,
+              "baseline": 1176.06
+            },
+            {
+              "text": "않아요.",
+              "x": 92,
+              "y": 1203.03,
+              "width": 109.12,
+              "height": 46,
+              "baseline": 1239.03
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "role": "point",
+      "layout_template": "point",
+      "background_url": "backgrounds/bg_04.png",
+      "background_fill": null,
+      "overlay": {
+        "type": "gradient",
+        "opacity": 0.72,
+        "color": "#111111"
+      },
+      "copy_blocks": [
+        {
+          "id": "s04_badge",
+          "role": "badge",
+          "text": "02",
+          "x": 118,
+          "y": 785.14,
+          "width": 39.05,
+          "height": 39.3,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "Bold",
+            "size": 28.08,
+            "letter_spacing": 0.06,
+            "line_height": 1.4
+          },
+          "line_boxes": [
+            {
+              "text": "02",
+              "x": 118,
+              "y": 787.14,
+              "width": 39.05,
+              "height": 34,
+              "baseline": 814.14
+            }
+          ]
+        },
+        {
+          "id": "s04_headline",
+          "role": "headline",
+          "text": "조명은 화면 뒤가 아니라\n옆에서",
+          "x": 92,
+          "y": 861.44,
+          "width": 896,
+          "height": 216.62,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "ExtraBold",
+            "size": 91.8,
+            "letter_spacing": -0.03,
+            "line_height": 1.18
+          },
+          "line_boxes": [
+            {
+              "text": "조명은 화면 뒤가 아니라",
+              "x": 92,
+              "y": 860.44,
+              "width": 819.16,
+              "height": 109,
+              "baseline": 946.44
+            },
+            {
+              "text": "옆에서",
+              "x": 92,
+              "y": 968.75,
+              "width": 229.75,
+              "height": 109,
+              "baseline": 1054.75
+            }
+          ]
+        },
+        {
+          "id": "s04_body",
+          "role": "body",
+          "text": "화면 뒤 창은 눈을 계속 조이게 만들어요.\n빛은 옆에서 들어오게 두세요.",
+          "x": 92,
+          "y": 1132.06,
+          "width": 896,
+          "height": 125.94,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "Regular",
+            "size": 38.88,
+            "letter_spacing": -0.01,
+            "line_height": 1.62
+          },
+          "line_boxes": [
+            {
+              "text": "화면 뒤 창은 눈을 계속 조이게 만들어요.",
+              "x": 92,
+              "y": 1140.06,
+              "width": 597.05,
+              "height": 46,
+              "baseline": 1176.06
+            },
+            {
+              "text": "빛은 옆에서 들어오게 두세요.",
+              "x": 92,
+              "y": 1203.03,
+              "width": 436.11,
+              "height": 46,
+              "baseline": 1239.03
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "role": "point",
+      "layout_template": "point",
+      "background_url": "backgrounds/bg_05.png",
+      "background_fill": null,
+      "overlay": {
+        "type": "gradient",
+        "opacity": 0.72,
+        "color": "#111111"
+      },
+      "copy_blocks": [
+        {
+          "id": "s05_badge",
+          "role": "badge",
+          "text": "03",
+          "x": 118,
+          "y": 848.11,
+          "width": 39.84,
+          "height": 39.3,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "Bold",
+            "size": 28.08,
+            "letter_spacing": 0.06,
+            "line_height": 1.4
+          },
+          "line_boxes": [
+            {
+              "text": "03",
+              "x": 118,
+              "y": 850.11,
+              "width": 39.84,
+              "height": 34,
+              "baseline": 877.11
+            }
+          ]
+        },
+        {
+          "id": "s05_headline",
+          "role": "headline",
+          "text": "책상 위 물건은\n손이 닿는 것만",
+          "x": 92,
+          "y": 924.41,
+          "width": 896,
+          "height": 216.62,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "ExtraBold",
+            "size": 91.8,
+            "letter_spacing": -0.03,
+            "line_height": 1.18
+          },
+          "line_boxes": [
+            {
+              "text": "책상 위 물건은",
+              "x": 92,
+              "y": 923.41,
+              "width": 495.05,
+              "height": 109,
+              "baseline": 1009.41
+            },
+            {
+              "text": "손이 닿는 것만",
+              "x": 92,
+              "y": 1031.72,
+              "width": 495.05,
+              "height": 109,
+              "baseline": 1117.72
+            }
+          ]
+        },
+        {
+          "id": "s05_body",
+          "role": "body",
+          "text": "하루에 한 번도 만지지 않은 물건은 서랍으로 내려보내세요.",
+          "x": 92,
+          "y": 1195.03,
+          "width": 896,
+          "height": 62.97,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "Regular",
+            "size": 38.88,
+            "letter_spacing": -0.01,
+            "line_height": 1.62
+          },
+          "line_boxes": [
+            {
+              "text": "하루에 한 번도 만지지 않은 물건은 서랍으로 내려보내세요.",
+              "x": 92,
+              "y": 1203.03,
+              "width": 872.09,
+              "height": 46,
+              "baseline": 1239.03
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "role": "point",
+      "layout_template": "point",
+      "background_url": "backgrounds/bg_06.png",
+      "background_fill": null,
+      "overlay": {
+        "type": "gradient",
+        "opacity": 0.72,
+        "color": "#111111"
+      },
+      "copy_blocks": [
+        {
+          "id": "s06_badge",
+          "role": "badge",
+          "text": "04",
+          "x": 118,
+          "y": 848.11,
+          "width": 40.36,
+          "height": 39.3,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "Bold",
+            "size": 28.08,
+            "letter_spacing": 0.06,
+            "line_height": 1.4
+          },
+          "line_boxes": [
+            {
+              "text": "04",
+              "x": 118,
+              "y": 850.11,
+              "width": 40.36,
+              "height": 34,
+              "baseline": 877.11
+            }
+          ]
+        },
+        {
+          "id": "s06_headline",
+          "role": "headline",
+          "text": "케이블은\n보이지 않게",
+          "x": 92,
+          "y": 924.41,
+          "width": 896,
+          "height": 216.62,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "ExtraBold",
+            "size": 91.8,
+            "letter_spacing": -0.03,
+            "line_height": 1.18
+          },
+          "line_boxes": [
+            {
+              "text": "케이블은",
+              "x": 92,
+              "y": 923.41,
+              "width": 306.34,
+              "height": 109,
+              "baseline": 1009.41
+            },
+            {
+              "text": "보이지 않게",
+              "x": 92,
+              "y": 1031.72,
+              "width": 400.69,
+              "height": 109,
+              "baseline": 1117.72
+            }
+          ]
+        },
+        {
+          "id": "s06_body",
+          "role": "body",
+          "text": "시야에 들어오는 선이 줄면 책상이 실제보다 넓어 보여요.",
+          "x": 92,
+          "y": 1195.03,
+          "width": 896,
+          "height": 62.97,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "Regular",
+            "size": 38.88,
+            "letter_spacing": -0.01,
+            "line_height": 1.62
+          },
+          "line_boxes": [
+            {
+              "text": "시야에 들어오는 선이 줄면 책상이 실제보다 넓어 보여요.",
+              "x": 92,
+              "y": 1203.03,
+              "width": 838.88,
+              "height": 46,
+              "baseline": 1239.03
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "role": "proof",
+      "layout_template": "point",
+      "background_url": "backgrounds/bg_07.png",
+      "background_fill": null,
+      "overlay": {
+        "type": "gradient",
+        "opacity": 0.72,
+        "color": "#111111"
+      },
+      "copy_blocks": [
+        {
+          "id": "s07_badge",
+          "role": "badge",
+          "text": "확인",
+          "x": 118,
+          "y": 721.84,
+          "width": 51.91,
+          "height": 39.3,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "Bold",
+            "size": 28.08,
+            "letter_spacing": 0.06,
+            "line_height": 1.4
+          },
+          "line_boxes": [
+            {
+              "text": "확인",
+              "x": 118,
+              "y": 723.84,
+              "width": 51.91,
+              "height": 34,
+              "baseline": 750.84
+            }
+          ]
+        },
+        {
+          "id": "s07_headline",
+          "role": "headline",
+          "text": "바꾸기 전후를\n한 장씩 찍어두세요",
+          "x": 92,
+          "y": 798.14,
+          "width": 896,
+          "height": 216.62,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "ExtraBold",
+            "size": 91.8,
+            "letter_spacing": -0.03,
+            "line_height": 1.18
+          },
+          "line_boxes": [
+            {
+              "text": "바꾸기 전후를",
+              "x": 92,
+              "y": 797.14,
+              "width": 477.28,
+              "height": 109,
+              "baseline": 883.14
+            },
+            {
+              "text": "한 장씩 찍어두세요",
+              "x": 92,
+              "y": 905.45,
+              "width": 648.22,
+              "height": 109,
+              "baseline": 991.45
+            }
+          ]
+        },
+        {
+          "id": "s07_body",
+          "role": "body",
+          "text": "사진으로 비교하면 다시 어질러졌을 때 되돌릴 기준이 생겨요.",
+          "x": 92,
+          "y": 1068.77,
+          "width": 896,
+          "height": 125.94,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "Regular",
+            "size": 38.88,
+            "letter_spacing": -0.01,
+            "line_height": 1.62
+          },
+          "line_boxes": [
+            {
+              "text": "사진으로 비교하면 다시 어질러졌을 때 되돌릴 기준이",
+              "x": 92,
+              "y": 1076.77,
+              "width": 786.81,
+              "height": 46,
+              "baseline": 1112.77
+            },
+            {
+              "text": "생겨요.",
+              "x": 92,
+              "y": 1139.73,
+              "width": 109.12,
+              "height": 46,
+              "baseline": 1175.73
+            }
+          ]
+        },
+        {
+          "id": "s07_caption_note",
+          "role": "caption_note",
+          "text": "※ 이 세트의 문장은 M1 검증용 더미다. 출처가 필요한 수치는 넣지 않았다.",
+          "x": 92,
+          "y": 1218.7,
+          "width": 896,
+          "height": 39.3,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "Bold",
+            "size": 28.08,
+            "letter_spacing": 0.06,
+            "line_height": 1.4
+          },
+          "line_boxes": [
+            {
+              "text": "※ 이 세트의 문장은 M1 검증용 더미다. 출처가 필요한 수치는 넣지 않았다.",
+              "x": 92,
+              "y": 1220.7,
+              "width": 873.81,
+              "height": 34,
+              "baseline": 1247.7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "index": 8,
+      "role": "summary",
+      "layout_template": "point",
+      "background_url": "backgrounds/bg_08.png",
+      "background_fill": null,
+      "overlay": {
+        "type": "gradient",
+        "opacity": 0.72,
+        "color": "#111111"
+      },
+      "copy_blocks": [
+        {
+          "id": "s08_headline",
+          "role": "headline",
+          "text": "저장해두고\n하나씩 지우세요",
+          "x": 92,
+          "y": 620.53,
+          "width": 896,
+          "height": 216.62,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "ExtraBold",
+            "size": 91.8,
+            "letter_spacing": -0.03,
+            "line_height": 1.18
+          },
+          "line_boxes": [
+            {
+              "text": "저장해두고",
+              "x": 92,
+              "y": 619.53,
+              "width": 382.92,
+              "height": 109,
+              "baseline": 705.53
+            },
+            {
+              "text": "하나씩 지우세요",
+              "x": 92,
+              "y": 727.84,
+              "width": 553.86,
+              "height": 109,
+              "baseline": 813.84
+            }
+          ]
+        },
+        {
+          "id": "s08_bullet_1",
+          "role": "bullet",
+          "text": "· 모니터 높이 올리기",
+          "x": 92,
+          "y": 891.16,
+          "width": 896,
+          "height": 62.97,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "Regular",
+            "size": 38.88,
+            "letter_spacing": -0.01,
+            "line_height": 1.62
+          },
+          "line_boxes": [
+            {
+              "text": "· 모니터 높이 올리기",
+              "x": 92,
+              "y": 899.16,
+              "width": 303.27,
+              "height": 46,
+              "baseline": 935.16
+            }
+          ]
+        },
+        {
+          "id": "s08_bullet_2",
+          "role": "bullet",
+          "text": "· 조명 옆으로 옮기기",
+          "x": 92,
+          "y": 967.12,
+          "width": 896,
+          "height": 62.97,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "Regular",
+            "size": 38.88,
+            "letter_spacing": -0.01,
+            "line_height": 1.62
+          },
+          "line_boxes": [
+            {
+              "text": "· 조명 옆으로 옮기기",
+              "x": 92,
+              "y": 975.12,
+              "width": 303.27,
+              "height": 46,
+              "baseline": 1011.12
+            }
+          ]
+        },
+        {
+          "id": "s08_bullet_3",
+          "role": "bullet",
+          "text": "· 안 쓰는 물건 내려보내기",
+          "x": 92,
+          "y": 1043.09,
+          "width": 896,
+          "height": 62.97,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "Regular",
+            "size": 38.88,
+            "letter_spacing": -0.01,
+            "line_height": 1.62
+          },
+          "line_boxes": [
+            {
+              "text": "· 안 쓰는 물건 내려보내기",
+              "x": 92,
+              "y": 1051.09,
+              "width": 379.05,
+              "height": 46,
+              "baseline": 1087.09
+            }
+          ]
+        },
+        {
+          "id": "s08_bullet_4",
+          "role": "bullet",
+          "text": "· 케이블 시야에서 치우기",
+          "x": 92,
+          "y": 1119.06,
+          "width": 896,
+          "height": 62.97,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "Regular",
+            "size": 38.88,
+            "letter_spacing": -0.01,
+            "line_height": 1.62
+          },
+          "line_boxes": [
+            {
+              "text": "· 케이블 시야에서 치우기",
+              "x": 92,
+              "y": 1127.06,
+              "width": 369.69,
+              "height": 46,
+              "baseline": 1163.06
+            }
+          ]
+        },
+        {
+          "id": "s08_bullet_5",
+          "role": "bullet",
+          "text": "· 전후 사진 찍어두기",
+          "x": 92,
+          "y": 1195.03,
+          "width": 896,
+          "height": 62.97,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "Regular",
+            "size": 38.88,
+            "letter_spacing": -0.01,
+            "line_height": 1.62
+          },
+          "line_boxes": [
+            {
+              "text": "· 전후 사진 찍어두기",
+              "x": 92,
+              "y": 1203.03,
+              "width": 303.27,
+              "height": 46,
+              "baseline": 1239.03
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "index": 9,
+      "role": "cta",
+      "layout_template": "cta",
+      "background_url": "backgrounds/bg_09.png",
+      "background_fill": null,
+      "overlay": {
+        "type": "gradient",
+        "opacity": 0.72,
+        "color": "#111111"
+      },
+      "copy_blocks": [
+        {
+          "id": "s09_eyebrow",
+          "role": "eyebrow",
+          "text": "SAVE THIS",
+          "x": 92,
+          "y": 344.91,
+          "width": 896,
+          "height": 39.3,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "Bold",
+            "size": 28.08,
+            "letter_spacing": 0.06,
+            "line_height": 1.4
+          },
+          "line_boxes": [
+            {
+              "text": "SAVE THIS",
+              "x": 92,
+              "y": 346.91,
+              "width": 156.67,
+              "height": 34,
+              "baseline": 373.91
+            }
+          ]
+        },
+        {
+          "id": "s09_headline",
+          "role": "headline",
+          "text": "오늘 하나만\n골라서 해보세요",
+          "x": 92,
+          "y": 425.2,
+          "width": 896,
+          "height": 216.62,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "ExtraBold",
+            "size": 91.8,
+            "letter_spacing": -0.03,
+            "line_height": 1.18
+          },
+          "line_boxes": [
+            {
+              "text": "오늘 하나만",
+              "x": 92,
+              "y": 424.2,
+              "width": 400.69,
+              "height": 109,
+              "baseline": 510.2
+            },
+            {
+              "text": "골라서 해보세요",
+              "x": 92,
+              "y": 532.52,
+              "width": 553.86,
+              "height": 109,
+              "baseline": 618.52
+            }
+          ]
+        },
+        {
+          "id": "s09_body",
+          "role": "body",
+          "text": "아홉 개를 한 번에 하려다 아무것도 못 바꾸는 게 제일 흔한 실패예요.",
+          "x": 92,
+          "y": 682.83,
+          "width": 896,
+          "height": 125.94,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "Regular",
+            "size": 38.88,
+            "letter_spacing": -0.01,
+            "line_height": 1.62
+          },
+          "line_boxes": [
+            {
+              "text": "아홉 개를 한 번에 하려다 아무것도 못 바꾸는 게 제일 흔한",
+              "x": 92,
+              "y": 690.83,
+              "width": 857.5,
+              "height": 46,
+              "baseline": 726.83
+            },
+            {
+              "text": "실패예요.",
+              "x": 92,
+              "y": 753.8,
+              "width": 142.33,
+              "height": 46,
+              "baseline": 789.8
+            }
+          ]
+        },
+        {
+          "id": "s09_cta",
+          "role": "cta",
+          "text": "저장 →",
+          "x": 92,
+          "y": 896.77,
+          "width": 896,
+          "height": 108.31,
+          "align": "left",
+          "color": "#f4f1ec",
+          "font": {
+            "family": "Pretendard",
+            "style": "ExtraBold",
+            "size": 91.8,
+            "letter_spacing": -0.03,
+            "line_height": 1.18
+          },
+          "line_boxes": [
+            {
+              "text": "저장 →",
+              "x": 92,
+              "y": 895.77,
+              "width": 253.09,
+              "height": 109,
+              "baseline": 981.77
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 16px;
+    font: 12px/1.6 "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--figma-color-text, #1a1a1a);
+    background: var(--figma-color-bg, #fff);
+  }
+  h1 { font-size: 13px; font-weight: 600; margin: 0 0 4px; }
+  p.lead { margin: 0 0 16px; color: var(--figma-color-text-secondary, #777); }
+  .step { margin-bottom: 14px; }
+  .step label { display: block; font-weight: 600; margin-bottom: 5px; }
+  .hint { color: var(--figma-color-text-secondary, #777); font-weight: 400; }
+  input[type=file] { width: 100%; font-size: 11px; }
+  .status {
+    margin: 12px 0; padding: 10px 12px; border-radius: 6px;
+    background: var(--figma-color-bg-secondary, #f5f5f5); white-space: pre-wrap;
+  }
+  .status.error { background: var(--figma-color-bg-danger-tertiary, #ffe8e8); }
+  .status.ok { background: var(--figma-color-bg-success-tertiary, #e6f6ec); }
+  .summary { margin: 0; padding-left: 18px; }
+  .summary li { margin: 2px 0; }
+  .actions { display: flex; gap: 8px; margin-top: 16px; }
+  button {
+    flex: 1; padding: 8px 12px; border-radius: 6px; border: 0;
+    font: inherit; font-weight: 600; cursor: pointer;
+  }
+  button.primary { background: var(--figma-color-bg-brand, #0d99ff); color: #fff; }
+  button.primary:disabled { background: var(--figma-color-bg-disabled, #d5d5d5); cursor: not-allowed; }
+  button.secondary { background: var(--figma-color-bg-secondary, #f0f0f0); color: inherit; }
+</style>
+</head>
+<body>
+<h1>Carousel Forge</h1>
+<p class="lead">내보내기 폴더의 <code>02_figma/</code>에서 파일을 고르세요.</p>
+
+<div class="step">
+  <label>1. manifest.json
+    <span class="hint">— 좌표·폰트·카피가 들어 있습니다</span>
+  </label>
+  <input type="file" id="manifest" accept="application/json,.json">
+</div>
+
+<div class="step">
+  <label>2. 배경 이미지
+    <span class="hint">— backgrounds/ 안의 파일 전부 선택 (없으면 건너뛰어도 됩니다)</span>
+  </label>
+  <input type="file" id="backgrounds" accept="image/png,image/jpeg" multiple>
+</div>
+
+<div class="status" id="status">manifest.json을 고르면 내용을 확인합니다.</div>
+
+<div class="actions">
+  <button class="secondary" id="cancel">닫기</button>
+  <button class="primary" id="build" disabled>캐러셀 만들기</button>
+</div>
+
+<script>
+  const statusEl = document.getElementById("status");
+  const buildBtn = document.getElementById("build");
+  const manifestInput = document.getElementById("manifest");
+  const backgroundInput = document.getElementById("backgrounds");
+
+  let manifest = null;
+
+  function setStatus(text, kind) {
+    statusEl.textContent = text;
+    statusEl.className = "status" + (kind ? " " + kind : "");
+  }
+
+  function setSummary(html, kind) {
+    statusEl.innerHTML = html;
+    statusEl.className = "status" + (kind ? " " + kind : "");
+  }
+
+  manifestInput.addEventListener("change", async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    try {
+      manifest = JSON.parse(await file.text());
+    } catch (error) {
+      manifest = null;
+      buildBtn.disabled = true;
+      setStatus("manifest.json을 읽지 못했습니다: " + error.message, "error");
+      return;
+    }
+
+    const slides = (manifest.slides || []).length;
+    const texts = (manifest.slides || []).reduce(
+      (n, s) => n + (s.copy_blocks || []).length, 0
+    );
+    const fonts = (manifest.fonts_required || [])
+      .map((f) => f.family + " " + f.style).join(", ") || "(선언 없음)";
+    const needBg = (manifest.slides || []).filter((s) => s.background_url).length;
+
+    buildBtn.disabled = false;
+    setSummary(
+      "<ul class='summary'>" +
+      "<li>세트 <b>" + (manifest.set_id || "?") + "</b> · " +
+        (manifest.platform || "?") + " / " + (manifest.language || "?") + "</li>" +
+      "<li>슬라이드 " + slides + "장 · 텍스트 레이어 " + texts + "개</li>" +
+      "<li>캔버스 " + (manifest.canvas ? manifest.canvas.width + "×" + manifest.canvas.height : "?") + "</li>" +
+      "<li>필요 폰트: " + fonts + "</li>" +
+      "<li>배경이 있는 슬라이드 " + needBg + "장</li>" +
+      "</ul>" +
+      "<div style='margin-top:8px'>폰트가 설치돼 있지 않으면 줄바꿈이 원본과 달라집니다.</div>"
+    );
+  });
+
+  buildBtn.addEventListener("click", async () => {
+    if (!manifest) return;
+    buildBtn.disabled = true;
+    setStatus("만드는 중…");
+
+    // 파일 이름의 숫자로 슬라이드를 짝짓는다 (bg_03.png → 3).
+    const backgrounds = {};
+    for (const file of backgroundInput.files) {
+      const match = file.name.match(/(\d+)/);
+      if (!match) continue;
+      const bytes = new Uint8Array(await file.arrayBuffer());
+      backgrounds[String(Number(match[1]))] = Array.from(bytes);
+    }
+
+    parent.postMessage(
+      { pluginMessage: { type: "build", manifest, backgrounds } }, "*"
+    );
+  });
+
+  document.getElementById("cancel").addEventListener("click", () => {
+    parent.postMessage({ pluginMessage: { type: "cancel" } }, "*");
+  });
+
+  onmessage = (event) => {
+    const msg = event.data.pluginMessage;
+    if (!msg) return;
+    buildBtn.disabled = false;
+    if (msg.type === "error") {
+      setStatus(msg.message, "error");
+      return;
+    }
+    if (msg.type === "done") {
+      let text =
+        "완료: 슬라이드 " + msg.slides + "장, 편집 가능한 텍스트 레이어 " +
+        msg.texts + "개를 만들었습니다.";
+      if (msg.missingBackgrounds > 0) {
+        text += "\n배경 이미지를 찾지 못한 슬라이드 " + msg.missingBackgrounds +
+                "장은 단색으로 두었습니다.";
+      }
+      text += "\n\n텍스트를 더블클릭해 바로 고칠 수 있는지 확인해 주세요.";
+      setStatus(text, "ok");
+    }
+  };
+</script>
+</body>
+</html>

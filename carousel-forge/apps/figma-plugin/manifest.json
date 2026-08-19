@@ -1,0 +1,13 @@
+{
+  "name": "Carousel Forge",
+  "id": "carousel-forge",
+  "api": "1.0.0",
+  "main": "dist/code.js",
+  "ui": "dist/ui.html",
+  "editorType": ["figma"],
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": ["none"],
+    "reasoning": "manifest와 배경 이미지는 사용자가 로컬에서 고른 파일로만 들어온다. 네트워크로 가져오는 경로가 없다."
+  }
+}

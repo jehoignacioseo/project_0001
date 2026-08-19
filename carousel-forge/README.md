@@ -12,7 +12,13 @@
 |---|---|---|
 | **M0** | 스캐폴딩·DB 스키마·config·타입 생성 | ✅ 완료 |
 | **M1** | 렌더 파이프라인 (HTML → PNG + SVG + manifest) | ✅ 완료 |
-| M2~M8 | 에이전트·Figma 플러그인·라이브러리 UI | ⬜ 미착수 |
+| **M2** | A2 TopicIntake + A4 Architect + A5 CopySmith | ✅ 완료 |
+| **M3** | A1 StyleForensics (스크린샷 → StyleDNA + 검증 렌더) | ✅ 완료 |
+| **M4** | A7 ArtDirector + A8 Compositor + A9 QualityGate + 폐기·재생성 루프 | ✅ 완료 |
+| **M6** | Figma 플러그인 (manifest → 편집 가능한 프레임) | ✅ 완료 |
+| M5 | A6 FactChecker + A3 TrendScout | ⬜ 미착수 |
+| M7 | A10 Localizer + 샤오홍슈 어댑터 | ⬜ 미착수 |
+| M8 | 라이브러리 UI + 리믹스 + 성과 피드백 | ⬜ 미착수 |
 
 구현된 에이전트는 A1·A2·A4·A5·A7·A8·A9 일곱이다. 나머지(A3·A6·A10)는 클래스와 단계만
 정의돼 있고 `run`은 `NotImplementedError`를 낸다. API도 해당 엔드포인트에서 501을
@@ -49,6 +55,9 @@ export ANTHROPIC_API_KEY=...
 # M4 end-to-end: 배경 생성 → 합성 → 품질 게이트 → 폐기·재생성
 .venv/bin/python scripts/demo_m4.py --keyword 러닝입문 --from-briefs
 .venv/bin/python scripts/demo_m4.py --keyword 러닝입문 --from-briefs --fail-slides 3  # 재생성 루프 확인
+
+# M6 Figma 플러그인
+cd apps/figma-plugin && npm install && npm run build && npm test
 
 # PNG과 SVG가 정말 같은 좌표에서 나왔는지 픽셀로 대조
 .venv/bin/python scripts/verify_render.py storage/exports/deskreset_demo0001_instagram_ko
@@ -111,9 +120,13 @@ RenderSet (배경 참조 + CopyBlock, 분리 상태)
 2. **자동 — 픽셀 대조.** `scripts/verify_render.py`가 내보낸 SVG를 다시 Chromium으로
    래스터화해 업로드용 이미지와 비교하고, ±1px 이동해봤을 때 더 잘 맞는지 확인한다.
    최적 이동이 `(0,0)`이 아니면 좌표가 밀린 것이다.
-3. **육안 — Figma.** `04_reference/fonts/`의 폰트를 설치한 뒤
-   `02_figma/slide_01.svg`를 Figma 캔버스로 끌어다 놓고, 텍스트를 더블클릭한다.
-   커서가 들어가 글자를 고칠 수 있으면 통과. 벡터 도형(Vector)으로 잡히면 실패다.
+3. **자동 — 노드 대조.** M6 플러그인의 테스트가 가짜 Figma API로 노드 생성까지
+   돌려, 카피가 벡터가 아니라 TextNode가 되는지·폰트를 글자보다 먼저 불러오는지·
+   카피가 하나도 빠지지 않는지 확인한다 (`apps/figma-plugin`, 31개).
+4. **육안 — Figma.** `04_reference/fonts/`의 폰트를 설치한 뒤, 플러그인으로
+   `02_figma/manifest.json`을 불러오거나 `slide_01.svg`를 캔버스로 끌어다 놓고
+   텍스트를 더블클릭한다. 커서가 들어가 글자를 고칠 수 있으면 통과. 벡터
+   도형(Vector)으로 잡히면 실패다. **이 단계만은 사람이 한 번 해봐야 한다.**
 
 ## 디렉터리
 
