@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Procedurally generate royalty-free audio assets with numpy (no downloads):
-  sfx_whoosh.wav, sfx_pop.wav, sfx_ding.wav, sfx_click.wav, music_lofi.wav (looping bed)
+  sfx_whoosh/pop/ding/click/cash/beep/thud/riser/chime.wav, music_lofi.wav (looping bed)
 All synthesized here -> no copyright exposure."""
 import math
 import wave
@@ -110,8 +110,60 @@ def lofi(bars=8, bpm=84):
     return y
 
 
+def cash(dur=0.7):
+    """Register 'ka-ching': metallic click + bell."""
+    n = int(SR * dur); t = np.arange(n) / SR
+    click_ = np.random.randn(n) * np.exp(-t * 90) * 0.8
+    bell = (np.sin(2 * np.pi * 2093 * t) + 0.6 * np.sin(2 * np.pi * 3136 * t) + 0.3 * np.sin(2 * np.pi * 4186 * t))
+    bell = bell * np.exp(-np.maximum(t - 0.06, 0) * 6) * (t > 0.06)
+    return (click_ + bell * 0.5) / 1.8
+
+
+def beep(dur=0.45):
+    """Barcode scanner: two short 1.2 kHz beeps."""
+    n = int(SR * dur); t = np.arange(n) / SR
+    x = np.sin(2 * np.pi * 1245 * t)
+    g = ((t < 0.09) | ((t > 0.2) & (t < 0.29))).astype(float)
+    return x * g * 0.6
+
+
+def thud(dur=0.5):
+    """Low impact for shouted captions."""
+    n = int(SR * dur); t = np.arange(n) / SR
+    f = 140 * np.exp(-t * 18) + 45
+    x = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t * 9)
+    x += np.random.randn(n) * np.exp(-t * 60) * 0.25
+    return x / (np.abs(x).max() + 1e-9) * 0.9
+
+
+def riser(dur=0.9):
+    """Noise sweep rising into the score card."""
+    n = int(SR * dur); t = np.arange(n) / SR
+    noise = np.random.randn(n)
+    f = 300 + 5000 * (t / dur) ** 2
+    out = np.zeros(n); y = 0.0
+    for i in range(n):
+        a = min(1.0, f[i] / SR * 2 * math.pi)
+        y += a * (noise[i] - y)
+        out[i] = y
+    out = out / (np.abs(out).max() + 1e-9)
+    return out * (t / dur) ** 1.5 * 0.7
+
+
+def chime(dur=1.1):
+    """Two-note 'ta-da' for the score reveal (C6 -> G6)."""
+    n = int(SR * dur); t = np.arange(n) / SR
+    def tone(f, t0):
+        tt = np.maximum(t - t0, 0)
+        return (np.sin(2 * np.pi * f * tt) + 0.4 * np.sin(2 * np.pi * 2 * f * tt)) * np.exp(-tt * 3.5) * (t >= t0)
+    return (tone(1046.5, 0.0) + tone(1568.0, 0.14)) * 0.4
+
+
 if __name__ == "__main__":
     np.random.seed(7)
-    for name, fn in [("sfx_whoosh.wav", whoosh), ("sfx_pop.wav", pop), ("sfx_ding.wav", ding),
-                     ("sfx_click.wav", click), ("music_lofi.wav", lofi)]:
-        p = save(name, fn()); print(p)
+    for name, fn in (("sfx_whoosh.wav", whoosh), ("sfx_pop.wav", pop), ("sfx_ding.wav", ding),
+                     ("sfx_click.wav", click), ("music_lofi.wav", lofi), ("sfx_cash.wav", cash),
+                     ("sfx_beep.wav", beep), ("sfx_thud.wav", thud), ("sfx_riser.wav", riser),
+                     ("sfx_chime.wav", chime)):
+        save(name, fn())
+        print("wrote", name)

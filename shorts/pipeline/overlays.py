@@ -193,19 +193,20 @@ def title_band(path, lines, width, band_h, scale=1.0):
     cols = {"white": (255, 255, 255, 255), "yellow": (255, 229, 0, 255), "small": (210, 210, 210, 255)}
     big = [ln for ln in lines if ln[1] != "small"]
     small = [ln for ln in lines if ln[1] == "small"]
-    size = int(118 * scale)
-    # shrink big lines until the widest fits
-    def wide(sz):
-        fs = _fonts(F_BLACKHAN, sz)
-        return max(_mixed_w_fonts(d, t, fs, sz) for t, _ in big) if big else 0
-    while wide(size) > width * 0.94 and size > 40:
-        size -= 4
-    fs = _fonts(F_BLACKHAN, size)
+    target = int(width * 0.90)
+    # each big line gets its own size so every line spans the same width (flush edges)
+    def fit(t):
+        sz = int(150 * scale)
+        while sz > 40 and _mixed_w_fonts(d, t, _fonts(F_BLACKHAN, sz), sz) > target:
+            sz -= 2
+        return sz
+    sizes = [fit(t) for t, _ in big]
     s_size = int(44 * scale)
     fs_small = _fonts(F_PRETENDARD_XB, s_size)
-    total_h = len(big) * int(size * 1.12) + len(small) * int(s_size * 1.4)
+    total_h = sum(int(sz * 1.12) for sz in sizes) + len(small) * int(s_size * 1.4)
     y = (band_h - total_h) // 2
-    for t, c in big:
+    for (t, c), size in zip(big, sizes):
+        fs = _fonts(F_BLACKHAN, size)
         w = _mixed_w_fonts(d, t, fs, size)
         _mixed_text_fonts(img, d, ((width - w) // 2, y), t, fs, size, cols[c])
         y += int(size * 1.12)

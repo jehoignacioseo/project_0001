@@ -121,8 +121,10 @@ def _measure_line(d, line, fonts, size):
     return w
 
 
-def _wrap(d, text, fonts, size, max_w):
-    words = text.split(" ")
+PUNCT_END = (".", "!", "?", ":", ",", ";", "—", "·")
+
+
+def _greedy(d, words, fonts, size, max_w):
     lines, cur = [], ""
     for wd in words:
         cand = (cur + " " + wd).strip()
@@ -134,6 +136,32 @@ def _wrap(d, text, fonts, size, max_w):
     if cur:
         lines.append(cur)
     return lines
+
+
+def _wrap(d, text, fonts, size, max_w):
+    """Wrap for captions: '|' or newline forces a break; otherwise a one-liner if it fits,
+    else the 2-line split that balances widths and prefers breaking after punctuation
+    (so '400 fridges. 0 humans.' becomes '400 fridges.' / '0 humans.', never 'fridges. 0' / 'humans.')."""
+    text = text.replace("\n", "|")
+    if "|" in text:
+        return [t.strip() for t in text.split("|") if t.strip()]
+    words = text.split()
+    if _measure_line(d, text, fonts, size) <= max_w or len(words) < 2:
+        return [text]
+    best, best_score = None, None
+    for i in range(1, len(words)):
+        a, b = " ".join(words[:i]), " ".join(words[i:])
+        wa, wb = _measure_line(d, a, fonts, size), _measure_line(d, b, fonts, size)
+        if wa > max_w or wb > max_w:
+            continue
+        score = abs(wa - wb)
+        if words[i - 1].endswith(PUNCT_END):
+            score -= max_w * 0.45          # strong preference for sentence/clause boundaries
+        if len(words[:i]) == 1 or len(words[i:]) == 1:
+            score += max_w * 0.15          # avoid a lonely single word unless it is a clause
+        if best_score is None or score < best_score:
+            best, best_score = [a, b], score
+    return best or _greedy(d, words, fonts, size, max_w)
 
 
 def render_caption(path, text, style, W, H, portrait, scale_factor=1.0):

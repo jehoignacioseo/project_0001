@@ -124,7 +124,7 @@ def render(ep, ep_dir, out_dir, mode):
         parts.append(p)
         for c in seg.get("captions", []):
             captions.append({"start": t + float(c["t"]), "end": t + float(c["t"]) + float(c.get("d", 2.0)),
-                             "text": c["text"], "style": c.get("style", "pop")})
+                             "text": c["text"], "style": c.get("style", "pop"), "sfx": c.get("sfx", "auto")})
         t += dur
     body_end = t
     base = _concat(parts, tmp / "body.mp4")
@@ -203,7 +203,7 @@ def render(ep, ep_dir, out_dir, mode):
                   f"adelay={vdelay}|{vdelay},apad[vo];")
         layers.append("vo")
     # music bed, looped to length, ducked under the voiceover
-    mus = ep.get("music", {"file": "music_lofi.wav", "gain_db": -22})
+    mus = ep.get("music", {"file": "music_lofi.wav", "gain_db": -19})
     if mus and mus.get("file"):
         mpath = ep_dir / mus["file"] if (ep_dir / mus["file"]).exists() else ASSETS / mus["file"]
         if mpath.exists():
@@ -225,8 +225,29 @@ def render(ep, ep_dir, out_dir, mode):
     sfx = []
     if ep.get("sfx", True):
         sfx += [("sfx_whoosh.wav", t, -14) for t in cuts]
-        sfx += [("sfx_pop.wav", c["start"], -12) for c in captions if c["style"] != "note"]
-        sfx += [("sfx_ding.wav", c["start"], -10) for c in captions if "DING" in c["text"].upper() or "🔔" in c["text"]]
+        sfx.append(("sfx_whoosh.wav", body_end, -12))                      # into the end card
+        for c in captions:
+            if c["style"] == "note":
+                continue
+            custom = c.get("sfx", "auto")
+            if custom is None or custom is False:
+                continue
+            if custom != "auto":
+                sfx.append((f"sfx_{custom}.wav", c["start"], -10)); continue
+            up = c["text"].upper()
+            if "DING" in up or "🔔" in c["text"]:
+                sfx.append(("sfx_ding.wav", c["start"], -10))
+            elif c["style"] == "price" or "₩" in c["text"] or "$" in c["text"]:
+                sfx.append(("sfx_cash.wav", c["start"], -10))
+            elif any(k in up for k in ("CASHIER", "SCAN", "PAY", "📱")):
+                sfx.append(("sfx_beep.wav", c["start"], -12))
+            elif c["style"] == "shout":
+                sfx.append(("sfx_thud.wav", c["start"], -8))
+            else:
+                sfx.append(("sfx_pop.wav", c["start"], -12))
+        if score_at is not None:
+            sfx.append(("sfx_riser.wav", max(0.0, score_at - 0.9), -14))
+            sfx.append(("sfx_chime.wav", score_at, -11))
     for k, (name, at, g) in enumerate(sfx):
         fi = add_audio(str(ASSETS / name))
         d = int(at * 1000)
