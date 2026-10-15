@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch",
+      "Read",
+      "Glob",
+      "Grep",
+      "Bash(ls *)",
+      "Bash(cat *)",
+      "Bash(git status*)",
+      "Bash(git log*)",
+      "Bash(git diff*)",
+      "Bash(ffmpeg *)",
+      "Bash(ffprobe *)",
+      "mcp__Apify__search-actors",
+      "mcp__Apify__fetch-actor-details",
+      "mcp__Apify__call-actor",
+      "mcp__Apify__get-actor-run",
+      "mcp__Apify__get-dataset-items",
+      "mcp__Apify__get-key-value-store-record",
+      "mcp__Apify__apify--rag-web-browser",
+      "mcp__Apify__apify--web-fetch",
+      "mcp__HIGGSFIELD__balance",
+      "mcp__HIGGSFIELD__models_explore",
+      "mcp__HIGGSFIELD__jobs_wait",
+      "mcp__HIGGSFIELD__show_generation_by_ids",
+      "mcp__HIGGSFIELD__show_generations",
+      "mcp__HIGGSFIELD__list_voices",
+      "mcp__HIGGSFIELD__list_projects",
+      "mcp__HIGGSFIELD__list_folders",
+      "mcp__HIGGSFIELD__get_presets",
+      "mcp__HIGGSFIELD__get_workflow_instructions",
+      "mcp__HIGGSFIELD__get_preset_instructions",
+      "mcp__HIGGSFIELD__virality_predictor",
+      "mcp__HIGGSFIELD__media_upload",
+      "mcp__HIGGSFIELD__media_confirm",
+      "mcp__HIGGSFIELD__media_import_url"
+    ]
+  }
+}
