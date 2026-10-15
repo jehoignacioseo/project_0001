@@ -216,16 +216,19 @@ def render(ep, ep_dir, out_dir, mode):
                 chain += "[mus0]anull[mus];"
             layers.append("mus")
     # auto SFX: whoosh on every cut, pop on every caption, ding when a caption says DING
+    # whoosh only on cuts the episode marks as scene changes ("whoosh": true on the segment),
+    # or on every cut when ep["whoosh"] == "all"
     cuts = []
     tt = 2.5 if mode == "longform" else 0.0
+    whoosh_all = ep.get("whoosh") == "all"
     for sgm in segs:
-        if tt > 0.2:
+        if tt > 0.2 and (whoosh_all or sgm.get("whoosh")):
             cuts.append(tt)
         tt += (float(sgm.get("out")) - float(sgm.get("in", 0))) / float(sgm.get("speed", 1.0))
     sfx = []
     if ep.get("sfx", True):
-        sfx += [("sfx_whoosh.wav", t, -14) for t in cuts]
-        sfx.append(("sfx_whoosh.wav", body_end, -12))                      # into the end card
+        sfx += [("sfx_whoosh.wav", t, -17) for t in cuts]
+        sfx.append(("sfx_whoosh.wav", body_end, -15))                      # into the end card
         for c in captions:
             if c["style"] == "note":
                 continue
