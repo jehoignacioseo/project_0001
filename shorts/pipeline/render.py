@@ -23,16 +23,22 @@ FPS = 30
 END_CARD_SEC = 3.0
 
 
-def _vf_fit(src_portrait, W, H, portrait_out, crop_x=0.5, crop_y=0.5, zoom=1.0):
+def _vf_fit(src_portrait, W, H, portrait_out, crop_x=0.5, crop_y=0.5, zoom=1.0, fit="crop", pan=None, dur=1.0):
     """Video filter that fits any source into WxH.
     Same orientation -> scale+crop (crop_x/crop_y 0..1 pick the window).
     Landscape source into portrait output -> scale to fill height and crop a
     window horizontally (crop_x), optional zoom. Portrait into landscape ->
     blurred background fill."""
-    if src_portrait == portrait_out or (not src_portrait and portrait_out):
+    if fit == "crop" and (src_portrait == portrait_out or (not src_portrait and portrait_out)):
+        if pan:   # slow horizontal pan across the frame: pan=[x0, x1] in 0..1 over the segment
+            x_expr = f"(in_w-out_w)*({pan[0]}+({pan[1]}-{pan[0]})*min(t/{dur:.3f}\\,1))"
+        else:
+            x_expr = f"(in_w-out_w)*{crop_x}"
         return (f"scale={W}:{H}:force_original_aspect_ratio=increase,"
                 f"scale=iw*{zoom}:ih*{zoom},"
-                f"crop={W}:{H}:(in_w-out_w)*{crop_x}:(in_h-out_h)*{crop_y},setsar=1,fps={FPS}")
+                f"crop={W}:{H}:{x_expr}:(in_h-out_h)*{crop_y},setsar=1,fps={FPS}")
+    if fit == "contain" and src_portrait == portrait_out:
+        return f"scale={W}:{H}:force_original_aspect_ratio=decrease,pad={W}:{H}:(ow-iw)/2:(oh-ih)/2,setsar=1,fps={FPS}"
     # blurred fill
     return (f"split=2[bg][fg];"
             f"[bg]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},"
@@ -51,7 +57,8 @@ def _normalize_segment(seg, idx, tmp, W, H, portrait_out, ep_dir):
     t_out = float(seg.get("out", info["duration"]))
     out = tmp / f"seg{idx:02d}.mp4"
     vf = _vf_fit(info["portrait"], W, H, portrait_out,
-                 float(seg.get("crop_x", 0.5)), float(seg.get("crop_y", 0.5)), float(seg.get("zoom", 1.0)))
+                 float(seg.get("crop_x", 0.5)), float(seg.get("crop_y", 0.5)), float(seg.get("zoom", 1.0)),
+                 seg.get("fit", "crop"), seg.get("pan"), (t_out - t_in) / speed)
     if speed != 1.0:
         vf += f",setpts=PTS/{speed}"
     af = f"atempo={min(max(speed, 0.5), 2.0)}" if speed != 1.0 else "anull"

@@ -33,9 +33,15 @@ def _mixed_text(img, d, xy, text, font, size, fill):
 
 
 
+from pathlib import Path
+_FD = Path(__file__).resolve().parent / "fonts"
+
+
 def _font(size, heavy=False):
+    """heavy=False -> Pretendard Black (display), heavy=True -> Pretendard ExtraBold (text)."""
+    f = _FD / ("Pretendard-ExtraBold.otf" if heavy else "Pretendard-Black.otf")
     try:
-        return ImageFont.truetype(FONT_FILE_HEAVY if heavy else FONT_FILE_BOLD, size)
+        return ImageFont.truetype(str(f), size)
     except OSError:
         return ImageFont.truetype(FONT_FILE_HEAVY, size)
 
