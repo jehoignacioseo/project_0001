@@ -119,18 +119,48 @@ def score_card(path, score, comment, price, width, scale=1.0):
     return path
 
 
-def end_card(path, next_text, cta, width, height, scale=1.0):
-    """Full-frame translucent end card: NEXT + CTA."""
+def _wrap(d, text, f, sz, max_w):
+    """Greedy word wrap on rendered width (handles emoji runs)."""
+    words, lines, cur = text.split(), [], ""
+    for w in words:
+        trial = (cur + " " + w).strip()
+        if cur and _mixed_w(d, trial, f, sz) > max_w:
+            lines.append(cur); cur = w
+        else:
+            cur = trial
+    if cur:
+        lines.append(cur)
+    return lines
+
+
+def end_card(path, next_text, cta, width, height, scale=1.0, subscribe="SUBSCRIBE for the next one"):
+    """Full-frame translucent end card. With next_text: NEXT + title + CTA.
+    Without: the CTA question (wrapped) + a subscribe line."""
     img = Image.new("RGBA", (width, height), (0, 0, 0, 150))
     d = ImageDraw.Draw(img)
-    f_small = _font(int(48 * scale))
-    f_next = _font(int(72 * scale))
-    f_cta = _font(int(54 * scale), heavy=True)
-    y = int(height * 0.36)
-    for text, f, sz, col in (("NEXT  ▶", f_small, int(48 * scale), (255, 214, 0, 255)), (next_text, f_next, int(72 * scale), (255, 255, 255, 255)), ("", f_small, int(48 * scale), (0, 0, 0, 0)), (cta, f_cta, int(54 * scale), (200, 200, 200, 255))):
-        tw = _mixed_w(d, text, f, sz)
-        _mixed_text(img, d, ((width - tw) // 2, y), text, f, sz, col)
-        y += int(sz * 1.3) + int(28 * scale)
+    max_w = int(width * 0.86)
+    rows = []
+    if next_text:
+        rows.append(("NEXT  ▶", _font(int(48 * scale)), int(48 * scale), (255, 214, 0, 255)))
+        for ln in _wrap(d, next_text, _font(int(72 * scale)), int(72 * scale), max_w):
+            rows.append((ln, _font(int(72 * scale)), int(72 * scale), (255, 255, 255, 255)))
+        rows.append(("", None, int(30 * scale), None))
+        for ln in _wrap(d, cta, _font(int(54 * scale), heavy=True), int(54 * scale), max_w):
+            rows.append((ln, _font(int(54 * scale), heavy=True), int(54 * scale), (200, 200, 200, 255)))
+    else:
+        sz = int(74 * scale)
+        for ln in _wrap(d, cta, _font(sz), sz, max_w):
+            rows.append((ln, _font(sz), sz, (255, 255, 255, 255)))
+        rows.append(("", None, int(34 * scale), None))
+        for ln in _wrap(d, subscribe, _font(int(50 * scale), heavy=True), int(50 * scale), max_w):
+            rows.append((ln, _font(int(50 * scale), heavy=True), int(50 * scale), (255, 214, 0, 255)))
+    total_h = sum(int(sz * 1.3) + int(16 * scale) for _, _, sz, _ in rows)
+    y = (height - total_h) // 2
+    for text, f, sz, col in rows:
+        if text:
+            tw = _mixed_w(d, text, f, sz)
+            _mixed_text(img, d, ((width - tw) // 2, y), text, f, sz, col)
+        y += int(sz * 1.3) + int(16 * scale)
     img.save(path)
     return path
 

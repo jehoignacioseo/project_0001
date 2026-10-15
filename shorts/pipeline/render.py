@@ -135,7 +135,7 @@ def render(ep, ep_dir, out_dir, mode):
     badge = day_badge(str(tmp / "badge.png"), ep["day"], tag, scale)
     prog = progress_bar(str(tmp / "prog.png"), ep["number"], ep.get("total") or max(ep["number"], 10), W, scale)
     card = score_card(str(tmp / "score.png"), ep["score"], ep.get("comment", ""), ep["price"], W, scale)
-    endc = end_card(str(tmp / "end.png"), ep.get("next") or "More combos coming", ep.get("cta", "Follow for the next one"), W, H, scale)
+    endc = end_card(str(tmp / "end.png"), ep.get("next"), ep.get("cta", "Follow for the next one"), W, H, scale)
     score_at = float(ep.get("longform_score_at", max(0.0, body_end - 7.0))) if mode == "longform" else float(ep.get("score_at", max(0.0, body_end - 7.0)))
     score_d = float(ep.get("score_duration", 4.0))
     total = body_end + END_CARD_SEC
