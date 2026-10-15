@@ -116,7 +116,7 @@ def render(ep, ep_dir, out_dir, mode):
     prog = progress_bar(str(tmp / "prog.png"), ep["number"], ep["total"], W, scale)
     card = score_card(str(tmp / "score.png"), ep["score"], ep.get("comment", ""), ep["price"], W, scale)
     endc = end_card(str(tmp / "end.png"), ep.get("next", ""), ep.get("cta", "Follow for the next one"), W, H, scale)
-    score_at = float(ep.get("score_at", max(0.0, body_end - 7.0)))
+    score_at = float(ep.get("longform_score_at", max(0.0, body_end - 7.0))) if mode == "longform" else float(ep.get("score_at", max(0.0, body_end - 7.0)))
     score_d = float(ep.get("score_duration", 4.0))
     total = body_end + END_CARD_SEC
     sting = _sting(tmp)
