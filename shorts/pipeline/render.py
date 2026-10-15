@@ -69,6 +69,9 @@ def _normalize_segment(seg, idx, tmp, W, H, portrait_out, ep_dir, top=0, bottom=
     if speed != 1.0:
         vf += f",setpts=PTS/{speed}"
     af = f"atempo={min(max(speed, 0.5), 2.0)}" if speed != 1.0 else "anull"
+    amb = float(seg.get("amb_gain_db", 0.0))
+    if amb:
+        af += f",volume={amb}dB"
     cmd = ["ffmpeg", "-y", "-v", "error", "-ss", f"{t_in:.3f}", "-to", f"{t_out:.3f}", "-i", str(src)]
     if not info["has_audio"]:
         cmd += ["-f", "lavfi", "-t", f"{(t_out - t_in) / speed:.3f}", "-i", "anullsrc=r=48000:cl=stereo"]
@@ -106,7 +109,7 @@ def render(ep, ep_dir, out_dir, mode):
     parts, captions, t = [], [], 0.0
     if mode == "longform":
         tc = tmp / "title.png"
-        title_card(str(tc), ep["title_en"], f"{ep['series']} #{ep['number']}/{ep['total']}  ·  {ep['title_ko']}", W, H)
+        title_card(str(tc), ep["title_en"], f"{ep['series']} #{ep['number']}" + (f"/{ep['total']}" if ep.get("total") else "") + f"  ·  {ep['title_ko']}", W, H)
         tcv = tmp / "title.mp4"
         run(["ffmpeg", "-y", "-v", "error", "-loop", "1", "-t", "2.5", "-i", str(tc),
              "-f", "lavfi", "-t", "2.5", "-i", "anullsrc=r=48000:cl=stereo",
@@ -127,11 +130,12 @@ def render(ep, ep_dir, out_dir, mode):
     base = _concat(parts, tmp / "body.mp4")
 
     # --- overlays -------------------------------------------------------
-    tag = f"{ep['series']} #{ep['number']:02d}/{ep['total']}"
+    tag = (f"{ep['series']} #{ep['number']:02d}/{ep['total']}" if ep.get("total")
+           else f"COMBO #{ep['number']}")
     badge = day_badge(str(tmp / "badge.png"), ep["day"], tag, scale)
-    prog = progress_bar(str(tmp / "prog.png"), ep["number"], ep["total"], W, scale)
+    prog = progress_bar(str(tmp / "prog.png"), ep["number"], ep.get("total") or max(ep["number"], 10), W, scale)
     card = score_card(str(tmp / "score.png"), ep["score"], ep.get("comment", ""), ep["price"], W, scale)
-    endc = end_card(str(tmp / "end.png"), ep.get("next", ""), ep.get("cta", "Follow for the next one"), W, H, scale)
+    endc = end_card(str(tmp / "end.png"), ep.get("next") or "More combos coming", ep.get("cta", "Follow for the next one"), W, H, scale)
     score_at = float(ep.get("longform_score_at", max(0.0, body_end - 7.0))) if mode == "longform" else float(ep.get("score_at", max(0.0, body_end - 7.0)))
     score_d = float(ep.get("score_duration", 4.0))
     total = body_end + END_CARD_SEC
@@ -144,7 +148,8 @@ def render(ep, ep_dir, out_dir, mode):
     if band:
         tb = title_band(str(tmp / "tband.png"), [tuple(x) for x in ep["title_band"]], W, top, scale)
         bb = bottom_band(str(tmp / "bband.png"), f"DAY {ep['day']:02d}  ·  {tag}",
-                         ep.get("teaser", f"NEXT ▶ {ep.get('next', '')}"), W, bottom, scale)
+                         ep.get("teaser") or (f"NEXT ▶ {ep['next']}" if ep.get("next") else "Comment a combo I should try 👇"),
+                         W, bottom, scale)
         ov += [(tb, "0", "0", 0, total), (bb, "0", str(H - bottom), 0, total)]
     else:
         ov += [(badge, str(badge_x), str(badge_y), 0, total), (prog, "0", "0", 0, total)]
@@ -173,11 +178,63 @@ def render(ep, ep_dir, out_dir, mode):
         nxt = f"v{i + 1}"
         chain += f"[{cur}][{i + 1}:v]overlay={x}:{y}:enable='between(t,{s0:.3f},{s1:.3f})'[{nxt}];"
         cur = nxt
-    inputs += ["-i", str(sting)]
-    sting_idx = len(ov) + 1
-    chain += (f"[{cur}]format=yuv420p[vout];"
-              f"[0:a]asetpts=N/SR/TB,apad=pad_dur={END_CARD_SEC},loudnorm=I=-16:TP=-1.5:LRA=11[a0];"
-              f"[{sting_idx}:a]adelay=0|0[st];[a0][st]amix=inputs=2:duration=first:normalize=0[aout]")
+    chain += f"[{cur}]format=yuv420p[vout];"
+    # ---- audio layers --------------------------------------------------
+    ASSETS = Path(__file__).resolve().parent / "assets"
+    audio_in = []           # (label, path)
+    def add_audio(path):
+        audio_in.append(path)
+        return len(ov) + len(audio_in)   # ffmpeg input index (0 = base video)
+    layers = []
+    # ambience (already gain-adjusted per segment), padded for the end card
+    chain += f"[0:a]asetpts=N/SR/TB,apad=pad_dur={END_CARD_SEC}[amb];"
+    layers.append("amb")
+    # opening sting
+    si = add_audio(str(sting))
+    chain += f"[{si}:a]adelay=0|0[st];"
+    layers.append("st")
+    # voiceover
+    vo = ep.get("voiceover")
+    if vo and Path(ep_dir / vo["file"]).exists():
+        vi = add_audio(str(ep_dir / vo["file"]))
+        vdelay = int(float(vo.get("start", 0.3)) * 1000)
+        vtempo = float(vo.get("tempo", 1.0))
+        chain += (f"[{vi}:a]aresample=48000,atempo={vtempo},volume={float(vo.get('gain_db', 0)):.1f}dB,"
+                  f"adelay={vdelay}|{vdelay},apad[vo];")
+        layers.append("vo")
+    # music bed, looped to length, ducked under the voiceover
+    mus = ep.get("music", {"file": "music_lofi.wav", "gain_db": -22})
+    if mus and mus.get("file"):
+        mpath = ep_dir / mus["file"] if (ep_dir / mus["file"]).exists() else ASSETS / mus["file"]
+        if mpath.exists():
+            mi = add_audio(str(mpath))
+            chain += (f"[{mi}:a]aloop=loop=-1:size=2e9,atrim=0:{total + 1:.2f},"
+                      f"afade=t=out:st={total - 1.5:.2f}:d=1.5,volume={float(mus.get('gain_db', -22)):.1f}dB[mus0];")
+            if "vo" in layers:
+                chain += "[vo]asplit=2[vo][vok];[mus0][vok]sidechaincompress=threshold=0.02:ratio=6:attack=20:release=400[mus];"
+            else:
+                chain += "[mus0]anull[mus];"
+            layers.append("mus")
+    # auto SFX: whoosh on every cut, pop on every caption, ding when a caption says DING
+    cuts = []
+    tt = 2.5 if mode == "longform" else 0.0
+    for sgm in segs:
+        if tt > 0.2:
+            cuts.append(tt)
+        tt += (float(sgm.get("out")) - float(sgm.get("in", 0))) / float(sgm.get("speed", 1.0))
+    sfx = []
+    if ep.get("sfx", True):
+        sfx += [("sfx_whoosh.wav", t, -14) for t in cuts]
+        sfx += [("sfx_pop.wav", c["start"], -12) for c in captions if c["style"] != "note"]
+        sfx += [("sfx_ding.wav", c["start"], -10) for c in captions if "DING" in c["text"].upper() or "🔔" in c["text"]]
+    for k, (name, at, g) in enumerate(sfx):
+        fi = add_audio(str(ASSETS / name))
+        d = int(at * 1000)
+        chain += f"[{fi}:a]volume={g}dB,adelay={d}|{d}[sfx{k}];"
+        layers.append(f"sfx{k}")
+    chain += "".join(f"[{l}]" for l in layers) + f"amix=inputs={len(layers)}:duration=first:normalize=0,loudnorm=I=-15:TP=-1.5:LRA=9[aout]"
+    for a in audio_in:
+        inputs += ["-i", a]
     out = out_dir / f"{ep['id']}_{mode}.mp4"
     run(["ffmpeg", "-y", "-v", "error", *inputs, "-filter_complex", chain, "-map", "[vout]", "-map", "[aout]",
          "-t", f"{total:.3f}", "-c:v", "libx264", "-preset", "medium", "-crf", "19", "-r", str(FPS),
