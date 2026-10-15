@@ -1,26 +1,60 @@
-# 유튜브 채널·업로드 자동화 설정 (사용자가 1회만 하면 되는 것)
+# 유튜브 채널 + 자동 업로드 설정 (딱 한 번만, 약 25분)
 
-## A. 채널 개설 (5분)
-1. 구글 계정으로 youtube.com 로그인 → 프로필 → "채널 만들기".
-2. 채널명: 영어 우선 (예: Seoul Food Diary). 핸들 @seoulfooddiary 확보.
-3. 설정 → 채널 → 기본 정보: 거주 국가 대한민국, 키워드 "korean food, convenience store, street food, seoul".
-4. 전화 인증(고급 기능 해제): 썸네일 업로드·15분 이상 영상에 필요. 지금 해두는 게 좋음.
-5. 배너·프로필 이미지는 제가 만들어 드림(채널명 확정 후).
+B·C 단계는 **PC 크롬**에서 하세요. 휴대폰으로는 버튼이 숨어 있어 훨씬 오래 걸립니다.
+결과물은 "열쇠 3개"(클라이언트 ID, 클라이언트 보안 비밀, 리프레시 토큰)입니다. 이 3개를 Claude 환경에 넣으면 끝입니다.
+열쇠는 절대 채팅에 붙여넣지 마세요.
 
-## B. YouTube Data API 자동 업로드 (15분, 한 번만)
-1. console.cloud.google.com → 새 프로젝트 (이름 자유).
-2. "API 및 서비스 → 라이브러리" → **YouTube Data API v3** 사용 설정.
-3. "OAuth 동의 화면" → 외부(External) → 앱 이름·이메일 입력 → 범위에 `https://www.googleapis.com/auth/youtube.upload` 와 `https://www.googleapis.com/auth/youtube.readonly` 추가 → 테스트 사용자에 본인 이메일 추가.
-4. **게시 상태를 "프로덕션"으로 전환**(미검증 경고가 떠도 본인 계정은 사용 가능). 테스트 상태로 두면 토큰이 7일마다 만료됨.
-5. "사용자 인증 정보" → OAuth 클라이언트 ID → 유형 **웹 애플리케이션** → 승인된 리디렉션 URI에 `https://developers.google.com/oauthplayground` 추가 → 클라이언트 ID / 보안 비밀 확보.
-6. developers.google.com/oauthplayground → 오른쪽 톱니 → "Use your own OAuth credentials" 체크 → ID/비밀 입력 → 왼쪽에서 YouTube Data API v3의 `youtube.upload`, `youtube.readonly` 선택 → Authorize → 본인 계정 승인 → "Exchange authorization code for tokens" → **Refresh token** 복사.
-7. 세 값을 **이 클라우드 환경의 환경 설정(세션 제목줄의 환경 메뉴 → Edit → Network secrets 또는 환경 변수)** 에 저장. 채팅에 붙여넣지 말 것.
-   - `YT_CLIENT_ID`
-   - `YT_CLIENT_SECRET`
-   - `YT_REFRESH_TOKEN`
-   새 세션부터 제가 읽어서 업로드·지표 수집을 합니다.
+## A. 채널 만들기 (휴대폰으로도 됨, 5분)
+1. youtube.com 로그인 → 오른쪽 위 프로필 사진 → **채널 만들기**.
+2. 이름은 영어로 (예: Seoul Food Diary). 핸들은 @seoulfooddiary 처럼 짧게.
+3. YouTube Studio → 설정 → 채널 → **기능 사용 자격요건** → 전화번호 인증 (썸네일 업로드에 필요).
+4. 배너·프로필 이미지는 채널명이 정해지면 제가 만들어 드립니다.
 
-## C. 알아둘 제약
-- 구글의 API 규정 심사(YouTube API Services compliance audit)를 통과하기 전에는 **API로 올린 영상이 비공개로 올라갈 수 있음**. 대응: 제가 비공개로 올리고 제목·설명·썸네일까지 채워 두면, 사용자는 YouTube Studio에서 "공개"로 바꾸기만 하면 됨(하루 30초). 심사 신청은 제가 양식을 준비해 드리고 사용자가 제출(보통 1~3주).
-- 업로드 1건당 API 할당량 1,600 유닛, 일일 기본 10,000 → 하루 6편까지. 우리 계획(1~2편)엔 충분.
-- Google Drive는 이미 연결돼 있어 촬영 원본 수신엔 추가 설정 불필요.
+## B. 구글에 "업로드 로봇" 등록하기 (PC, 15분)
+### B-1. 프로젝트 만들기
+1. 크롬에서 **console.cloud.google.com** 접속, 유튜브와 같은 구글 계정으로 로그인.
+2. 처음이면 약관 동의 체크 → **동의 및 계속**.
+3. 화면 맨 위 "프로젝트 선택" 클릭 → 오른쪽 위 **새 프로젝트** → 이름에 `shorts-bot` → **만들기**.
+4. 10초쯤 기다렸다가 다시 "프로젝트 선택" → `shorts-bot` 클릭.
+
+### B-2. 유튜브 API 켜기
+5. 왼쪽 메뉴 ☰ → **API 및 서비스** → **라이브러리**.
+6. 검색창에 `YouTube Data API v3` 입력 → 클릭 → 파란 **사용** 버튼.
+
+### B-3. 동의 화면 (한 번 눌러주는 허락 창)
+7. 왼쪽 **OAuth 동의 화면** → 사용자 유형 **외부** → **만들기**.
+   (새 디자인이면 "시작하기" → 앱 이름 `shorts-bot`, 지원 이메일 본인 → 대상 **외부** → 연락처 이메일 본인 → 동의 → **만들기**.)
+8. 앱 이름 `shorts-bot`, 사용자 지원 이메일·개발자 연락처에 본인 이메일 → **저장 후 계속**.
+9. 범위 화면은 그냥 **저장 후 계속**. 테스트 사용자 화면에서 **+ ADD USERS** → 본인 이메일 추가 → **저장 후 계속**.
+10. 요약 화면에서 **대시보드로 돌아가기** → **앱 게시** 버튼 → 확인.
+    (이걸 안 하면 열쇠가 7일마다 만료됩니다. "확인되지 않은 앱" 경고는 본인만 쓰므로 무시해도 됩니다.)
+
+### B-4. 열쇠 1·2 받기
+11. 왼쪽 **사용자 인증 정보** → 위쪽 **+ 사용자 인증 정보 만들기** → **OAuth 클라이언트 ID**.
+12. 애플리케이션 유형 **웹 애플리케이션**, 이름 `shorts-bot`.
+13. 아래 "승인된 리디렉션 URI" → **+ URI 추가** → 정확히 이렇게 입력:
+    `https://developers.google.com/oauthplayground`
+14. **만들기** → 뜨는 창의 **클라이언트 ID**와 **클라이언트 보안 비밀**을 메모장에 복사 (열쇠 1, 2).
+
+### B-5. 열쇠 3 받기
+15. 새 탭에서 **developers.google.com/oauthplayground** 접속.
+16. 오른쪽 위 **톱니바퀴 ⚙** → **Use your own OAuth credentials** 체크 → 열쇠 1, 2 붙여넣기 → 닫기.
+17. 왼쪽 "Step 1" 목록에서 **YouTube Data API v3** 펼치기 → 아래 두 줄 체크:
+    - `https://www.googleapis.com/auth/youtube.upload`
+    - `https://www.googleapis.com/auth/youtube.readonly`
+18. 파란 **Authorize APIs** → 본인 계정 선택 → "확인되지 않은 앱" 화면이 나오면 **고급** → **shorts-bot(으)로 이동** → **허용**.
+19. 돌아온 화면 "Step 2"에서 **Exchange authorization code for tokens** 클릭.
+20. 오른쪽에 뜨는 **Refresh token** 값을 복사 (열쇠 3). `1//` 로 시작하는 긴 문자열입니다.
+
+## C. 열쇠 3개를 Claude에 넣기 (3분)
+21. 이 Claude Code 세션 화면 맨 위 제목줄에서 **환경(클라우드 환경) 메뉴** → **Edit**.
+22. **Network secrets** (구버전 앱은 "API credentials") 항목이 있으면 거기에, 없으면 **환경 변수**에 아래 이름으로 3개 추가:
+    - `YT_CLIENT_ID` = 열쇠 1
+    - `YT_CLIENT_SECRET` = 열쇠 2
+    - `YT_REFRESH_TOKEN` = 열쇠 3
+23. 저장. 그다음 **새 세션**을 열고 "유튜브 연결 확인해줘"라고 하면 제가 채널 이름을 읽어와서 확인해 드립니다.
+
+## D. 알아둘 것
+- 구글의 API 심사를 받기 전까지는 API로 올린 영상이 **비공개**로 올라갈 수 있습니다. 그 경우 제가 제목·설명·썸네일까지 다 채워 올리고, 사용자는 YouTube Studio에서 "공개"로 바꾸기만 하면 됩니다(30초). 심사 신청서는 제가 준비해 드립니다.
+- 하루 업로드 한도는 API 기준 6편. 우리 계획(1~2편)에는 충분합니다.
+- 막히는 화면이 있으면 그 화면을 캡처해서 보내 주세요. 어느 버튼인지 바로 알려 드립니다.
