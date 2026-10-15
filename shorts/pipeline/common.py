@@ -53,6 +53,8 @@ def ffprobe(path):
         "portrait": h >= w,
         "fps": round(fps, 3),
         "has_audio": a is not None,
+        "hdr": v.get("color_transfer") in ("arib-std-b67", "smpte2084"),
+        "pix_fmt": v.get("pix_fmt", ""),
     }
 
 

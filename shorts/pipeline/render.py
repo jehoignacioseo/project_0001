@@ -15,12 +15,16 @@ from pathlib import Path
 
 from caption_png import render_caption
 from common import FONT_DIR, ensure_dir, ffprobe, run
-from overlays import day_badge, end_card, progress_bar, score_card, title_card
+from overlays import bottom_band, day_badge, end_card, progress_bar, score_card, title_band, title_card
 
 SHORT_W, SHORT_H = 1080, 1920
+TOP_BAND, BOTTOM_BAND = 380, 200   # used when episode has "title_band"
 LONG_W, LONG_H = 1920, 1080
 FPS = 30
 END_CARD_SEC = 3.0
+# iPhone HLG/PQ 10-bit footage -> SDR BT.709 8-bit (hable tonemap keeps highlights)
+HDR_TO_SDR = ("zscale=t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,"
+              "tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p")
 
 
 def _vf_fit(src_portrait, W, H, portrait_out, crop_x=0.5, crop_y=0.5, zoom=1.0, fit="crop", pan=None, dur=1.0):
@@ -47,7 +51,7 @@ def _vf_fit(src_portrait, W, H, portrait_out, crop_x=0.5, crop_y=0.5, zoom=1.0, 
             f"[bgb][fgs]overlay=(W-w)/2:(H-h)/2,setsar=1,fps={FPS}")
 
 
-def _normalize_segment(seg, idx, tmp, W, H, portrait_out, ep_dir):
+def _normalize_segment(seg, idx, tmp, W, H, portrait_out, ep_dir, top=0, bottom=0):
     src = Path(seg["src"])
     if not src.is_absolute():
         src = ep_dir / src
@@ -56,9 +60,12 @@ def _normalize_segment(seg, idx, tmp, W, H, portrait_out, ep_dir):
     t_in = float(seg.get("in", 0))
     t_out = float(seg.get("out", info["duration"]))
     out = tmp / f"seg{idx:02d}.mp4"
-    vf = _vf_fit(info["portrait"], W, H, portrait_out,
+    VH = H - top - bottom
+    vf = (HDR_TO_SDR + "," if info.get("hdr") else "format=yuv420p,") + _vf_fit(info["portrait"], W, VH, portrait_out,
                  float(seg.get("crop_x", 0.5)), float(seg.get("crop_y", 0.5)), float(seg.get("zoom", 1.0)),
                  seg.get("fit", "crop"), seg.get("pan"), (t_out - t_in) / speed)
+    if top or bottom:   # letterbox into the full frame; bands are drawn as overlays later
+        vf += f",pad={W}:{H}:0:{top}:black"
     if speed != 1.0:
         vf += f",setpts=PTS/{speed}"
     af = f"atempo={min(max(speed, 0.5), 2.0)}" if speed != 1.0 else "anull"
@@ -107,8 +114,10 @@ def render(ep, ep_dir, out_dir, mode):
              "-c:a", "aac", "-ar", "48000", "-ac", "2", "-shortest", str(tcv)])
         parts.append(tcv)
         t += 2.5
+    band = bool(ep.get("title_band")) and portrait
+    top, bottom = (TOP_BAND, BOTTOM_BAND) if band else (0, 0)
     for i, seg in enumerate(segs):
-        p, dur = _normalize_segment(seg, i, tmp, W, H, portrait, ep_dir)
+        p, dur = _normalize_segment(seg, i, tmp, W, H, portrait, ep_dir, top, bottom)
         parts.append(p)
         for c in seg.get("captions", []):
             captions.append({"start": t + float(c["t"]), "end": t + float(c["t"]) + float(c.get("d", 2.0)),
@@ -131,14 +140,25 @@ def render(ep, ep_dir, out_dir, mode):
     card_y = f"H-h-{int(300 * scale)}" if portrait else f"H-h-{int(60 * scale)}"
 
     # overlay list: (png, x_expr, y_expr, start, end)
-    ov = [(badge, str(badge_x), str(badge_y), 0, total), (prog, "0", "0", 0, total),
-          (card, "(W-w)/2", card_y, score_at, score_at + score_d)]
+    ov = []
+    if band:
+        tb = title_band(str(tmp / "tband.png"), [tuple(x) for x in ep["title_band"]], W, top, scale)
+        bb = bottom_band(str(tmp / "bband.png"), f"DAY {ep['day']:02d}  ·  {tag}",
+                         ep.get("teaser", f"NEXT ▶ {ep.get('next', '')}"), W, bottom, scale)
+        ov += [(tb, "0", "0", 0, total), (bb, "0", str(H - bottom), 0, total)]
+    else:
+        ov += [(badge, str(badge_x), str(badge_y), 0, total), (prog, "0", "0", 0, total)]
+    ov.append((card, "(W-w)/2", f"{H - bottom}-h-{int(40 * scale)}" if band else card_y, score_at, score_at + score_d))
     POP = 0.1
     for i, c in enumerate(captions):
         png, cw, ch, cy = render_caption(str(tmp / f"cap{i:02d}.png"), c["text"], c["style"], W, H, portrait)
+        if band:   # keep captions inside the video window
+            cy = top + int((H - top - bottom) * (0.78 if c["style"] != "note" else 0.06)) - ch // 2
         if c["style"] != "note":
             # two-stage pop: smaller for the first 0.1s then full size
             small, sw, sh, sy = render_caption(str(tmp / f"cap{i:02d}s.png"), c["text"], c["style"], W, H, portrait, 0.88)
+            if band:
+                sy = top + int((H - top - bottom) * 0.78) - sh // 2
             ov.append((small, "(W-w)/2", str(sy), c["start"], c["start"] + POP))
             ov.append((png, "(W-w)/2", str(cy), c["start"] + POP, c["end"]))
         else:

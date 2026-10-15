@@ -152,3 +152,86 @@ def title_card(path, title, subtitle, width, height):
     d.text(((width - sw) // 2, height * 0.38 + th + height * 0.04), subtitle, font=f_s, fill=(230, 230, 230))
     img.save(path)
     return path
+
+
+def title_band(path, lines, width, band_h, scale=1.0):
+    """Fixed top title band for Shorts: black bar with up to 3 lines.
+    lines: list of (text, color) ; colors: 'white' | 'yellow' | 'small'."""
+    from caption_png import _runs, _emoji_img, F_BLACKHAN, F_PRETENDARD_XB, _fonts, _script_runs
+    img = Image.new("RGBA", (width, band_h), (0, 0, 0, 255))
+    d = ImageDraw.Draw(img)
+    cols = {"white": (255, 255, 255, 255), "yellow": (255, 229, 0, 255), "small": (210, 210, 210, 255)}
+    big = [ln for ln in lines if ln[1] != "small"]
+    small = [ln for ln in lines if ln[1] == "small"]
+    size = int(118 * scale)
+    # shrink big lines until the widest fits
+    def wide(sz):
+        fs = _fonts(F_BLACKHAN, sz)
+        return max(_mixed_w_fonts(d, t, fs, sz) for t, _ in big) if big else 0
+    while wide(size) > width * 0.94 and size > 40:
+        size -= 4
+    fs = _fonts(F_BLACKHAN, size)
+    s_size = int(44 * scale)
+    fs_small = _fonts(F_PRETENDARD_XB, s_size)
+    total_h = len(big) * int(size * 1.12) + len(small) * int(s_size * 1.4)
+    y = (band_h - total_h) // 2
+    for t, c in big:
+        w = _mixed_w_fonts(d, t, fs, size)
+        _mixed_text_fonts(img, d, ((width - w) // 2, y), t, fs, size, cols[c])
+        y += int(size * 1.12)
+    for t, c in small:
+        w = _mixed_w_fonts(d, t, fs_small, s_size)
+        _mixed_text_fonts(img, d, ((width - w) // 2, y + int(6 * scale)), t, fs_small, s_size, cols["small"])
+        y += int(s_size * 1.4)
+    img.save(path)
+    return path
+
+
+def bottom_band(path, left_text, right_text, width, band_h, scale=1.0):
+    """Thin bottom bar: 'DAY 01 · S1 #01/33' on the left, teaser on the right."""
+    from caption_png import F_PRETENDARD, F_PRETENDARD_XB, _fonts
+    img = Image.new("RGBA", (width, band_h), (0, 0, 0, 255))
+    d = ImageDraw.Draw(img)
+    sz = int(40 * scale)
+    pad = int(40 * scale)
+    while sz > 20:   # shrink until both texts fit with a gap
+        fl = _fonts(F_PRETENDARD, sz)
+        fr = _fonts(F_PRETENDARD_XB, sz)
+        if _mixed_w_fonts(d, left_text, fl, sz) + _mixed_w_fonts(d, right_text, fr, sz) + pad * 3 <= width:
+            break
+        sz -= 2
+    _mixed_text_fonts(img, d, (pad, (band_h - int(sz * 1.2)) // 2), left_text, fl, sz, (255, 229, 0, 255))
+    w = _mixed_w_fonts(d, right_text, fr, sz)
+    _mixed_text_fonts(img, d, (width - pad - w, (band_h - int(sz * 1.2)) // 2), right_text, fr, sz, (220, 220, 220, 255))
+    img.save(path)
+    return path
+
+
+def _mixed_w_fonts(d, text, fonts, size):
+    from caption_png import _runs, _emoji_img, _script_runs
+    w = 0
+    for is_e, ch in _runs(text):
+        if is_e:
+            im = _emoji_img(ch, size)
+            w += (im.width if im else 0) + int(size * 0.1)
+        else:
+            for ci, part in _script_runs(ch):
+                l, t, r, b = d.textbbox((0, 0), part, font=fonts[ci])
+                w += r - l
+    return w
+
+
+def _mixed_text_fonts(img, d, xy, text, fonts, size, fill):
+    from caption_png import _runs, _emoji_img, _script_runs
+    x, y = xy
+    for is_e, ch in _runs(text):
+        if is_e:
+            im = _emoji_img(ch, size)
+            if im:
+                img.alpha_composite(im, (int(x), int(y) + int(size * 0.08)))
+                x += im.width + int(size * 0.1)
+        else:
+            for ci, part in _script_runs(ch):
+                d.text((x, y), part, font=fonts[ci], fill=fill)
+                l, t, r, b = d.textbbox((0, 0), part, font=fonts[ci])
+                x += r - l
