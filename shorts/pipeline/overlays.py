@@ -133,9 +133,14 @@ def title_card(path, title, subtitle, width, height):
     """Long-form intro card (16:9)."""
     img = Image.new("RGB", (width, height), (14, 14, 14))
     d = ImageDraw.Draw(img)
-    f_t = _font(int(height * 0.11))
-    f_s = _font(int(height * 0.05), heavy=True)
+    size = int(height * 0.11)
+    f_t = _font(size)
     tw, th = _text_w(d, title, f_t)
+    while tw > width * 0.9 and size > 20:      # shrink until the title fits
+        size -= 4
+        f_t = _font(size)
+        tw, th = _text_w(d, title, f_t)
+    f_s = _font(int(height * 0.05), heavy=True)
     sw, sh = _text_w(d, subtitle, f_s)
     d.text(((width - tw) // 2, height * 0.38), title, font=f_t, fill=(255, 214, 0))
     d.text(((width - sw) // 2, height * 0.38 + th + height * 0.04), subtitle, font=f_s, fill=(230, 230, 230))

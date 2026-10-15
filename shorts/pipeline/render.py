@@ -139,7 +139,7 @@ def render(ep, ep_dir, out_dir, mode):
     ov.append((endc, "0", "0", body_end, total))
 
     inputs = ["-i", str(base)]
-    chain = f"[0:v]tpad=stop_mode=clone:stop_duration={END_CARD_SEC}[v0];"
+    chain = f"[0:v]setpts=N/FRAME_RATE/TB,tpad=stop_mode=clone:stop_duration={END_CARD_SEC}[v0];"
     cur = "v0"
     for i, (png, x, y, s0, s1) in enumerate(ov):
         inputs += ["-i", png]
@@ -149,7 +149,7 @@ def render(ep, ep_dir, out_dir, mode):
     inputs += ["-i", str(sting)]
     sting_idx = len(ov) + 1
     chain += (f"[{cur}]format=yuv420p[vout];"
-              f"[0:a]apad=pad_dur={END_CARD_SEC},loudnorm=I=-16:TP=-1.5:LRA=11[a0];"
+              f"[0:a]asetpts=N/SR/TB,apad=pad_dur={END_CARD_SEC},loudnorm=I=-16:TP=-1.5:LRA=11[a0];"
               f"[{sting_idx}:a]adelay=0|0[st];[a0][st]amix=inputs=2:duration=first:normalize=0[aout]")
     out = out_dir / f"{ep['id']}_{mode}.mp4"
     run(["ffmpeg", "-y", "-v", "error", *inputs, "-filter_complex", chain, "-map", "[vout]", "-map", "[aout]",
