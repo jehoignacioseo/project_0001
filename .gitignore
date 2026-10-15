@@ -7,3 +7,4 @@ public/uploads/
 !.env.example
 *.tsbuildinfo
 next-env.d.ts
+shorts/work/
