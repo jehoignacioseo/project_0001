@@ -181,9 +181,8 @@ def review_card(path, rev, W=config.W, VH=config.H):
     d.rounded_rectangle((x0, y0, x0 + cw, y0 + ch), radius=44, fill=(255, 255, 255, 242))
     y = y0 + pad
     rating = float(rev.get("rating", 5))
-    fs_star = _fonts(F_PRETENDARD, 56)
-    stars = "★" * int(round(rating)) + "☆" * (5 - int(round(rating)))
-    _mixed_text_fonts(img, d, (x0 + pad, y), stars, fs_star, 56, (255, 180, 0, 255))
+    for k in range(5):
+        _star(d, x0 + pad + 30 + k * 66, y + 30, 28, (255, 180, 0, 255) if k < int(round(rating)) else (215, 215, 220, 255))
     y += stars_h + 20
     fq = _fonts(F_PRETENDARD, q_size)
     for ln in qlines:
@@ -200,3 +199,14 @@ def review_card(path, rev, W=config.W, VH=config.H):
         _mixed_text_fonts(img, d, ((W - w) // 2, y0 + ch + 36), src, ff, 36, (210, 210, 220, 255))
     img.convert("RGB").save(path, quality=95)
     return path
+
+
+def _star(d, cx, cy, r, fill):
+    """Five-point star polygon (fonts in the roster have no ★ glyph)."""
+    import math
+    pts = []
+    for k in range(10):
+        rad = r if k % 2 == 0 else r * 0.45
+        a = -math.pi / 2 + k * math.pi / 5
+        pts.append((cx + rad * math.cos(a), cy + rad * math.sin(a)))
+    d.polygon(pts, fill=fill)

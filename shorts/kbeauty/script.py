@@ -157,7 +157,7 @@ def mock_episode(footage, products):
                      "vo": vo[i], "purpose": purposes[i]})
     segs.insert(3, {"type": "review", "src": "", "in": 0, "out": 0, "dur": 2.6, "label": "", "speed": 1.0, "zoom": 1.0, "zoom_to": 1.0, "crop_x": 0.5, "crop_y": 0.5,
                     "whoosh": False, "amb_gain_db": -14, "vo": "", "purpose": "proof",
-                    "review": {"quote": "Finally a toner pad that calms my redness without stinging.", "author": "mock_user", "skin_type": "Oily/Sensitive", "rating": 5, "source": "Picky · 4.6★ (129 reviews)"}})
+                    "review": {"quote": "Finally a toner pad that calms my redness without stinging.", "author": "mock_user", "skin_type": "Oily/Sensitive", "rating": 5, "source": "Picky · 4.6 / 5 (129 reviews)"}})
     for i, sg in enumerate(segs):
         pass
     return {"id": "mock-anua-pad", "format": "retail proof", "hook_type": "proof",
