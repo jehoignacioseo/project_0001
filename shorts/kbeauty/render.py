@@ -14,7 +14,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "pipeline"))
 from caption_png import render_caption  # noqa: E402
 from common import ensure_dir, ffprobe, run  # noqa: E402
 from overlays import end_card  # noqa: E402
-from render import HDR_TO_SDR, _vf_fit  # noqa: E402
+
+import importlib.util as _ilu
+_spec = _ilu.spec_from_file_location("pipeline_render", Path(__file__).resolve().parent.parent / "pipeline" / "render.py")
+_pr = _ilu.module_from_spec(_spec); _spec.loader.exec_module(_pr)
+HDR_TO_SDR, _vf_fit = _pr.HDR_TO_SDR, _pr._vf_fit
 
 import cards  # noqa: E402
 import config  # noqa: E402

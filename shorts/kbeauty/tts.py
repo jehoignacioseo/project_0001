@@ -81,9 +81,32 @@ def mock_line(text, out):
     return [{"w": w, "s": round(i * step, 3), "e": round((i + 1) * step - 0.02, 3)} for i, w in enumerate(words)]
 
 
-def _align_words(words, text):
-    """Make sure timing words line up with the script words (engines may split punctuation)."""
+def whisper_words(path):
+    """Word timestamps from the rendered voice itself (used when the engine gives none)."""
+    try:
+        from faster_whisper import WhisperModel
+        model = WhisperModel(config.WHISPER_MODEL or "base", device="cpu", compute_type="int8")
+        segs, _ = model.transcribe(str(path), word_timestamps=True, language="en" if config.LANG == "en" else None)
+        return [{"w": w.word.strip(), "s": float(w.start), "e": float(w.end)} for s in segs for w in s.words]
+    except Exception as e:
+        print(f"  whisper alignment unavailable: {e}", file=sys.stderr)
+        return []
+
+
+def _even_words(text, dur):
     script = _norm_words(text)
+    step = max(dur - 0.15, 0.3) / max(1, len(script))
+    return [{"w": w, "s": round(i * step, 3), "e": round((i + 1) * step - 0.02, 3)} for i, w in enumerate(script)]
+
+
+def _align_words(words, text, audio=None):
+    """Make sure timing words line up with the script words (engines may split punctuation).
+    No timings at all -> transcribe the voice with faster-whisper; still nothing -> even spacing."""
+    script = _norm_words(text)
+    if not words and audio is not None:
+        words = whisper_words(audio)
+        if not words:
+            return _even_words(text, ffprobe_audio(audio))
     if len(words) == len(script):
         return [{"w": sw, "s": tw["s"], "e": tw["e"]} for sw, tw in zip(script, words)]
     if not words:
@@ -121,7 +144,7 @@ def main():
             words = eleven_line(text, voice, out)
         else:
             words = mock_line(text, out)
-        words = _align_words(words, text)
+        words = _align_words(words, text, out)
         dur = ffprobe_audio(out)
         lines.append({"seg": i, "text": text, "file": str(out.relative_to(work)), "duration": round(dur, 3), "words": words})
         print(f"  seg {i}: {dur:.2f}s  {text[:60]}")
