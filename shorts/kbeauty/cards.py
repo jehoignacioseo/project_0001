@@ -177,7 +177,7 @@ def review_card(path, rev, W=config.W, VH=config.H):
         q_size -= 4; qlines = wrap("“" + quote + "”", F_PRETENDARD, q_size, cw - pad * 2)
     stars_h, auth_h, foot_h = 70, 52, 44
     ch = pad + stars_h + 20 + len(qlines) * int(q_size * 1.3) + 28 + auth_h + pad
-    x0, y0 = (W - cw) // 2, int(VH * 0.40) - ch // 2
+    x0, y0 = (W - cw) // 2, max(40, int(VH * 0.33) - ch // 2)
     d.rounded_rectangle((x0, y0, x0 + cw, y0 + ch), radius=44, fill=(255, 255, 255, 242))
     y = y0 + pad
     rating = float(rev.get("rating", 5))

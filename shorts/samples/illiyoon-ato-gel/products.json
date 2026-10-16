@@ -74,8 +74,13 @@
           "kind": "retailer"
         },
         {
-          "url": "https://media.gopicky.com/reviews/Cedric-20214212242-0.jpg",
-          "source": "Picky reviewer Cedric",
+          "url": "https://media.gopicky.com/reviews/286638-b40ca431cc50448698e65adba099eaeb.jpg",
+          "source": "Picky reviewer Liiililac",
+          "kind": "review_photo"
+        },
+        {
+          "url": "https://media.gopicky.com/reviews/189468-616ee3d1-559b-4928-bc90-071d61810bf8-resized_image.jpg",
+          "source": "Picky reviewer rainyblues",
           "kind": "review_photo"
         }
       ],

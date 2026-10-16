@@ -209,7 +209,7 @@ def render(work, platforms, fast=False):
     for i, e in enumerate(ep.get("emphasis", [])):
         png, cw, chh, cy = render_caption(str(tmp / f"emph{i:02d}.png"), e["text"], e["style"], W, H, True)
         s0 = starts[e["seg"]] + float(e["t"])
-        ov.append((png, "(W-w)/2", str(top + int(VH * 0.55) - chh // 2), s0, s0 + float(e["d"])))
+        ov.append((png, "(W-w)/2", str(top + int(VH * 0.49) - chh // 2), s0, s0 + float(e["d"])))
         sfx.append(("sfx_thud.wav" if e["style"] == "shout" else "sfx_cash.wav" if e["style"] == "price" else "sfx_pop.wav", s0, -9))
     cta_png, cw, chh = cards.cta_card(str(tmp / "cta.png"), ep["cta"]["on_screen"])
     cta_start = starts[-1] + 0.2

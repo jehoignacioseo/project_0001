@@ -141,7 +141,7 @@
       "crop_y": 0.5,
       "whoosh": false,
       "amb_gain_db": -14,
-      "vo": "'Quick absorption, no tacky residue,' says an oily-skin reviewer.",
+      "vo": "Quick absorption, no tacky residue, says an oily-skin reviewer.",
       "purpose": "proof"
     },
     {
@@ -164,15 +164,15 @@
     },
     {
       "type": "image",
-      "src": "https://media.gopicky.com/reviews/Cedric-20214212242-0.jpg",
+      "src": "https://media.gopicky.com/reviews/286638-b40ca431cc50448698e65adba099eaeb.jpg",
       "in": 0,
       "out": 0,
-      "dur": 1.8,
-      "label": "Reviewer photo · Cedric on Picky",
+      "dur": 2.0,
+      "label": "Reviewer photo · Liiililac on Picky",
       "review": null,
       "speed": 1.0,
       "zoom": 1.0,
-      "zoom_to": 1.1,
+      "zoom_to": 1.14,
       "crop_x": 0.5,
       "crop_y": 0.5,
       "whoosh": false,
