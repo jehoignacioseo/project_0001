@@ -1,0 +1,32 @@
+{
+  "researched_at": "2026-10-16T13:45:00+00:00",
+  "products": [
+    {
+      "name": "Ceramide Ato Soothing Gel", "brand": "ILLIYOON", "name_ko": "일리윤 세라마이드 아토 수딩젤",
+      "category": "soothing gel moisturizer for face and body (sensitive & dry skin)",
+      "price_krw": 17900, "price_usd_korea": 12.9, "price_usd_abroad": 27.0, "size": "175 ml / 5.91 fl oz",
+      "key_ingredients": [
+        {"name": "Soy-ceramide™ (Ceramide NP)", "what_it_does": "a skin-identical lipid that helps the moisture barrier hold water"},
+        {"name": "Madecassoside", "what_it_does": "the calming compound from centella (cica), used to soothe redness"}
+      ],
+      "hero_facts": [
+        "List price ₩17,900 for 175 ml in Korea (about $13); often discounted at Olive Young",
+        "US K-beauty shops sell the same tube for about $27 (Mirai Skin $27.01, Sukoshimart $26.85)",
+        "Made by Amorepacific; ILLIYOON is its derma body-care brand",
+        "Label: dermatologist tested, sensitive-skin panel tested, allergy tested, fragrance free, 10-free",
+        "Sister product Ceramide Ato Lotion won Olive Young Awards 2021 #1 body moisturizer; Hwahae Beauty Awards body lotion #1 five years running",
+        "The 3rd-generation Ceramide Ato line launched at Olive Young in February 2025"
+      ],
+      "good_for": ["sensitive skin that gets red or tight", "oily or combination skin that wants light hydration", "face and body in one product"],
+      "skip_if": ["very dry skin that needs a rich cream (reviewers call it light)", "you want a treatment product for eczema (it is a cosmetic moisturizer)"],
+      "how_to_use": "After cleansing, spread a generous amount over face, arms or legs and pat in; reapply whenever skin feels tight.",
+      "why_viral": "A trusted Korean derma brand (Amorepacific) selling a fragrance-free ceramide gel for a drugstore price; the 'face and body in one tube' idea and the cooling gel texture travel well on short video.",
+      "where_to_buy": ["Olive Young (Korea)", "Olive Young Global", "US K-beauty shops (Mirai Skin, Sukoshimart)", "eBay US sellers"],
+      "launched": "3rd generation: February 2025 (Olive Young first)",
+      "caveats": ["Ceramide NP concentration is low (label: 104 ppm) – it is a soothing hydrator, not a ceramide treatment", "Discount price in Korea changes weekly; list price shown"],
+      "unverified": ["Amazon US price ($14 claim on DermFND could not be confirmed)", "'cooling' effect is a marketing claim", "the gel itself winning an Olive Young award"],
+      "sources": ["https://unpa.me/products/221932-ceramide-ato-soothing-gel", "https://www.mirai-skin.com/products/illiyoon-ceramide-ato-soothing-gel-175ml", "https://sukoshimart.com/collections/all/products/illiyoon-ceramide-ato-soothing-gel", "https://www.apgroup.com/int/ko/news/2021-12-06.html", "https://www.apgroup.com/int/ko/news/2025-02-05-1.html", "https://dermfnd.org/p/illiyoon-ceramide-ato-soothing-gel/", "https://www.gopicky.com/product/7752/illiyoon-ceramide-ato-soothing-gel"],
+      "confidence": "medium", "hero": true
+    }
+  ]
+}

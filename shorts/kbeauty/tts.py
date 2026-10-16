@@ -30,7 +30,7 @@ def edge_line(text, voice, rate, out):
     import edge_tts
 
     async def go():
-        com = edge_tts.Communicate(text, voice, rate=rate)
+        com = edge_tts.Communicate(text, voice, rate=rate, boundary="WordBoundary")
         words = []
         with open(out, "wb") as f:
             async for ch in com.stream():

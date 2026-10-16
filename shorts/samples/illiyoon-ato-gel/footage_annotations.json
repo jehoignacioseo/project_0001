@@ -1,0 +1,40 @@
+{
+  "store": null,
+  "footage_angle": "A hands-on demo of ILLIYOON Ceramide Ato Soothing Gel (Amorepacific): sharp front/back label close-ups, squeezing the gel onto the back of the hand, spreading it in. No store or price tag in frame, so the story must come from the label and researched facts.",
+  "missing": ["Olive Young shelf/price tag shot", "face application shot", "before/after sheen on skin held still for 2s"],
+  "detected_products": [
+    {"name": "Ceramide Ato Soothing Gel", "brand": "ILLIYOON", "name_ko": "일리윤 세라마이드 아토 수딩젤", "category": "soothing gel moisturizer (face & body)",
+     "confidence": "high", "evidence": "Front label 'ILLIYOON Ceramide Ato Soothing Gel · 일리윤 세라마이드 아토 수딩젤', back label 175 ml / 5.91 fl oz, (주)아모레퍼시픽", "hero": true}
+  ],
+  "clips": {
+    "IMG_1291.MOV": {"summary": "Product held up to camera, cap opened, gel squeezed onto back of hand, gel blob texture.", "scenes": [
+      {"shot_type": "product_closeup", "description": "Light-blue tube held upright in two hands over dark wood table; front label fully readable", "visible_text": "ILLIYOON 일리윤 세라마이드 아토 수딩젤 Ceramide Ato Soothing Gel 민감 & 건조 피부용 For Sensitive & Dry Skin Soy-ceramide™ & Madecassoside 10 FREE Fragrance Free", "products": ["ILLIYOON Ceramide Ato Soothing Gel"], "price_krw": null, "usable": true, "hook_potential": 7, "why_hook": "clean hero shot, label readable"},
+      {"shot_type": "unboxing", "description": "Hands unscrewing the cap, tube on its side", "visible_text": "ILLIYOON", "products": ["ILLIYOON Ceramide Ato Soothing Gel"], "price_krw": null, "usable": true, "hook_potential": 3, "why_hook": "transitional"},
+      {"shot_type": "other", "description": "Motion-blurred tube being turned", "visible_text": "", "products": ["ILLIYOON Ceramide Ato Soothing Gel"], "price_krw": null, "usable": false, "hook_potential": 1, "why_hook": "blurry"},
+      {"shot_type": "hand_apply", "description": "Tube tilted, nozzle touching the back of the hand, about to squeeze", "visible_text": "ILLIYOON Fragrance Free", "products": ["ILLIYOON Ceramide Ato Soothing Gel"], "price_krw": null, "usable": true, "hook_potential": 6, "why_hook": "action start"},
+      {"shot_type": "texture_or_swatch", "description": "White gel blob sitting on the back of the hand, tube in background", "visible_text": "YOON", "products": ["ILLIYOON Ceramide Ato Soothing Gel"], "price_krw": null, "usable": true, "hook_potential": 8, "why_hook": "satisfying texture reveal"}
+    ]},
+    "IMG_1292.MOV": {"summary": "Spreading the gel over the back of the hand with fingers; moderate motion blur.", "scenes": [
+      {"shot_type": "hand_apply", "description": "Fingers smearing gel across hand, heavy blur", "visible_text": "", "products": ["ILLIYOON Ceramide Ato Soothing Gel"], "price_krw": null, "usable": false, "hook_potential": 2, "why_hook": "blurry"},
+      {"shot_type": "hand_apply", "description": "Gel spread thin and glossy over hand, tube visible at left", "visible_text": "OON Soothing Gel", "products": ["ILLIYOON Ceramide Ato Soothing Gel"], "price_krw": null, "usable": true, "hook_potential": 5, "why_hook": "glossy finish"},
+      {"shot_type": "hand_apply", "description": "Hand patting gel in, sheen visible", "visible_text": "ON", "products": ["ILLIYOON Ceramide Ato Soothing Gel"], "price_krw": null, "usable": true, "hook_potential": 4, "why_hook": "absorption"},
+      {"shot_type": "hand_apply", "description": "Palm rubbing, blurred", "visible_text": "", "products": [], "price_krw": null, "usable": false, "hook_potential": 1, "why_hook": "blurry"}
+    ]},
+    "IMG_1293.MOV": {"summary": "Rubbing hands together with the gel, tube in the background; mostly blurred, last part steadier.", "scenes": [
+      {"shot_type": "hand_apply", "description": "Hand sweeping across, blurred", "visible_text": "ILLIYOON", "products": ["ILLIYOON Ceramide Ato Soothing Gel"], "price_krw": null, "usable": false, "hook_potential": 1, "why_hook": "blurry"},
+      {"shot_type": "hand_apply", "description": "Hand sweeping across, blurred", "visible_text": "ILLIYOON", "products": ["ILLIYOON Ceramide Ato Soothing Gel"], "price_krw": null, "usable": false, "hook_potential": 1, "why_hook": "blurry"},
+      {"shot_type": "hand_apply", "description": "Hands clasped, massaging gel in, tube behind", "visible_text": "ILLIYOON", "products": ["ILLIYOON Ceramide Ato Soothing Gel"], "price_krw": null, "usable": true, "hook_potential": 3, "why_hook": "ok"},
+      {"shot_type": "hand_apply", "description": "Hands clasped, steadier, tube label visible top-left", "visible_text": "ILLIYOON 세라마이드 아토 수딩젤", "products": ["ILLIYOON Ceramide Ato Soothing Gel"], "price_krw": null, "usable": true, "hook_potential": 4, "why_hook": "product in frame while applying"}
+    ]},
+    "IMG_1294.MOV": {"summary": "Close pass over the hand after absorption; strong motion blur throughout.", "scenes": [
+      {"shot_type": "hand_apply", "description": "Hand after absorption, soft sheen, blurred", "visible_text": "", "products": [], "price_krw": null, "usable": false, "hook_potential": 2, "why_hook": "blurry"},
+      {"shot_type": "hand_apply", "description": "Hand very blurred", "visible_text": "", "products": [], "price_krw": null, "usable": false, "hook_potential": 1, "why_hook": "blurry"},
+      {"shot_type": "hand_apply", "description": "Hand after absorption, slightly steadier, skin looks hydrated", "visible_text": "", "products": [], "price_krw": null, "usable": true, "hook_potential": 3, "why_hook": "finish shot"}
+    ]},
+    "IMG_1295.MOV": {"summary": "Very sharp label close-ups: front claims, then the back label with the full ingredient list and 175 ml.", "scenes": [
+      {"shot_type": "packaging_text", "description": "Front label filling the frame, tilted; all claims readable", "visible_text": "ILLIYOON Ceramide Ato Soothing Gel 일리윤 세라마이드 아토 수딩젤 민감 & 건조 피부용 For Sensitive & Dry Skin Soy-ceramide™ & Madecassoside 민감성 패널 테스트 완료 알러지 테스트 완료 10 FREE Fragrance Free", "products": ["ILLIYOON Ceramide Ato Soothing Gel"], "price_krw": null, "usable": true, "hook_potential": 9, "why_hook": "sharpest shot, 'For Sensitive & Dry Skin' readable = hook proof"},
+      {"shot_type": "packaging_text", "description": "Back label, perfectly sharp: ingredient list, 175 ml 5.91 fl oz, Amorepacific, Made in Korea", "visible_text": "일리윤 세라마이드 아토 수딩 젤 ILLIYOON Ceramide Ato Soothing Gel 소이세라마이드™ 피부과 테스트 완료 알러지 테스트 완료 민감성 패널 테스트 완료 10 FREE 전성분 정제수 프로판다이올 글리세린 ... 세라마이드엔피(104ppm) ... 마데카소사이드 ... 175 ml 5.91 fl. oz. (주)아모레퍼시픽 MADE IN KOREA", "products": ["ILLIYOON Ceramide Ato Soothing Gel"], "price_krw": null, "usable": true, "hook_potential": 8, "why_hook": "receipt-style proof shot"},
+      {"shot_type": "packaging_text", "description": "Back label held at an angle, still sharp", "visible_text": "ILLIYOON Ceramide Ato Soothing Gel 175 ml 5.91 fl. oz.", "products": ["ILLIYOON Ceramide Ato Soothing Gel"], "price_krw": null, "usable": true, "hook_potential": 6, "why_hook": "proof"}
+    ]}
+  }
+}
