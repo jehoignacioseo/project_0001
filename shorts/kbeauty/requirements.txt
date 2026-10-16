@@ -1,0 +1,6 @@
+anthropic>=1.15
+edge-tts>=7.0
+faster-whisper>=1.1
+pillow>=10
+numpy>=1.26
+requests>=2.31

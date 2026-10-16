@@ -26,6 +26,11 @@
   (`instagram_basic`, `instagram_content_publish` 권한), 그리고 앱이 **공개 URL로 배포**되어 있을 것
   (인스타그램 서버가 슬라이드 이미지를 가져가야 하기 때문)
 
+## K뷰티 숏폼 자동화 (촬영본 → TikTok/Reels/Shorts)
+
+`shorts/kbeauty/` — 폰 촬영본 폴더만 주면 장면 분석 → 제품 정보 리서치 → 대본·컷 편집 → AI 보이스 → 카라오케 자막·정보카드 렌더 →
+자동 QA → (선택) 업로드까지 AI가 처리합니다. 사용법은 [shorts/kbeauty/README.md](shorts/kbeauty/README.md), Windows는 `kbeauty-run.bat`에 폴더를 드래그.
+
 ## 시작하기 (Windows — 아이콘 더블클릭)
 
 1. 프로젝트 폴더의 **`바탕화면-아이콘-만들기.bat`** 을 한 번 더블클릭 → 바탕화면에 아이콘 생성
