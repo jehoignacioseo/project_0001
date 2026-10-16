@@ -2,54 +2,276 @@
   "id": "illiyoon-ato-gel-1016",
   "format": "ingredient-led explainer with a price-shock payoff",
   "hook_type": "direct call-out + price",
-  "title_band": ["SENSITIVE SKIN?", "Korea's ₩17,900 fix"],
-  "hook_alternatives": ["Stop paying $27 for this Korean gel", "The fragrance-free gel Koreans use on face AND body", "Ceramide + cica in one ₩17,900 tube"],
+  "title_band": [
+    "SENSITIVE SKIN?",
+    "Korea's ₩17,900 fix"
+  ],
+  "hook_alternatives": [
+    "Stop paying $27 for this Korean gel",
+    "The fragrance-free gel Koreans use on face AND body",
+    "Ceramide + cica in one ₩17,900 tube"
+  ],
   "segments": [
-    {"src": "IMG_1295.MOV", "in": 0.3, "out": 3.3, "speed": 1.0, "zoom": 1.0, "crop_x": 0.5, "crop_y": 0.5, "whoosh": false, "amb_gain_db": -16,
-     "vo": "Sensitive, dry skin? This is Korea's seventeen-thousand-won fix.", "purpose": "hook"},
-    {"src": "IMG_1291.MOV", "in": 0.4, "out": 3.9, "speed": 1.0, "zoom": 1.05, "crop_x": 0.5, "crop_y": 0.5, "whoosh": true, "amb_gain_db": -14,
-     "vo": "Illiyoon Ceramide Ato Soothing Gel, made by Amorepacific.", "purpose": "context"},
-    {"src": "IMG_1295.MOV", "in": 4.6, "out": 8.0, "speed": 1.0, "zoom": 1.0, "crop_x": 0.5, "crop_y": 0.5, "whoosh": true, "amb_gain_db": -16,
-     "vo": "The label does the talking: dermatologist tested, allergy tested, fragrance free.", "purpose": "proof"},
-    {"src": "IMG_1291.MOV", "in": 12.3, "out": 16.0, "speed": 1.0, "zoom": 1.1, "crop_x": 0.5, "crop_y": 0.5, "whoosh": true, "amb_gain_db": -8,
-     "vo": "Inside: soy ceramide for the moisture barrier, and madecassoside, the calming part of cica.", "purpose": "fact"},
-    {"src": "IMG_1291.MOV", "in": 17.0, "out": 20.3, "speed": 1.0, "zoom": 1.15, "crop_x": 0.5, "crop_y": 0.5, "whoosh": false, "amb_gain_db": -4,
-     "vo": "", "purpose": "texture"},
-    {"src": "IMG_1292.MOV", "in": 4.3, "out": 8.0, "speed": 1.0, "zoom": 1.05, "crop_x": 0.5, "crop_y": 0.5, "whoosh": true, "amb_gain_db": -12,
-     "vo": "Cooling gel, so it sinks in fast. Koreans use it on face, arms and legs.", "purpose": "fact"},
-    {"src": "IMG_1293.MOV", "in": 11.0, "out": 15.5, "speed": 1.0, "zoom": 1.0, "crop_x": 0.5, "crop_y": 0.5, "whoosh": true, "amb_gain_db": -14,
-     "vo": "Seventeen thousand nine hundred won here, about thirteen dollars. Abroad, around twenty-seven.", "purpose": "proof"},
-    {"src": "IMG_1292.MOV", "in": 8.2, "out": 12.0, "speed": 1.0, "zoom": 1.0, "crop_x": 0.5, "crop_y": 0.5, "whoosh": true, "amb_gain_db": -14,
-     "vo": "Get it if your skin turns red and tight. Skip it if you want a rich cream.", "purpose": "verdict"},
-    {"src": "IMG_1291.MOV", "in": 4.2, "out": 7.6, "speed": 1.0, "zoom": 1.0, "crop_x": 0.5, "crop_y": 0.5, "whoosh": true, "amb_gain_db": -14,
-     "vo": "Save this for your Olive Young run, and comment your skin type.", "purpose": "cta"}
+    {
+      "src": "IMG_1295.MOV",
+      "in": 0.3,
+      "out": 2.8,
+      "speed": 1.0,
+      "zoom": 1.0,
+      "crop_x": 0.5,
+      "crop_y": 0.5,
+      "whoosh": false,
+      "amb_gain_db": -16,
+      "vo": "Sensitive, dry skin?",
+      "purpose": "hook"
+    },
+    {
+      "src": "IMG_1291.MOV",
+      "in": 0.4,
+      "out": 3.9,
+      "speed": 1.0,
+      "zoom": 1.05,
+      "crop_x": 0.5,
+      "crop_y": 0.5,
+      "whoosh": true,
+      "amb_gain_db": -14,
+      "vo": "This is Korea's seventeen-thousand-won fix: Illiyoon Ceramide Ato Soothing Gel.",
+      "purpose": "context"
+    },
+    {
+      "src": "IMG_1295.MOV",
+      "in": 4.6,
+      "out": 8.0,
+      "speed": 1.0,
+      "zoom": 1.0,
+      "crop_x": 0.5,
+      "crop_y": 0.5,
+      "whoosh": true,
+      "amb_gain_db": -16,
+      "vo": "Dermatologist tested, allergy tested, fragrance free. It's all on the label.",
+      "purpose": "proof"
+    },
+    {
+      "src": "IMG_1291.MOV",
+      "in": 12.3,
+      "out": 16.0,
+      "speed": 1.0,
+      "zoom": 1.1,
+      "crop_x": 0.5,
+      "crop_y": 0.5,
+      "whoosh": true,
+      "amb_gain_db": -8,
+      "vo": "Inside: soy ceramide for your moisture barrier, plus madecassoside, the calming part of cica.",
+      "purpose": "fact"
+    },
+    {
+      "src": "IMG_1291.MOV",
+      "in": 17.0,
+      "out": 20.3,
+      "speed": 1.0,
+      "zoom": 1.15,
+      "crop_x": 0.5,
+      "crop_y": 0.5,
+      "whoosh": false,
+      "amb_gain_db": -4,
+      "vo": "",
+      "purpose": "texture"
+    },
+    {
+      "src": "IMG_1292.MOV",
+      "in": 4.3,
+      "out": 8.0,
+      "speed": 1.0,
+      "zoom": 1.05,
+      "crop_x": 0.5,
+      "crop_y": 0.5,
+      "whoosh": true,
+      "amb_gain_db": -12,
+      "vo": "A cooling gel that sinks in fast. Koreans use it on face, arms and legs.",
+      "purpose": "fact"
+    },
+    {
+      "src": "IMG_1293.MOV",
+      "in": 11.0,
+      "out": 15.5,
+      "speed": 1.0,
+      "zoom": 1.0,
+      "crop_x": 0.5,
+      "crop_y": 0.5,
+      "whoosh": true,
+      "amb_gain_db": -14,
+      "vo": "Seventeen thousand nine hundred won, about thirteen dollars. Abroad, around twenty-seven.",
+      "purpose": "proof"
+    },
+    {
+      "src": "IMG_1292.MOV",
+      "in": 8.2,
+      "out": 12.0,
+      "speed": 1.0,
+      "zoom": 1.0,
+      "crop_x": 0.5,
+      "crop_y": 0.5,
+      "whoosh": true,
+      "amb_gain_db": -14,
+      "vo": "Get it if your skin turns red and tight. Skip it if you want a rich cream.",
+      "purpose": "verdict"
+    },
+    {
+      "src": "IMG_1291.MOV",
+      "in": 4.2,
+      "out": 7.6,
+      "speed": 1.0,
+      "zoom": 1.0,
+      "crop_x": 0.5,
+      "crop_y": 0.5,
+      "whoosh": true,
+      "amb_gain_db": -14,
+      "vo": "Save this for your Olive Young run, and comment your skin type.",
+      "purpose": "cta"
+    }
   ],
   "cards": [
-    {"type": "product", "seg": 1, "t": 0.3, "d": 3.2, "title": "ILLIYOON · Amorepacific", "lines": ["Ceramide Ato Soothing Gel", "일리윤 세라마이드 아토 수딩젤", "175 ml · 5.91 fl oz"]},
-    {"type": "fact", "seg": 2, "t": 0.5, "d": 3.4, "title": "On the label", "lines": ["Dermatologist tested", "Allergy tested", "Fragrance free · 10 FREE"]},
-    {"type": "ingredients", "seg": 3, "t": 0.4, "d": 3.6, "title": "Key ingredients", "lines": ["Soy-ceramide™ · moisture barrier", "Madecassoside (cica) · calming"]},
-    {"type": "price", "seg": 6, "t": 0.4, "d": 3.4, "title": "Price check", "lines": ["Korea: ₩17,900 ≈ $13 (list)", "US K-beauty shops: ~$27"]},
-    {"type": "verdict", "seg": 7, "t": 0.4, "d": 3.4, "title": "Verdict", "lines": ["✅ sensitive, red, tight skin", "❌ you want a rich, heavy cream"]}
+    {
+      "type": "product",
+      "seg": 1,
+      "t": 0.6,
+      "d": 3.2,
+      "title": "ILLIYOON · Amorepacific",
+      "lines": [
+        "Ceramide Ato Soothing Gel",
+        "일리윤 세라마이드 아토 수딩젤",
+        "175 ml · 5.91 fl oz"
+      ]
+    },
+    {
+      "type": "fact",
+      "seg": 2,
+      "t": 0.5,
+      "d": 3.4,
+      "title": "On the label",
+      "lines": [
+        "Dermatologist tested",
+        "Allergy tested",
+        "Fragrance free · 10 FREE"
+      ]
+    },
+    {
+      "type": "ingredients",
+      "seg": 3,
+      "t": 0.4,
+      "d": 3.6,
+      "title": "Key ingredients",
+      "lines": [
+        "Soy-ceramide™ · moisture barrier",
+        "Madecassoside (cica) · calming"
+      ]
+    },
+    {
+      "type": "price",
+      "seg": 6,
+      "t": 0.4,
+      "d": 3.4,
+      "title": "Price check",
+      "lines": [
+        "Korea: ₩17,900 ≈ $13 (list)",
+        "US K-beauty shops: ~$27"
+      ]
+    },
+    {
+      "type": "verdict",
+      "seg": 7,
+      "t": 0.4,
+      "d": 3.4,
+      "title": "Verdict",
+      "lines": [
+        "✅ sensitive, red, tight skin",
+        "❌ you want a rich, heavy cream"
+      ]
+    }
   ],
   "emphasis": [
-    {"seg": 4, "t": 0.3, "d": 2.2, "text": "GEL, NOT CREAM", "style": "pop"},
-    {"seg": 6, "t": 4.0, "d": 1.6, "text": "$27 → $13", "style": "price"}
+    {
+      "seg": 4,
+      "t": 0.3,
+      "d": 2.2,
+      "text": "GEL, NOT CREAM",
+      "style": "pop"
+    },
+    {
+      "seg": 6,
+      "t": 4.0,
+      "d": 1.6,
+      "text": "$27 vs $13",
+      "style": "price"
+    }
   ],
   "verdict": "Great for sensitive skin that gets red and tight; skip it if you want a rich, heavy cream.",
-  "cta": {"on_screen": "Comment your skin type 👇", "vo": "Save this for your Olive Young run, and comment your skin type."},
+  "cta": {
+    "on_screen": "Comment your skin type 👇",
+    "vo": "Save this for your Olive Young run, and comment your skin type."
+  },
   "music_gain_db": -22,
   "platforms": {
-    "tiktok": {"caption": "Sensitive, dry skin? Korea's ₩17,900 gel is ~$27 abroad. What's your skin type? 👇", "hashtags": ["kbeauty", "illiyoon", "koreanskincare", "oliveyoung", "sensitiveskin", "ceramide"]},
-    "reels": {"caption": "Sensitive skin? Korea's ₩17,900 fix.\nIlliyoon Ceramide Ato Soothing Gel: soy ceramide + madecassoside, fragrance-free, face & body in one tube. About $27 at US K-beauty shops, ₩17,900 (~$13) list price in Korea.\nSave this for your Seoul trip 🇰🇷", "hashtags": ["kbeauty", "koreanskincare", "illiyoon", "oliveyoung", "sensitiveskin", "ceramide", "seoul", "skincareroutine"]},
-    "shorts": {"title": "Korea's $13 gel for sensitive skin (it's $27 abroad)", "description": "ILLIYOON Ceramide Ato Soothing Gel 175 ml, made by Amorepacific.\n\n• List price ₩17,900 (~$13) in Korea, often discounted at Olive Young\n• About $27 at US K-beauty shops\n• Soy-ceramide™ for the moisture barrier + madecassoside (cica) to calm\n• Dermatologist tested, allergy tested, fragrance free, 10-free\n• Face, arms and legs: one tube\n\nGet it if your skin turns red and tight. Skip it if you want a rich cream.\n\nVoice: AI narration. Footage: filmed in Seoul.\n#Shorts #kbeauty #illiyoon #koreanskincare", "tags": ["kbeauty", "illiyoon", "ceramide ato", "korean skincare", "olive young", "sensitive skin", "soothing gel"]}
+    "tiktok": {
+      "caption": "Sensitive, dry skin? Korea's ₩17,900 gel is ~$27 abroad. What's your skin type? 👇",
+      "hashtags": [
+        "kbeauty",
+        "illiyoon",
+        "koreanskincare",
+        "oliveyoung",
+        "sensitiveskin",
+        "ceramide"
+      ]
+    },
+    "reels": {
+      "caption": "Sensitive skin? Korea's ₩17,900 fix.\nIlliyoon Ceramide Ato Soothing Gel: soy ceramide + madecassoside, fragrance-free, face & body in one tube. About $27 at US K-beauty shops, ₩17,900 (~$13) list price in Korea.\nSave this for your Seoul trip 🇰🇷",
+      "hashtags": [
+        "kbeauty",
+        "koreanskincare",
+        "illiyoon",
+        "oliveyoung",
+        "sensitiveskin",
+        "ceramide",
+        "seoul",
+        "skincareroutine"
+      ]
+    },
+    "shorts": {
+      "title": "Korea's $13 gel for sensitive skin (it's $27 abroad)",
+      "description": "ILLIYOON Ceramide Ato Soothing Gel 175 ml, made by Amorepacific.\n\n• List price ₩17,900 (~$13) in Korea, often discounted at Olive Young\n• About $27 at US K-beauty shops\n• Soy-ceramide™ for the moisture barrier + madecassoside (cica) to calm\n• Dermatologist tested, allergy tested, fragrance free, 10-free\n• Face, arms and legs: one tube\n\nGet it if your skin turns red and tight. Skip it if you want a rich cream.\n\nVoice: AI narration. Footage: filmed in Seoul.\n#Shorts #kbeauty #illiyoon #koreanskincare",
+      "tags": [
+        "kbeauty",
+        "illiyoon",
+        "ceramide ato",
+        "korean skincare",
+        "olive young",
+        "sensitive skin",
+        "soothing gel"
+      ]
+    }
   },
-  "cover_text": ["SENSITIVE SKIN?", "₩17,900 FIX"],
+  "cover_text": [
+    "SENSITIVE SKIN?",
+    "₩17,900 FIX"
+  ],
   "pinned_comment": "ILLIYOON Ceramide Ato Soothing Gel 175 ml · list price ₩17,900 (~$13) in Korea, often on sale at Olive Young · ~$27 at US K-beauty shops (Mirai Skin, Sukoshimart) · Voice: AI narration",
   "facts_used": [
-    {"claim": "₩17,900 list price, 175 ml", "source": "https://unpa.me/products/221932-ceramide-ato-soothing-gel"},
-    {"claim": "~$27 at US K-beauty shops", "source": "https://www.mirai-skin.com/products/illiyoon-ceramide-ato-soothing-gel-175ml ; https://sukoshimart.com/collections/all/products/illiyoon-ceramide-ato-soothing-gel"},
-    {"claim": "Soy-ceramide™ & Madecassoside; For Sensitive & Dry Skin; Fragrance Free; 10 FREE; dermatologist/allergy/sensitive-panel tested; 175 ml 5.91 fl oz; Amorepacific", "source": "footage: front and back label (IMG_1295)"},
-    {"claim": "face, arms, legs", "source": "footage: back-label usage text (얼굴, 팔, 다리)"}
+    {
+      "claim": "₩17,900 list price, 175 ml",
+      "source": "https://unpa.me/products/221932-ceramide-ato-soothing-gel"
+    },
+    {
+      "claim": "~$27 at US K-beauty shops",
+      "source": "https://www.mirai-skin.com/products/illiyoon-ceramide-ato-soothing-gel-175ml ; https://sukoshimart.com/collections/all/products/illiyoon-ceramide-ato-soothing-gel"
+    },
+    {
+      "claim": "Soy-ceramide™ & Madecassoside; For Sensitive & Dry Skin; Fragrance Free; 10 FREE; dermatologist/allergy/sensitive-panel tested; 175 ml 5.91 fl oz; Amorepacific",
+      "source": "footage: front and back label (IMG_1295)"
+    },
+    {
+      "claim": "face, arms, legs",
+      "source": "footage: back-label usage text (얼굴, 팔, 다리)"
+    }
   ],
   "editor_notes": "Footage has no store or price tag, so the hook rides on the sharpest asset: the 'For Sensitive & Dry Skin' label close-up, paid off with the researched Korea-vs-abroad price. The gel-blob shot is held as a 3s ASMR beat with natural sound. Next time film: the Olive Young shelf and price tag, a 2s still of the absorbed finish, and a face application shot.",
   "lang": "en"

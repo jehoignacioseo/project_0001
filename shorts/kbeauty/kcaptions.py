@@ -32,8 +32,7 @@ def _t(sec):
 def _chunks(words):
     out, cur, n = [], [], 0
     for w in words:
-        if cur and (n + 1 + len(w["w"]) > MAX_CHARS or len(cur) >= MAX_WORDS or w["w"].endswith((".", "!", "?"))
-                    and False):
+        if cur and (n + 1 + len(w["w"]) > MAX_CHARS or len(cur) >= MAX_WORDS):
             out.append(cur); cur, n = [], 0
         cur.append(w); n += len(w["w"]) + 1
         if w["w"].endswith((".", "!", "?", ",")) and len(cur) >= 2:
@@ -49,8 +48,12 @@ def build_ass(timed_lines, W=config.W, H=config.H):
     hdr = HEADER.format(w=W, h=H, fs=fs, ol=int(fs * 0.11), mv=int(H * (1 - 0.66)))
     ev = []
     for ln in timed_lines:
-        for ch in _chunks(ln["words"]):
+        chunks = _chunks(ln["words"])
+        for ci, ch in enumerate(chunks):
             s, e = ch[0]["s"], ch[-1]["e"] + 0.12
+            if ci + 1 < len(chunks):                      # never let two lines sit on screen together
+                e = min(e, chunks[ci + 1][0]["s"] - 0.01)
+            e = max(e, s + 0.25)
             parts = []
             for i, w in enumerate(ch):
                 nxt = ch[i + 1]["s"] if i + 1 < len(ch) else w["e"]
