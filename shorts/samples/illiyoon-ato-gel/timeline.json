@@ -1,2 +1,86 @@
-{"starts":[0.0,2.5,8.134,13.84,20.386,23.686,29.344,35.674,40.78],"body":44.518,"total":46.718,"voice":{"engine":"edge-tts","voice":"en-US-AvaMultilingualNeural","rate":"+12%","lines":8,"spoken_seconds":37.4},
- "segments":[{"src":"IMG_1295.MOV","in":0.3,"out":2.8,"dur":2.5,"purpose":"hook"},{"src":"IMG_1291.MOV","in":0.4,"out":6.034,"dur":5.634,"purpose":"context"},{"src":"IMG_1295.MOV","in":4.6,"out":10.306,"dur":5.706,"purpose":"proof"},{"src":"IMG_1291.MOV","in":12.3,"out":18.846,"dur":6.546,"purpose":"fact"},{"src":"IMG_1291.MOV","in":17.0,"out":20.3,"dur":3.3,"purpose":"texture (ASMR, no voice)"},{"src":"IMG_1292.MOV","in":4.3,"out":9.958,"dur":5.658,"purpose":"fact"},{"src":"IMG_1293.MOV","in":11.0,"out":17.137,"dur":6.33,"freeze":0.193,"purpose":"proof (price)"},{"src":"IMG_1292.MOV","in":8.2,"out":13.306,"dur":5.106,"purpose":"verdict"},{"src":"IMG_1291.MOV","in":4.2,"out":7.938,"dur":3.738,"purpose":"cta"}]}
+{
+ "body": 49.1,
+ "total": 51.3,
+ "voice": {
+  "engine": "edge-tts",
+  "voice": "en-US-AvaMultilingualNeural",
+  "rate": "+12%",
+  "lines": 10
+ },
+ "segments": [
+  {
+   "type": "footage",
+   "src": "IMG_1295.MOV",
+   "dur": 2.5,
+   "purpose": "hook"
+  },
+  {
+   "type": "footage",
+   "src": "IMG_1291.MOV",
+   "dur": 5.3,
+   "purpose": "context"
+  },
+  {
+   "type": "footage",
+   "src": "IMG_1295.MOV",
+   "dur": 4.2,
+   "purpose": "proof"
+  },
+  {
+   "type": "image",
+   "src": "Picky reviewer photo (rainyblues)",
+   "dur": 3.3,
+   "purpose": "rating"
+  },
+  {
+   "type": "footage",
+   "src": "IMG_1291.MOV",
+   "dur": 4.1,
+   "purpose": "ingredients"
+  },
+  {
+   "type": "footage",
+   "src": "IMG_1291.MOV",
+   "dur": 3.3,
+   "purpose": "texture ASMR"
+  },
+  {
+   "type": "review",
+   "src": "Picky quote (rainyblues)",
+   "dur": 4.7,
+   "purpose": "proof"
+  },
+  {
+   "type": "footage",
+   "src": "IMG_1292.MOV",
+   "dur": 4.4,
+   "purpose": "usage",
+   "speed": 1.15
+  },
+  {
+   "type": "image",
+   "src": "Picky reviewer photo (Liiililac)",
+   "dur": 2.0,
+   "purpose": "variety"
+  },
+  {
+   "type": "footage",
+   "src": "IMG_1293.MOV",
+   "dur": 6.1,
+   "purpose": "price"
+  },
+  {
+   "type": "footage",
+   "src": "IMG_1292.MOV",
+   "dur": 5.1,
+   "purpose": "verdict",
+   "speed": 1.1
+  },
+  {
+   "type": "footage",
+   "src": "IMG_1291.MOV",
+   "dur": 4.0,
+   "purpose": "cta"
+  }
+ ]
+}
