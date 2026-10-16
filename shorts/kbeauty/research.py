@@ -32,12 +32,22 @@ PRODUCT_SCHEMA = {
         "launched": {"type": "string", "description": "launch month/year in Korea or ''"},
         "caveats": {"type": "array", "items": {"type": "string"}},
         "unverified": {"type": "array", "items": {"type": "string"}, "description": "claims seen online that could not be confirmed; never used on screen"},
+        "image_urls": {"type": "array", "items": {"type": "object", "additionalProperties": False,
+                       "properties": {"url": {"type": "string", "description": "direct https image URL (jpg/png/webp)"}, "source": {"type": "string", "description": "brand site / Olive Young / Picky / Amazon ..."},
+                                      "kind": {"type": "string", "enum": ["official", "retailer", "review_photo"]}},
+                       "required": ["url", "source", "kind"]}, "description": "2-5 product images usable as 2-second inserts"},
+        "reviews": {"type": "array", "items": {"type": "object", "additionalProperties": False,
+                    "properties": {"quote": {"type": "string", "description": "verbatim, <= 110 chars"}, "author": {"type": "string"}, "skin_type": {"type": "string"},
+                                   "rating": {"type": "number"}, "source": {"type": "string"}, "url": {"type": "string"}},
+                    "required": ["quote", "author", "skin_type", "rating", "source", "url"]}, "description": "3-5 short real review quotes with handle + source"},
+        "rating": {"type": "object", "additionalProperties": False, "properties": {"score": {"type": ["number", "null"]}, "count": {"type": ["integer", "null"]}, "source": {"type": "string"}},
+                   "required": ["score", "count", "source"]},
         "sources": {"type": "array", "items": {"type": "string"}},
         "confidence": {"type": "string", "enum": ["high", "medium", "low"]},
     },
     "required": ["name", "brand", "name_ko", "category", "price_krw", "price_usd_korea", "price_usd_abroad", "size",
                  "key_ingredients", "hero_facts", "good_for", "skip_if", "how_to_use", "why_viral", "where_to_buy",
-                 "launched", "caveats", "unverified", "sources", "confidence"],
+                 "launched", "caveats", "unverified", "image_urls", "reviews", "rating", "sources", "confidence"],
 }
 
 RESEARCH_SYSTEM = """You are a K-beauty product researcher for a short-form channel. Search Korean and English sources
@@ -45,7 +55,9 @@ RESEARCH_SYSTEM = """You are a K-beauty product researcher for a short-form chan
 Collect only verifiable facts and keep the URL for each. Priorities: (1) current Korean retail price in KRW and the usual price abroad in
 USD, (2) the 2-4 key ingredients and what each does in plain language (no medical claims), (3) proof points foreigners don't know:
 Olive Young category rank or awards, units sold, launch date in Korea, what Korean reviewers say, (4) who it suits and who should skip it,
-(5) why it went viral. Flag anything you could not confirm as unverified. Today is {today}."""
+(5) why it went viral, (6) 2-5 direct image URLs of the product (brand site, Olive Young, Picky, Amazon pack shots or reviewer photos; the
+URL must point at the image file itself), (7) 3-5 short verbatim review quotes with the reviewer handle, skin type and source, plus the
+aggregate rating and review count. Flag anything you could not confirm as unverified. Today is {today}."""
 
 STRUCTURE_SYSTEM = "Convert research notes into the JSON schema exactly. Put every claim you cannot trace to a source into `unverified`."
 
@@ -77,6 +89,8 @@ def mock_product(p):
             "why_viral": "Korean pharmacists and Olive Young's ranking sticker made it the default 'first toner pad'.",
             "where_to_buy": ["Olive Young Korea", "Olive Young Global", "Amazon US"], "launched": "2023",
             "caveats": ["Patch test if you react to botanical extracts"], "unverified": ["'cures acne' claims seen on TikTok"],
+            "image_urls": [], "reviews": [{"quote": "Finally a toner pad that calms my redness without stinging.", "author": "mock_user", "skin_type": "Oily/Sensitive", "rating": 5, "source": "Picky", "url": ""}],
+            "rating": {"score": 4.6, "count": 129, "source": "Picky"},
             "sources": ["https://global.oliveyoung.com/"], "confidence": "medium"}
 
 

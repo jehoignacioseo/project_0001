@@ -12,6 +12,18 @@ SR = 48000
 OUT = Path(__file__).resolve().parent / "assets"
 
 
+def ensure(name):
+    """Synthesize a named asset on demand (keeps big wavs out of git)."""
+    p = OUT / name
+    if not p.exists():
+        np.random.seed(7)
+        fn = {"music_pop.wav": pop_beat, "music_lofi.wav": lofi}.get(name)
+        if fn is None:
+            raise FileNotFoundError(name)
+        save(name, fn())
+    return p
+
+
 def save(name, x):
     OUT.mkdir(exist_ok=True)
     x = np.clip(x, -1, 1)
@@ -110,6 +122,74 @@ def lofi(bars=8, bpm=84):
     return y
 
 
+def _onepole(x, cutoff):
+    """Vectorised-ish one-pole low-pass (recursive, but cheap enough for a 20s bed)."""
+    a = min(1.0, cutoff / SR * 2 * math.pi)
+    y = np.empty_like(x); acc = 0.0
+    for i in range(len(x)):
+        acc += a * (x[i] - acc); y[i] = acc
+    return y
+
+
+def pop_beat(bars=8, bpm=108):
+    """Upbeat, clean K-beauty style bed: four-on-the-floor kick, clap on 2/4, swung hats,
+    sub bass, plucky arpeggio and a side-chained pad. C-G-Am-F, 2 bars per chord, loopable."""
+    beat = 60 / bpm
+    n = int(SR * beat * 4 * bars); t = np.arange(n) / SR
+    out = np.zeros(n)
+    chords = [[261.6, 329.6, 392.0, 523.3], [196.0, 246.9, 293.7, 392.0],
+              [220.0, 261.6, 329.6, 440.0], [174.6, 220.0, 261.6, 349.2]]
+    roots = [130.8, 98.0, 110.0, 87.3]
+    pad = np.zeros(n); pluck = np.zeros(n); bass = np.zeros(n)
+    for ci, ch in enumerate(chords):
+        s0 = int(ci * 2 * 4 * beat * SR); s1 = min(n, int((ci + 1) * 2 * 4 * beat * SR))
+        tt = np.arange(s1 - s0) / SR
+        pad[s0:s1] += sum(np.sin(2 * np.pi * f * tt) + 0.3 * np.sin(2 * np.pi * f * 2 * tt + 0.5) for f in ch) * 0.06
+        # plucky 8th-note arpeggio
+        for k in range(16):
+            ps = s0 + int(k * beat / 2 * SR)
+            if ps >= s1:
+                break
+            m = int(SR * 0.22); tt2 = np.arange(m) / SR
+            f = ch[k % 4] * (2 if k % 8 >= 4 else 1)
+            note = (np.sin(2 * np.pi * f * tt2) + 0.5 * np.sin(2 * np.pi * 2 * f * tt2)) * np.exp(-tt2 * 14) * 0.22
+            e = min(m, n - ps); pluck[ps:ps + e] += note[:e]
+        # bass: root on 1 and the "and" of 2 and 4
+        for b in range(8):
+            for off in (0.0, 0.5):
+                bs = s0 + int((b + off) * beat * SR)
+                if off == 0.5 and b % 2 == 0:
+                    continue
+                m = int(SR * 0.3); tt2 = np.arange(m) / SR
+                nb = np.sin(2 * np.pi * roots[ci] * tt2) * np.exp(-tt2 * 7) * 0.5
+                e = min(m, max(0, n - bs)); bass[bs:bs + e] += nb[:e]
+    def kick():
+        m = int(SR * 0.22); tt = np.arange(m) / SR
+        return np.sin(2 * np.pi * (150 * np.exp(-tt * 22) + 48) * tt) * np.exp(-tt * 11) * 1.0
+    def clap():
+        m = int(SR * 0.16); tt = np.arange(m) / SR
+        x = np.random.randn(m) * np.exp(-tt * 28)
+        return _onepole(x, 1800) * 2.2 * 0.5
+    def hat(open_=False):
+        m = int(SR * (0.16 if open_ else 0.05)); x = np.random.randn(m) * np.exp(-np.arange(m) / SR * (18 if open_ else 80))
+        return (x - _onepole(x, 6000)) * 0.35
+    drums = np.zeros(n); sc = np.ones(n)
+    for b in range(bars * 4):
+        pos = int(b * beat * SR)
+        k = kick(); e = min(len(k), n - pos); drums[pos:pos + e] += k[:e]
+        m = int(SR * 0.25); env = np.linspace(0.25, 1.0, m); e2 = min(m, n - pos); sc[pos:pos + e2] *= env[:e2]
+        if b % 2 == 1:
+            c = clap(); e = min(len(c), n - pos); drums[pos:pos + e] += c[:e]
+        for h in range(2):
+            hp = pos + int((h * 0.5 + (0.06 if h else 0)) * beat * SR)
+            if hp < n:
+                hh = hat(open_=(h == 1 and b % 2 == 1)); e = min(len(hh), n - hp); drums[hp:hp + e] += hh[:e]
+    mix = _onepole(pad, 1400) * sc + pluck * 0.9 + bass + drums * 0.8
+    # gentle soft-clip "glue"
+    mix = np.tanh(mix * 1.4) / np.tanh(1.4)
+    return mix / (np.abs(mix).max() + 1e-9) * 0.85
+
+
 def cash(dur=0.7):
     """Register 'ka-ching': metallic click + bell."""
     n = int(SR * dur); t = np.arange(n) / SR
@@ -164,6 +244,6 @@ if __name__ == "__main__":
     for name, fn in (("sfx_whoosh.wav", whoosh), ("sfx_pop.wav", pop), ("sfx_ding.wav", ding),
                      ("sfx_click.wav", click), ("music_lofi.wav", lofi), ("sfx_cash.wav", cash),
                      ("sfx_beep.wav", beep), ("sfx_thud.wav", thud), ("sfx_riser.wav", riser),
-                     ("sfx_chime.wav", chime)):
+                     ("sfx_chime.wav", chime), ("music_pop.wav", pop_beat)):
         save(name, fn())
         print("wrote", name)

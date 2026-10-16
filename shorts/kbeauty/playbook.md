@@ -37,6 +37,16 @@ Languages: English VO + English captions by default. Korean product names shown 
   (who it is for / skip if), 38-45s CTA (one specific ask: "comment your skin type", "save this for your Seoul trip"). End card ≤2.5s.
 - One idea per video. Three facts beat ten. Each fact must be concrete (number, ingredient, price, date, place).
 
+## Pacing and variety (immersion)
+- A visual change every 2-3.5s: cut, push-in, insert or card. Every footage cut gets a slow push-in (zoom to +0.08..0.15); hand and
+  application shots run at 1.1-1.25x. Reveals (price, verdict) get a punch (emphasis word + SFX + riser before a price).
+- Inserts every 2nd-3rd cut: official or retailer pack shot (labelled with the source), reviewer photo, or a review-quote slide with the
+  star rating. 1.8-3.0s each, narration keeps flowing. Never two inserts back to back; never an insert as the hook.
+- Fixed black title bar on top (series name + episode/product) so the viewer always knows what they are watching; the hook title band
+  shows under it for the first 2.5s.
+- Music: upbeat, clean beat at -17 dB, ducked (not muted) under the voice so energy stays between lines; whoosh on scene changes,
+  click on inserts, cash + riser on the price reveal, pop on cards. Natural footage sound stays audible on texture shots.
+
 ## Captions
 - Karaoke-style word highlight synced to the VO (2-4 words per line, current word in yellow). Centered, lower-middle, inside safe zones.
 - Keep captions ≤ 28 characters per line. Emphasis words in caps. Emojis only in on-screen cards, not in karaoke lines.

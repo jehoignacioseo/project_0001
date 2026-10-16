@@ -13,11 +13,16 @@
   ],
   "segments": [
     {
+      "type": "footage",
       "src": "IMG_1295.MOV",
       "in": 0.3,
       "out": 2.8,
+      "dur": 0,
+      "label": "",
+      "review": null,
       "speed": 1.0,
       "zoom": 1.0,
+      "zoom_to": 1.14,
       "crop_x": 0.5,
       "crop_y": 0.5,
       "whoosh": false,
@@ -26,50 +31,88 @@
       "purpose": "hook"
     },
     {
+      "type": "footage",
       "src": "IMG_1291.MOV",
       "in": 0.4,
       "out": 3.9,
+      "dur": 0,
+      "label": "",
+      "review": null,
       "speed": 1.0,
-      "zoom": 1.05,
+      "zoom": 1.04,
+      "zoom_to": 1.16,
       "crop_x": 0.5,
       "crop_y": 0.5,
       "whoosh": true,
       "amb_gain_db": -14,
-      "vo": "This is Korea's seventeen-thousand-won fix: Illiyoon Ceramide Ato Soothing Gel.",
+      "vo": "Korea's seventeen-thousand-won fix: Illiyoon Ceramide Ato Soothing Gel.",
       "purpose": "context"
     },
     {
+      "type": "footage",
       "src": "IMG_1295.MOV",
       "in": 4.6,
       "out": 8.0,
+      "dur": 0,
+      "label": "",
+      "review": null,
       "speed": 1.0,
       "zoom": 1.0,
+      "zoom_to": 1.1,
       "crop_x": 0.5,
       "crop_y": 0.5,
       "whoosh": true,
       "amb_gain_db": -16,
-      "vo": "Dermatologist tested, allergy tested, fragrance free. It's all on the label.",
+      "vo": "Dermatologist tested, allergy tested, fragrance free.",
       "purpose": "proof"
     },
     {
+      "type": "image",
+      "src": "https://media.gopicky.com/products/images/ILLIYOON-CeramideAtoSoothingGel.jpg",
+      "in": 0,
+      "out": 0,
+      "dur": 2.4,
+      "label": "Product image · Picky",
+      "review": null,
+      "speed": 1.0,
+      "zoom": 1.0,
+      "zoom_to": 1.1,
+      "crop_x": 0.5,
+      "crop_y": 0.5,
+      "whoosh": false,
+      "amb_gain_db": -14,
+      "vo": "Picky users rate it four point six out of five.",
+      "purpose": "proof"
+    },
+    {
+      "type": "footage",
       "src": "IMG_1291.MOV",
       "in": 12.3,
       "out": 16.0,
+      "dur": 0,
+      "label": "",
+      "review": null,
       "speed": 1.0,
-      "zoom": 1.1,
+      "zoom": 1.08,
+      "zoom_to": 1.2,
       "crop_x": 0.5,
       "crop_y": 0.5,
       "whoosh": true,
       "amb_gain_db": -8,
-      "vo": "Inside: soy ceramide for your moisture barrier, plus madecassoside, the calming part of cica.",
+      "vo": "Soy ceramide for your barrier, madecassoside to calm.",
       "purpose": "fact"
     },
     {
+      "type": "footage",
       "src": "IMG_1291.MOV",
       "in": 17.0,
       "out": 20.3,
+      "dur": 0,
+      "label": "",
+      "review": null,
       "speed": 1.0,
       "zoom": 1.15,
+      "zoom_to": 1.32,
       "crop_x": 0.5,
       "crop_y": 0.5,
       "whoosh": false,
@@ -78,37 +121,94 @@
       "purpose": "texture"
     },
     {
+      "type": "review",
+      "src": "",
+      "in": 0,
+      "out": 0,
+      "dur": 2.8,
+      "label": "",
+      "review": {
+        "quote": "Super quick absorption with no tacky residue. My skin feels refreshed after applying.",
+        "author": "rainyblues",
+        "skin_type": "Oily/Sensitive",
+        "rating": 5,
+        "source": "Picky · 4.6★ from 129 reviews"
+      },
+      "speed": 1.0,
+      "zoom": 1.0,
+      "zoom_to": 1.04,
+      "crop_x": 0.5,
+      "crop_y": 0.5,
+      "whoosh": false,
+      "amb_gain_db": -14,
+      "vo": "'Quick absorption, no tacky residue,' says an oily-skin reviewer.",
+      "purpose": "proof"
+    },
+    {
+      "type": "footage",
       "src": "IMG_1292.MOV",
       "in": 4.3,
       "out": 8.0,
-      "speed": 1.0,
-      "zoom": 1.05,
-      "crop_x": 0.5,
-      "crop_y": 0.5,
-      "whoosh": true,
-      "amb_gain_db": -12,
-      "vo": "A cooling gel that sinks in fast. Koreans use it on face, arms and legs.",
-      "purpose": "fact"
-    },
-    {
-      "src": "IMG_1293.MOV",
-      "in": 11.0,
-      "out": 15.5,
-      "speed": 1.0,
-      "zoom": 1.0,
+      "dur": 0,
+      "label": "",
+      "review": null,
+      "speed": 1.15,
+      "zoom": 1.04,
+      "zoom_to": 1.16,
       "crop_x": 0.5,
       "crop_y": 0.5,
       "whoosh": true,
       "amb_gain_db": -14,
-      "vo": "Seventeen thousand nine hundred won, about thirteen dollars. Abroad, around twenty-seven.",
+      "vo": "A cooling gel. Koreans use it on face, arms and legs.",
+      "purpose": "fact"
+    },
+    {
+      "type": "image",
+      "src": "https://media.gopicky.com/reviews/Cedric-20214212242-0.jpg",
+      "in": 0,
+      "out": 0,
+      "dur": 1.8,
+      "label": "Reviewer photo · Cedric on Picky",
+      "review": null,
+      "speed": 1.0,
+      "zoom": 1.0,
+      "zoom_to": 1.1,
+      "crop_x": 0.5,
+      "crop_y": 0.5,
+      "whoosh": false,
+      "amb_gain_db": -14,
+      "vo": "",
       "purpose": "proof"
     },
     {
+      "type": "footage",
+      "src": "IMG_1293.MOV",
+      "in": 11.0,
+      "out": 15.5,
+      "dur": 0,
+      "label": "",
+      "review": null,
+      "speed": 1.0,
+      "zoom": 1.0,
+      "zoom_to": 1.12,
+      "crop_x": 0.5,
+      "crop_y": 0.5,
+      "whoosh": true,
+      "amb_gain_db": -14,
+      "vo": "Seventeen thousand nine hundred won, about thirteen dollars. Abroad, twenty-seven.",
+      "purpose": "proof"
+    },
+    {
+      "type": "footage",
       "src": "IMG_1292.MOV",
       "in": 8.2,
       "out": 12.0,
-      "speed": 1.0,
+      "dur": 0,
+      "label": "",
+      "review": null,
+      "speed": 1.1,
       "zoom": 1.0,
+      "zoom_to": 1.1,
       "crop_x": 0.5,
       "crop_y": 0.5,
       "whoosh": true,
@@ -117,16 +217,21 @@
       "purpose": "verdict"
     },
     {
+      "type": "footage",
       "src": "IMG_1291.MOV",
       "in": 4.2,
       "out": 7.6,
+      "dur": 0,
+      "label": "",
+      "review": null,
       "speed": 1.0,
       "zoom": 1.0,
+      "zoom_to": 1.08,
       "crop_x": 0.5,
       "crop_y": 0.5,
       "whoosh": true,
       "amb_gain_db": -14,
-      "vo": "Save this for your Olive Young run, and comment your skin type.",
+      "vo": "Save this for your Olive Young run. Comment your skin type.",
       "purpose": "cta"
     }
   ],
@@ -135,7 +240,7 @@
       "type": "product",
       "seg": 1,
       "t": 0.6,
-      "d": 3.2,
+      "d": 3.0,
       "title": "ILLIYOON · Amorepacific",
       "lines": [
         "Ceramide Ato Soothing Gel",
@@ -146,8 +251,8 @@
     {
       "type": "fact",
       "seg": 2,
-      "t": 0.5,
-      "d": 3.4,
+      "t": 0.4,
+      "d": 3.0,
       "title": "On the label",
       "lines": [
         "Dermatologist tested",
@@ -157,9 +262,9 @@
     },
     {
       "type": "ingredients",
-      "seg": 3,
+      "seg": 4,
       "t": 0.4,
-      "d": 3.6,
+      "d": 3.2,
       "title": "Key ingredients",
       "lines": [
         "Soy-ceramide™ · moisture barrier",
@@ -168,7 +273,7 @@
     },
     {
       "type": "price",
-      "seg": 6,
+      "seg": 9,
       "t": 0.4,
       "d": 3.4,
       "title": "Price check",
@@ -179,7 +284,7 @@
     },
     {
       "type": "verdict",
-      "seg": 7,
+      "seg": 10,
       "t": 0.4,
       "d": 3.4,
       "title": "Verdict",
@@ -191,14 +296,21 @@
   ],
   "emphasis": [
     {
-      "seg": 4,
+      "seg": 3,
+      "t": 0.2,
+      "d": 2.0,
+      "text": "4.6 ★",
+      "style": "shout"
+    },
+    {
+      "seg": 5,
       "t": 0.3,
       "d": 2.2,
       "text": "GEL, NOT CREAM",
       "style": "pop"
     },
     {
-      "seg": 6,
+      "seg": 9,
       "t": 4.0,
       "d": 1.6,
       "text": "$27 vs $13",
@@ -271,8 +383,28 @@
     {
       "claim": "face, arms, legs",
       "source": "footage: back-label usage text (얼굴, 팔, 다리)"
+    },
+    {
+      "claim": "4.6/5 from 129 reviews; quotes by rainyblues and Cedric; product/reviewer images",
+      "source": "https://www.gopicky.com/product/7752/illiyoon-ceramide-ato-soothing-gel"
     }
   ],
-  "editor_notes": "Footage has no store or price tag, so the hook rides on the sharpest asset: the 'For Sensitive & Dry Skin' label close-up, paid off with the researched Korea-vs-abroad price. The gel-blob shot is held as a 3s ASMR beat with natural sound. Next time film: the Olive Young shelf and price tag, a 2s still of the absorbed finish, and a face application shot.",
-  "lang": "en"
+  "editor_notes": "Footage has no store or price tag, so the hook rides on the sharpest asset: the 'For Sensitive & Dry Skin' label close-up, paid off with the researched Korea-vs-abroad price. The gel-blob shot is held as a 3s ASMR beat with natural sound. Next time film: the Olive Young shelf and price tag, a 2s still of the absorbed finish, and a face application shot. v2: fixed title bar, push-ins on every cut, 1.1-1.15x on application shots, pack-shot + review-quote + reviewer-photo inserts, upbeat bed at -17 dB.",
+  "lang": "en",
+  "title_bar": {
+    "lines": [
+      [
+        "SEOUL SKINCARE FINDS",
+        "yellow"
+      ],
+      [
+        "#01 · ILLIYOON Ceramide Ato Soothing Gel",
+        "white"
+      ]
+    ]
+  },
+  "music": {
+    "file": "music_pop.wav",
+    "gain_db": -17
+  }
 }

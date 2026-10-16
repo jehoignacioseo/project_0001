@@ -21,20 +21,32 @@ EPISODE_SCHEMA = {
         "title_band": {"type": "array", "items": {"type": "string"}, "minItems": 1, "maxItems": 2,
                        "description": "2 short lines shown during the hook (<= 22 chars each, caps for the key word)"},
         "hook_alternatives": {"type": "array", "items": {"type": "string"}, "minItems": 3, "maxItems": 3},
-        "segments": {"type": "array", "minItems": 4, "maxItems": 14, "items": {
+        "title_bar": {"type": "object", "additionalProperties": False, "description": "fixed black bar at the top for the whole video",
+                      "properties": {"lines": {"type": "array", "minItems": 1, "maxItems": 2, "items": {"type": "array", "items": {"type": "string"}, "minItems": 2, "maxItems": 2,
+                                     "description": "[text, color] with color yellow|white; line 1 = series name (<= 22 chars), line 2 = episode/product (<= 40 chars)"}}},
+                      "required": ["lines"]},
+        "segments": {"type": "array", "minItems": 6, "maxItems": 18, "items": {
             "type": "object", "additionalProperties": False,
             "properties": {
-                "src": {"type": "string", "description": "clip file name"},
+                "type": {"type": "string", "enum": ["footage", "image", "review"], "description": "footage cut, inserted still image (official/retailer/reviewer photo), or a rendered review-quote slide"},
+                "src": {"type": "string", "description": "footage: clip file name; image: URL from products.json image_urls; review: ''"},
                 "in": {"type": "number"}, "out": {"type": "number"},
+                "dur": {"type": "number", "description": "image/review only: seconds on screen (1.8-3.0); 0 for footage"},
+                "label": {"type": "string", "description": "image only: source label shown on the still, e.g. 'Product image · Picky'; '' otherwise"},
+                "review": {"type": ["object", "null"], "additionalProperties": False, "description": "review only",
+                           "properties": {"quote": {"type": "string", "description": "<= 110 chars, verbatim from products.json reviews"}, "author": {"type": "string"}, "skin_type": {"type": "string"},
+                                          "rating": {"type": "number"}, "source": {"type": "string"}},
+                           "required": ["quote", "author", "skin_type", "rating", "source"]},
                 "speed": {"type": "number", "minimum": 0.5, "maximum": 2.0},
-                "zoom": {"type": "number", "minimum": 1.0, "maximum": 1.6, "description": "punch-in on closeups"},
+                "zoom": {"type": "number", "minimum": 1.0, "maximum": 1.6, "description": "zoom at the start of the cut"},
+                "zoom_to": {"type": "number", "minimum": 1.0, "maximum": 1.6, "description": "zoom at the end of the cut (slow push-in: +0.08 to +0.15; punch-out on reveals)"},
                 "crop_x": {"type": "number", "minimum": 0, "maximum": 1}, "crop_y": {"type": "number", "minimum": 0, "maximum": 1},
                 "whoosh": {"type": "boolean", "description": "true when this cut is a scene change"},
                 "amb_gain_db": {"type": "number", "description": "natural sound level under the VO: -14 default, -6 for texture ASMR shots"},
                 "vo": {"type": "string", "description": "the narration spoken over this cut; '' for pure ASMR cuts. 6-18 words."},
                 "purpose": {"type": "string", "enum": ["hook", "context", "fact", "texture", "proof", "verdict", "cta"]},
             },
-            "required": ["src", "in", "out", "speed", "zoom", "crop_x", "crop_y", "whoosh", "amb_gain_db", "vo", "purpose"],
+            "required": ["type", "src", "in", "out", "dur", "label", "review", "speed", "zoom", "zoom_to", "crop_x", "crop_y", "whoosh", "amb_gain_db", "vo", "purpose"],
         }},
         "cards": {"type": "array", "items": {
             "type": "object", "additionalProperties": False,
@@ -68,7 +80,7 @@ EPISODE_SCHEMA = {
                        "properties": {"claim": {"type": "string"}, "source": {"type": "string"}}, "required": ["claim", "source"]}},
         "editor_notes": {"type": "string", "description": "why this format/hook was chosen given the footage; what to film next time"},
     },
-    "required": ["id", "format", "hook_type", "title_band", "hook_alternatives", "segments", "cards", "emphasis", "verdict", "cta",
+    "required": ["id", "format", "hook_type", "title_band", "title_bar", "hook_alternatives", "segments", "cards", "emphasis", "verdict", "cta",
                  "music_gain_db", "platforms", "cover_text", "pinned_comment", "facts_used", "editor_notes"],
 }
 
@@ -90,6 +102,11 @@ Cutting rules:
   If a line is longer than its cut, make the cut longer (within the scene's start/end) or split the line across two cuts.
 - Vary shot types across consecutive cuts (closeup -> shelf -> price -> texture). Use zoom 1.15-1.3 on closeups for a punch-in.
 - Landscape clips: choose crop_x to keep the product centered.
+- Pacing: no footage cut longer than 3.5s unless it is an ASMR hold; give every footage cut a slow push-in (zoom -> zoom_to +0.08..0.15)
+  and use speed 1.1-1.25 on hand/application cuts. Every 2nd-3rd cut, insert a still: an official/retailer product image
+  (type image, src from products.json image_urls, label with the source) or a review-quote slide (type review, quote verbatim
+  from products.json reviews, 1.8-3.0s). Narration keeps flowing over inserts. Use 2-4 inserts per video, never two in a row.
+- title_bar: fixed black bar on top for the whole video: line 1 the series name in caps (e.g. "SEOUL SKINCARE FINDS"), line 2 "#NN · brand product".
 - Cards: 1 price card when a price is known, 1 product card (brand + name + Hangul + size), 1 ingredients card (2-3 items), optional
   fact card. Cards show 2.5-3.5s and must not overlap each other. Emphasis words only at reveals (price, sold out, #1).
 - End: verdict cut (who it is for / skip if) then a CTA cut with one specific ask. Total 25-45s of segments.
@@ -134,11 +151,17 @@ def mock_episode(footage, products):
     segs = []
     for i, (c, s) in enumerate((usable * 3)[:7]):
         d = min(3.6, s["end"] - s["start"])
-        segs.append({"src": c["file"], "in": s["start"], "out": round(s["start"] + d, 2), "speed": 1.0,
-                     "zoom": 1.2 if s["shot_type"] == "product_closeup" else 1.0, "crop_x": 0.5, "crop_y": 0.5,
+        segs.append({"type": "footage", "src": c["file"], "in": s["start"], "out": round(s["start"] + d, 2), "dur": 0, "label": "", "review": None, "speed": 1.0,
+                     "zoom": 1.0, "zoom_to": 1.12, "crop_x": 0.5, "crop_y": 0.5,
                      "whoosh": i in (1, 3, 5), "amb_gain_db": -6 if purposes[i] == "texture" else -14,
                      "vo": vo[i], "purpose": purposes[i]})
+    segs.insert(3, {"type": "review", "src": "", "in": 0, "out": 0, "dur": 2.6, "label": "", "speed": 1.0, "zoom": 1.0, "zoom_to": 1.0, "crop_x": 0.5, "crop_y": 0.5,
+                    "whoosh": False, "amb_gain_db": -14, "vo": "", "purpose": "proof",
+                    "review": {"quote": "Finally a toner pad that calms my redness without stinging.", "author": "mock_user", "skin_type": "Oily/Sensitive", "rating": 5, "source": "Picky · 4.6★ (129 reviews)"}})
+    for i, sg in enumerate(segs):
+        pass
     return {"id": "mock-anua-pad", "format": "retail proof", "hook_type": "proof",
+            "title_bar": {"lines": [["SEOUL SKINCARE FINDS", "yellow"], ["#01 · Anua Heartleaf 77% Toner Pad", "white"]]},
             "title_band": ["SOLD OUT 3 TIMES", "at Olive Young"], "hook_alternatives": ["₩19,900 here, $26 in the US", "Koreans' #1 toner pad", "Stop buying toner pads until you see this"],
             "segments": segs,
             "cards": [{"type": "price", "seg": 1, "t": 0.4, "d": 3.0, "title": "KOREA PRICE", "lines": ["₩19,900 ≈ $14", "Amazon US: $26"]},
@@ -161,6 +184,8 @@ def validate(ep, footage):
     clips = {c["file"]: c for c in footage["clips"]}
     good = []
     for s in ep["segments"]:
+        if s.get("type", "footage") != "footage":
+            s.setdefault("dur", 2.5); good.append(s); continue
         c = clips.get(s["src"])
         if not c:
             print(f"  dropping segment: unknown clip {s['src']}", file=sys.stderr)
@@ -192,7 +217,7 @@ def main():
     ep = validate(ep, footage)
     ep["lang"] = a.lang
     (work / "episode.json").write_text(json.dumps(ep, indent=2, ensure_ascii=False), encoding="utf-8")
-    body = sum((s["out"] - s["in"]) / s["speed"] for s in ep["segments"])
+    body = sum(((s["out"] - s["in"]) / s["speed"]) if s.get("type", "footage") == "footage" else float(s.get("dur") or 2.5) for s in ep["segments"])
     print(f"wrote {work / 'episode.json'}: {ep['id']} format={ep['format']} {len(ep['segments'])} cuts ~{body:.1f}s")
     return 0
 

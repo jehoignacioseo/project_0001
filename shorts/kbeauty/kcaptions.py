@@ -42,10 +42,11 @@ def _chunks(words):
     return out
 
 
-def build_ass(timed_lines, W=config.W, H=config.H):
+def build_ass(timed_lines, W=config.W, H=config.H, baseline_y=None):
     """timed_lines: [{words:[{w,s,e}]}] with absolute seconds. Returns ASS text."""
     fs = int(H * 0.043)
-    hdr = HEADER.format(w=W, h=H, fs=fs, ol=int(fs * 0.11), mv=int(H * (1 - 0.66)))
+    by = int(H * 0.66) if baseline_y is None else int(baseline_y)
+    hdr = HEADER.format(w=W, h=H, fs=fs, ol=int(fs * 0.11), mv=H - by)
     ev = []
     for ln in timed_lines:
         chunks = _chunks(ln["words"])
@@ -72,6 +73,6 @@ def _esc(t):
     return t.replace("\\", "\\\\").replace("{", "\\{").replace("}", "\\}")
 
 
-def write_ass(timed_lines, path):
-    Path(path).write_text(build_ass(timed_lines), encoding="utf-8")
+def write_ass(timed_lines, path, baseline_y=None):
+    Path(path).write_text(build_ass(timed_lines, baseline_y=baseline_y), encoding="utf-8")
     return str(path)

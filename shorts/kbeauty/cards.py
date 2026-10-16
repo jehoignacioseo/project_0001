@@ -106,3 +106,97 @@ def cover(path, frame_jpg, lines, W=config.W, H=config.H):
         y += int(s * 1.15)
     img.convert("RGB").save(path, quality=92)
     return path
+
+
+def top_bar(path, lines, W=config.W, bar_h=280):
+    """Fixed black title bar for the top of the frame. lines: [(text, 'yellow'|'white'|'small')].
+    First line in Black Han Sans, the rest in Pretendard ExtraBold; everything is sized to fit the bar."""
+    img = Image.new("RGBA", (W, bar_h), (0, 0, 0, 255))
+    d = ImageDraw.Draw(img)
+    cols = {"yellow": (255, 229, 0, 255), "white": (255, 255, 255, 255), "small": (200, 200, 200, 255)}
+    probe = ImageDraw.Draw(Image.new("RGBA", (10, 10)))
+    maxw = int(W * 0.90)
+    n = max(1, len(lines))
+    specs, sizes = [], []
+    for i, (t, c) in enumerate(lines):
+        spec = F_BLACKHAN if i == 0 else F_PRETENDARD_XB
+        cap = int(bar_h * (0.46 if i == 0 else 0.24) / (1 if n <= 2 else 1.25))
+        sizes.append(_fit(probe, t, spec, cap, maxw, 24)); specs.append(spec)
+    total = sum(int(s * 1.18) for s in sizes)
+    y = (bar_h - total) // 2
+    for (t, c), spec, sz in zip(lines, specs, sizes):
+        fs = _fonts(spec, sz)
+        w = _mixed_w_fonts(d, t, fs, sz)
+        _mixed_text_fonts(img, d, ((W - w) // 2, y), t, fs, sz, cols.get(c, cols["white"]))
+        y += int(sz * 1.18)
+    d.rectangle((0, bar_h - 6, W, bar_h), fill=(255, 229, 0, 255))     # thin accent rule
+    img.save(path)
+    return path
+
+
+def label_pill(path, text, W=config.W):
+    """Small source label for inserted images ('Product image · Picky')."""
+    size = 34
+    fs = _fonts(F_PRETENDARD_XB, size)
+    probe = ImageDraw.Draw(Image.new("RGBA", (10, 10)))
+    w = _mixed_w_fonts(probe, text, fs, size) + 56
+    h = int(size * 1.9)
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    d.rounded_rectangle((0, 0, w - 1, h - 1), radius=h // 2, fill=(0, 0, 0, 175))
+    _mixed_text_fonts(img, d, (28, (h - int(size * 1.2)) // 2), text, fs, size, (255, 255, 255, 255))
+    img.save(path)
+    return path, w, h
+
+
+def review_card(path, rev, W=config.W, VH=config.H):
+    """Full-window review slide: dark gradient, star row, big quote, author line, source footer."""
+    img = Image.new("RGBA", (W, VH), (0, 0, 0, 255))
+    top, bot = (24, 22, 40), (8, 8, 12)
+    for yy in range(VH):                                   # vertical gradient
+        f = yy / VH
+        ImageDraw.Draw(img).line((0, yy, W, yy), fill=tuple(int(top[i] * (1 - f) + bot[i] * f) for i in range(3)) + (255,))
+    d = ImageDraw.Draw(img)
+    cw, pad = int(W * 0.86), 56
+    quote = rev.get("quote", "")
+    q_size = 60
+    probe = ImageDraw.Draw(Image.new("RGBA", (10, 10)))
+    def wrap(text, spec, size, max_w):
+        words, lines, cur = text.split(), [], ""
+        for wd in words:
+            trial = (cur + " " + wd).strip()
+            if cur and _mixed_w_fonts(probe, trial, _fonts(spec, size), size) > max_w:
+                lines.append(cur); cur = wd
+            else:
+                cur = trial
+        if cur:
+            lines.append(cur)
+        return lines
+    qlines = wrap("“" + quote + "”", F_PRETENDARD, q_size, cw - pad * 2)
+    while len(qlines) > 5 and q_size > 40:
+        q_size -= 4; qlines = wrap("“" + quote + "”", F_PRETENDARD, q_size, cw - pad * 2)
+    stars_h, auth_h, foot_h = 70, 52, 44
+    ch = pad + stars_h + 20 + len(qlines) * int(q_size * 1.3) + 28 + auth_h + pad
+    x0, y0 = (W - cw) // 2, int(VH * 0.40) - ch // 2
+    d.rounded_rectangle((x0, y0, x0 + cw, y0 + ch), radius=44, fill=(255, 255, 255, 242))
+    y = y0 + pad
+    rating = float(rev.get("rating", 5))
+    fs_star = _fonts(F_PRETENDARD, 56)
+    stars = "★" * int(round(rating)) + "☆" * (5 - int(round(rating)))
+    _mixed_text_fonts(img, d, (x0 + pad, y), stars, fs_star, 56, (255, 180, 0, 255))
+    y += stars_h + 20
+    fq = _fonts(F_PRETENDARD, q_size)
+    for ln in qlines:
+        _mixed_text_fonts(img, d, (x0 + pad, y), ln, fq, q_size, (20, 20, 24, 255))
+        y += int(q_size * 1.3)
+    y += 28
+    fa = _fonts(F_PRETENDARD_XB, 40)
+    author = f"— {rev.get('author', 'reviewer')}" + (f" · {rev['skin_type']}" if rev.get("skin_type") else "")
+    _mixed_text_fonts(img, d, (x0 + pad, y), author, fa, 40, (110, 110, 120, 255))
+    src = rev.get("source", "")
+    if src:
+        ff = _fonts(F_PRETENDARD_XB, 36)
+        w = _mixed_w_fonts(d, src, ff, 36)
+        _mixed_text_fonts(img, d, ((W - w) // 2, y0 + ch + 36), src, ff, 36, (210, 210, 220, 255))
+    img.convert("RGB").save(path, quality=95)
+    return path
