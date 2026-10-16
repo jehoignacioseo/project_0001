@@ -1,0 +1,95 @@
+name: kbeauty-shorts
+# Cloud runner for the K-beauty pipeline when footage lives in a public Google Drive folder.
+#   stage=probe  : download clips, detect scenes, extract keyframes -> commits shorts/work-ci/<work_id>/{clips.json,frames/}
+#   stage=render : download clips again, read the episode JSONs committed under shorts/work-ci/<work_id>/,
+#                  run tts (edge) + render + qa -> commits shorts/samples/<work_id>/ (mp4s, cover, meta, qa)
+#   stage=full   : analyze+research+script with Claude (needs ANTHROPIC_API_KEY secret), then tts/render/qa
+on:
+  workflow_dispatch:
+    inputs:
+      drive_folder:
+        description: Public Google Drive folder URL (or a single file id)
+        required: true
+      work_id:
+        description: Episode/work id (slug)
+        required: true
+      stage:
+        description: probe | render | full
+        required: true
+        default: probe
+      note:
+        description: Filmer's one-line note
+        required: false
+        default: ""
+permissions:
+  contents: write
+concurrency:
+  group: kbeauty-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      WORK: shorts/work-ci/${{ inputs.work_id }}
+      KB_WHISPER: ""
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: System deps
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q ffmpeg fonts-noto-color-emoji fonts-noto-cjk fonts-nanum
+          ffmpeg -hide_banner -version | head -1
+      - name: Python deps
+        run: pip install -q gdown pillow numpy requests edge-tts anthropic
+      - name: Download footage from Drive
+        run: |
+          mkdir -p raw
+          if [[ "${{ inputs.drive_folder }}" == *"/folders/"* ]]; then
+            gdown --folder "${{ inputs.drive_folder }}" -O raw --remaining-ok
+          else
+            gdown --id "${{ inputs.drive_folder }}" -O raw/
+          fi
+          find raw -type f | sort
+      - name: Probe
+        if: inputs.stage == 'probe'
+        run: python3 shorts/kbeauty/analyze.py raw --out "$WORK" --probe-only
+      - name: Full AI pass (Claude)
+        if: inputs.stage == 'full'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          cd shorts/kbeauty
+          python3 analyze.py "$GITHUB_WORKSPACE/raw" --out "$GITHUB_WORKSPACE/$WORK" --note "${{ inputs.note }}"
+          python3 research.py "$GITHUB_WORKSPACE/$WORK"
+          python3 script.py "$GITHUB_WORKSPACE/$WORK"
+      - name: Voice + render + QA
+        if: inputs.stage == 'render' || inputs.stage == 'full'
+        run: |
+          python3 - <<PY
+          import json, os, pathlib
+          w = pathlib.Path(os.environ["WORK"]); w.mkdir(parents=True, exist_ok=True)
+          (w / "run.json").write_text(json.dumps({"raw": str(pathlib.Path("raw").resolve()), "id": "${{ inputs.work_id }}", "note": "${{ inputs.note }}"}))
+          PY
+          cd shorts/kbeauty
+          python3 tts.py "$GITHUB_WORKSPACE/$WORK" --engine edge
+          python3 render.py "$GITHUB_WORKSPACE/$WORK"
+          python3 qa.py "$GITHUB_WORKSPACE/$WORK" || true
+          S="$GITHUB_WORKSPACE/shorts/samples/${{ inputs.work_id }}"; mkdir -p "$S"
+          cp "$GITHUB_WORKSPACE/$WORK"/out/*.mp4 "$GITHUB_WORKSPACE/$WORK"/out/*.jpg "$GITHUB_WORKSPACE/$WORK"/out/*.json "$S"/
+          cp "$GITHUB_WORKSPACE/$WORK"/qa.json "$GITHUB_WORKSPACE/$WORK"/vo/lines.json "$S"/ 2>/dev/null || true
+      - name: Commit results
+        run: |
+          git config user.name "kbeauty-bot"
+          git config user.email "kbeauty-bot@users.noreply.github.com"
+          git add -f "$WORK/clips.json" "$WORK/frames" 2>/dev/null || true
+          git add -f "$WORK"/*.json 2>/dev/null || true
+          git add -f shorts/samples 2>/dev/null || true
+          git commit -m "kbeauty ${{ inputs.stage }}: ${{ inputs.work_id }}" || echo "nothing to commit"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

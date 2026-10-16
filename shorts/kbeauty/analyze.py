@@ -200,12 +200,16 @@ def main():
     ap.add_argument("--out", required=True)
     ap.add_argument("--note", default="")
     ap.add_argument("--mock", action="store_true")
+    ap.add_argument("--probe-only", action="store_true", help="write clips.json + frames and stop (no Claude call)")
     a = ap.parse_args()
     out = ensure_dir(a.out)
     clips = probe_all(a.raw, out)
     if not clips:
         sys.exit(f"no video files in {a.raw}")
     (out / "clips.json").write_text(json.dumps(clips, indent=2, ensure_ascii=False), encoding="utf-8")
+    if a.probe_only:
+        print(f"wrote {out / 'clips.json'} ({len(clips)} clips, {sum(len(c['scenes']) for c in clips)} frames)")
+        return 0
     analysis = mock_analysis(clips, a.note) if (a.mock or config.MOCK) else analyze_with_claude(clips, out, a.note)
     # merge timing back into the analysis so later stages have one file to read
     by_file = {c["file"]: c for c in clips}
