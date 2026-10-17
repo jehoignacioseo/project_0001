@@ -27,7 +27,7 @@
   {
    "type": "footage",
    "src": "IMG_1425.mov",
-   "in": 3.3,
+   "in": 2.8,
    "out": 6.3,
    "dur": 0,
    "label": "",
@@ -81,7 +81,7 @@
   {
    "type": "footage",
    "src": "IMG_1430.mov",
-   "in": 3.8,
+   "in": 3.2,
    "out": 6.1,
    "dur": 0,
    "label": "",
@@ -153,8 +153,8 @@
   {
    "type": "footage",
    "src": "IMG_1423.mov",
-   "in": 0.3,
-   "out": 4.3,
+   "in": 0.0,
+   "out": 4.4,
    "dur": 0,
    "label": "",
    "review": null,
@@ -165,7 +165,7 @@
    "crop_y": 0.5,
    "whoosh": true,
    "amb_gain_db": -16,
-   "vo": "Collagen Spicule Pad, in pink: micro-spicules, said to absorb deeper.",
+   "vo": "Collagen Spicule Pad: micro-spicules, said to absorb deeper.",
    "purpose": "fact"
   },
   {
@@ -189,7 +189,7 @@
   {
    "type": "footage",
    "src": "IMG_1431.mov",
-   "in": 3.0,
+   "in": 1.5,
    "out": 6.1,
    "dur": 0,
    "label": "",
@@ -207,7 +207,7 @@
   {
    "type": "footage",
    "src": "IMG_1428.mov",
-   "in": 0.3,
+   "in": 0.0,
    "out": 3.5,
    "dur": 0,
    "label": "",
@@ -219,7 +219,7 @@
    "crop_y": 0.5,
    "whoosh": true,
    "amb_gain_db": -14,
-   "vo": "Fun shells, real SPF. New brand, no reviews yet.",
+   "vo": "Fun shells, real SPF. No reviews yet.",
    "purpose": "verdict"
   },
   {
