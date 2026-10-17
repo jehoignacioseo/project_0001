@@ -50,7 +50,7 @@
    "dur": 0,
    "label": "",
    "review": null,
-   "speed": 1.1,
+   "speed": 1.15,
    "zoom": 1.0,
    "zoom_to": 1.12,
    "crop_x": 0.5,
@@ -100,7 +100,7 @@
    "type": "footage",
    "src": "IMG_1424.mov",
    "in": 0.3,
-   "out": 4.0,
+   "out": 3.6,
    "dur": 0,
    "label": "",
    "review": null,
@@ -154,7 +154,7 @@
    "type": "footage",
    "src": "IMG_1423.mov",
    "in": 0.0,
-   "out": 4.4,
+   "out": 4.0,
    "dur": 0,
    "label": "",
    "review": null,
@@ -194,7 +194,7 @@
    "dur": 0,
    "label": "",
    "review": null,
-   "speed": 1.0,
+   "speed": 1.1,
    "zoom": 1.0,
    "zoom_to": 1.12,
    "crop_x": 0.5,
@@ -336,8 +336,8 @@
   "vo": "Save this. Which shell would you grab?"
  },
  "music": {
-  "file": "music_pop.wav",
-  "gain_db": -17
+  "file": "music_punch.wav",
+  "gain_db": -15
  },
  "music_gain_db": -17,
  "platforms": {
@@ -409,6 +409,6 @@
    "source": "footage signs 'PRIVATE LABEL alllion' + https://kr112700697.fm.alibaba.com/"
   }
  ],
- "editor_notes": "Trade-show footage with no price tags, so prices come from the brand's own Shopify store. Hook is the strongest visual (pad lifted from the shell). Two official pack shots inserted to show products the footage only shows as signs. Pads are flagged as not yet purchasable to avoid a false CTA. v2: narration tightened to ~8-11 words per cut so no cut needs a freeze; target ~40s.",
+ "editor_notes": "Trade-show footage with no price tags, so prices come from the brand's own Shopify store. Hook is the strongest visual (pad lifted from the shell). Two official pack shots inserted to show products the footage only shows as signs. Pads are flagged as not yet purchasable to avoid a false CTA. v2: narration tightened to ~8-11 words per cut so no cut needs a freeze; target ~40s. v4: punch_beat 126bpm at -15 dB, voice +30% (1.3x), cuts trimmed to match.",
  "lang": "en"
 }

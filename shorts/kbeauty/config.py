@@ -18,7 +18,7 @@ MOCK = os.environ.get("KB_MOCK", "") in ("1", "true", "yes")
 # Voice: "edge" (free, no key), "elevenlabs" (ELEVENLABS_API_KEY), "mock" (tone + synthetic timings)
 TTS_ENGINE = os.environ.get("KB_TTS", "edge")
 TTS_VOICE = os.environ.get("KB_VOICE", "en-US-AvaMultilingualNeural")   # edge voice id
-TTS_RATE = os.environ.get("KB_TTS_RATE", "+8%")
+TTS_RATE = os.environ.get("KB_TTS_RATE", "+30%")   # ~1.3x: fast, dense delivery
 ELEVEN_VOICE = os.environ.get("ELEVENLABS_VOICE_ID", "")
 ELEVEN_MODEL = os.environ.get("ELEVENLABS_MODEL", "eleven_multilingual_v2")
 
