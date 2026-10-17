@@ -6,15 +6,16 @@
   11.19,
   14.09,
   17.97,
-  21.57,
-  23.77,
-  28.04,
-  32.09,
-  36.4,
-  40.07
+  21.17,
+  23.57,
+  25.77,
+  30.04,
+  34.09,
+  38.4,
+  42.07
  ],
- "body": 43.37,
- "total": 45.57,
+ "body": 45.37,
+ "total": 47.57,
  "segments": [
   {
    "type": "footage",
@@ -22,6 +23,7 @@
    "in": 2.8,
    "out": 6.3,
    "dur": 3.5,
+   "label": "",
    "speed": 1.0,
    "zoom": 1.0,
    "zoom_to": 1.16,
@@ -36,7 +38,8 @@
    "in": 0.4,
    "out": 4.7,
    "dur": 3.738,
-   "speed": 1.1,
+   "label": "",
+   "speed": 1.15,
    "zoom": 1.0,
    "zoom_to": 1.12,
    "whoosh": true,
@@ -48,13 +51,17 @@
   {
    "type": "image",
    "src": "https://cdn.shopify.com/s/files/1/0779/6264/1548/files/KakaoTalk_20260702_202637561_03.png?v=1783057840",
+   "in": 0,
+   "out": 0,
    "dur": 3.954,
    "label": "Official image · mifarsoul.com",
+   "speed": 1.0,
+   "zoom": 1.0,
    "zoom_to": 1.12,
+   "whoosh": false,
+   "amb_gain_db": -14,
    "vo": "Super Fluid Sunshell: SPF fifty plus, no white cast.",
-   "purpose": "fact",
-   "in": 0,
-   "out": 0
+   "purpose": "fact"
   },
   {
    "type": "footage",
@@ -62,6 +69,7 @@
    "in": 3.2,
    "out": 6.1,
    "dur": 2.9,
+   "label": "",
    "speed": 1.0,
    "zoom": 1.05,
    "zoom_to": 1.2,
@@ -76,6 +84,7 @@
    "in": 0.3,
    "out": 4.18,
    "dur": 3.882,
+   "label": "",
    "speed": 1.0,
    "zoom": 1.0,
    "zoom_to": 1.14,
@@ -86,17 +95,33 @@
    "freeze": 0.0
   },
   {
+   "type": "image",
+   "src": "https://d8j0ntlcm91z4.cloudfront.net/user_3AC7Rg7Ljfg3Zx6KpQgWCxOzWOe/hf_20261017_225130_dbf2e0b9-77b7-4584-b7c4-66c6911e0470.png",
+   "in": 0,
+   "out": 0,
+   "dur": 3.2,
+   "label": "AI model · studio shot",
+   "speed": 1.0,
+   "zoom": 1.0,
+   "zoom_to": 1.1,
+   "whoosh": true,
+   "amb_gain_db": -14,
+   "vo": "It hugs the whole face. Made for after-sun.",
+   "purpose": "usage"
+  },
+  {
    "type": "footage",
    "src": "IMG_1426.mov",
-   "in": 0.2,
-   "out": 3.8,
-   "dur": 3.6,
+   "in": 1.2,
+   "out": 3.6,
+   "dur": 2.4,
+   "label": "",
    "speed": 1.0,
    "zoom": 1.0,
    "zoom_to": 1.15,
    "whoosh": true,
    "amb_gain_db": -14,
-   "vo": "It hugs the whole face. Made for after-sun.",
+   "vo": "Peeled straight from the shell.",
    "purpose": "fact"
   },
   {
@@ -105,6 +130,7 @@
    "in": 3.9,
    "out": 6.1,
    "dur": 2.2,
+   "label": "",
    "speed": 1.0,
    "zoom": 1.1,
    "zoom_to": 1.28,
@@ -119,6 +145,7 @@
    "in": 0.0,
    "out": 4.27,
    "dur": 4.266,
+   "label": "",
    "speed": 1.0,
    "zoom": 1.0,
    "zoom_to": 1.14,
@@ -131,13 +158,17 @@
   {
    "type": "image",
    "src": "https://cdn.shopify.com/s/files/1/0779/6264/1548/files/KakaoTalk_20260702_202637561_05.png?v=1783057700",
+   "in": 0,
+   "out": 0,
    "dur": 4.05,
    "label": "Official image · mifarsoul.com",
+   "speed": 1.0,
+   "zoom": 1.0,
    "zoom_to": 1.12,
+   "whoosh": false,
+   "amb_gain_db": -14,
    "vo": "Same tech in a cream: collagen, PDRN, spicules.",
-   "purpose": "fact",
-   "in": 0,
-   "out": 0
+   "purpose": "fact"
   },
   {
    "type": "footage",
@@ -145,7 +176,8 @@
    "in": 1.39,
    "out": 6.13,
    "dur": 4.314,
-   "speed": 1.0,
+   "label": "",
+   "speed": 1.1,
    "zoom": 1.0,
    "zoom_to": 1.12,
    "whoosh": true,
@@ -160,6 +192,7 @@
    "in": 0.0,
    "out": 3.53,
    "dur": 3.666,
+   "label": "",
    "speed": 1.0,
    "zoom": 1.0,
    "zoom_to": 1.1,
@@ -175,6 +208,7 @@
    "in": 0.3,
    "out": 3.6,
    "dur": 3.3,
+   "label": "",
    "speed": 1.0,
    "zoom": 1.0,
    "zoom_to": 1.1,
@@ -200,5 +234,17 @@
   "file": "music_punch.wav",
   "bpm": 126,
   "gain_db": -15
- }
+ },
+ "ai_inserts": [
+  {
+   "seg": 5,
+   "kind": "studio_usage_shot",
+   "model": "gpt_image_2_5",
+   "references": [
+    "model expression board (user-supplied)",
+    "IMG_1425 frame of the real gel-pad shell"
+   ],
+   "label": "AI model · studio shot"
+  }
+ ]
 }

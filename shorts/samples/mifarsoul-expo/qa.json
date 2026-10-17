@@ -9,12 +9,12 @@
   {
    "check": "tiktok: duration 25-50s",
    "status": "PASS",
-   "detail": "45.6s"
+   "detail": "47.6s"
   },
   {
    "check": "tiktok: loudness -16..-12 LUFS, TP <= -1",
    "status": "PASS",
-   "detail": "-14.6 LUFS, TP -1.6"
+   "detail": "-14.6 LUFS, TP -2.1"
   },
   {
    "check": "reels: 1080x1920 30fps with audio",
@@ -24,12 +24,12 @@
   {
    "check": "reels: duration 25-50s",
    "status": "PASS",
-   "detail": "45.6s"
+   "detail": "47.6s"
   },
   {
    "check": "reels: loudness -16..-12 LUFS, TP <= -1",
    "status": "PASS",
-   "detail": "-14.6 LUFS, TP -1.6"
+   "detail": "-14.6 LUFS, TP -2.1"
   },
   {
    "check": "shorts: 1080x1920 30fps with audio",
@@ -39,12 +39,12 @@
   {
    "check": "shorts: duration 25-50s",
    "status": "PASS",
-   "detail": "45.6s"
+   "detail": "47.6s"
   },
   {
    "check": "shorts: loudness -16..-12 LUFS, TP <= -1",
    "status": "PASS",
-   "detail": "-14.6 LUFS, TP -1.6"
+   "detail": "-14.6 LUFS, TP -2.1"
   },
   {
    "check": "hook cut is 1.5-3.5s",
@@ -74,32 +74,32 @@
   {
    "check": "card 'mifarsoul · mfs' inside video",
    "status": "PASS",
-   "detail": "4.0-7.0s of 43.4s"
+   "detail": "4.0-7.0s of 45.4s"
   },
   {
    "check": "card 'Super Fluid Sunshell' inside video",
    "status": "PASS",
-   "detail": "11.4-13.4s of 43.4s"
+   "detail": "11.4-13.4s of 45.4s"
   },
   {
    "check": "card 'Soothing Gel Pad' inside video",
    "status": "PASS",
-   "detail": "18.3-21.5s of 43.4s"
+   "detail": "14.4-17.6s of 45.4s"
   },
   {
    "check": "card 'Collagen Spicule Pad' inside video",
    "status": "PASS",
-   "detail": "24.2-27.6s of 43.4s"
+   "detail": "26.2-29.6s of 45.4s"
   },
   {
    "check": "card 'Price check' inside video",
    "status": "PASS",
-   "detail": "32.4-35.0s of 43.4s"
+   "detail": "34.4-37.0s of 45.4s"
   },
   {
    "check": "card 'Verdict' inside video",
    "status": "PASS",
-   "detail": "36.7-39.5s of 43.4s"
+   "detail": "38.7-41.5s of 45.4s"
   },
   {
    "check": "cards do not overlap",
