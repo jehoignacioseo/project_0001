@@ -1,0 +1,414 @@
+{
+ "id": "mifarsoul-expo-1017",
+ "format": "new arrival alert + booth tour (3 products)",
+ "hook_type": "contradiction + visual reveal",
+ "title_band": [
+  "A PAD SHAPED",
+  "like your face?"
+ ],
+ "title_bar": {
+  "lines": [
+   [
+    "SEOUL SKINCARE FINDS",
+    "yellow"
+   ],
+   [
+    "#02 · mifarsoul capsule skincare",
+    "white"
+   ]
+  ]
+ },
+ "hook_alternatives": [
+  "Skincare in a capsule: $36 SPF from Korea",
+  "Korea's new brand puts sunscreen in a shell",
+  "This oval pad hugs your whole face"
+ ],
+ "segments": [
+  {
+   "type": "footage",
+   "src": "IMG_1425.mov",
+   "in": 2.8,
+   "out": 6.3,
+   "dur": 0,
+   "label": "",
+   "review": null,
+   "speed": 1.0,
+   "zoom": 1.0,
+   "zoom_to": 1.16,
+   "crop_x": 0.5,
+   "crop_y": 0.5,
+   "whoosh": false,
+   "amb_gain_db": -16,
+   "vo": "A pad shaped like your face? New from Korea.",
+   "purpose": "hook"
+  },
+  {
+   "type": "footage",
+   "src": "IMG_1429.mov",
+   "in": 0.4,
+   "out": 4.2,
+   "dur": 0,
+   "label": "",
+   "review": null,
+   "speed": 1.1,
+   "zoom": 1.0,
+   "zoom_to": 1.12,
+   "crop_x": 0.5,
+   "crop_y": 0.5,
+   "whoosh": true,
+   "amb_gain_db": -14,
+   "vo": "mifarsoul at a K-beauty expo. Everything comes in a shell.",
+   "purpose": "context"
+  },
+  {
+   "type": "image",
+   "src": "https://cdn.shopify.com/s/files/1/0779/6264/1548/files/KakaoTalk_20260702_202637561_03.png?v=1783057840",
+   "in": 0,
+   "out": 0,
+   "dur": 3.0,
+   "label": "Official image · mifarsoul.com",
+   "review": null,
+   "speed": 1.0,
+   "zoom": 1.0,
+   "zoom_to": 1.12,
+   "crop_x": 0.5,
+   "crop_y": 0.5,
+   "whoosh": false,
+   "amb_gain_db": -14,
+   "vo": "Super Fluid Sunshell: SPF fifty plus, no white cast.",
+   "purpose": "fact"
+  },
+  {
+   "type": "footage",
+   "src": "IMG_1430.mov",
+   "in": 3.2,
+   "out": 6.1,
+   "dur": 0,
+   "label": "",
+   "review": null,
+   "speed": 1.0,
+   "zoom": 1.05,
+   "zoom_to": 1.2,
+   "crop_x": 0.5,
+   "crop_y": 0.5,
+   "whoosh": true,
+   "amb_gain_db": -16,
+   "vo": "Water resistant, thirty-six dollars.",
+   "purpose": "fact"
+  },
+  {
+   "type": "footage",
+   "src": "IMG_1424.mov",
+   "in": 0.3,
+   "out": 4.0,
+   "dur": 0,
+   "label": "",
+   "review": null,
+   "speed": 1.0,
+   "zoom": 1.0,
+   "zoom_to": 1.14,
+   "crop_x": 0.5,
+   "crop_y": 0.5,
+   "whoosh": true,
+   "amb_gain_db": -16,
+   "vo": "The Soothing Gel Pad: oval, one hundred percent Tencel.",
+   "purpose": "fact"
+  },
+  {
+   "type": "footage",
+   "src": "IMG_1426.mov",
+   "in": 0.2,
+   "out": 3.8,
+   "dur": 0,
+   "label": "",
+   "review": null,
+   "speed": 1.0,
+   "zoom": 1.0,
+   "zoom_to": 1.15,
+   "crop_x": 0.5,
+   "crop_y": 0.5,
+   "whoosh": true,
+   "amb_gain_db": -14,
+   "vo": "It hugs the whole face. Made for after-sun.",
+   "purpose": "fact"
+  },
+  {
+   "type": "footage",
+   "src": "IMG_1426.mov",
+   "in": 3.9,
+   "out": 6.1,
+   "dur": 0,
+   "label": "",
+   "review": null,
+   "speed": 1.0,
+   "zoom": 1.1,
+   "zoom_to": 1.28,
+   "crop_x": 0.5,
+   "crop_y": 0.5,
+   "whoosh": false,
+   "amb_gain_db": -4,
+   "vo": "",
+   "purpose": "texture"
+  },
+  {
+   "type": "footage",
+   "src": "IMG_1423.mov",
+   "in": 0.0,
+   "out": 4.4,
+   "dur": 0,
+   "label": "",
+   "review": null,
+   "speed": 1.0,
+   "zoom": 1.0,
+   "zoom_to": 1.14,
+   "crop_x": 0.5,
+   "crop_y": 0.5,
+   "whoosh": true,
+   "amb_gain_db": -16,
+   "vo": "Collagen Spicule Pad: micro-spicules, said to absorb deeper.",
+   "purpose": "fact"
+  },
+  {
+   "type": "image",
+   "src": "https://cdn.shopify.com/s/files/1/0779/6264/1548/files/KakaoTalk_20260702_202637561_05.png?v=1783057700",
+   "in": 0,
+   "out": 0,
+   "dur": 3.0,
+   "label": "Official image · mifarsoul.com",
+   "review": null,
+   "speed": 1.0,
+   "zoom": 1.0,
+   "zoom_to": 1.12,
+   "crop_x": 0.5,
+   "crop_y": 0.5,
+   "whoosh": false,
+   "amb_gain_db": -14,
+   "vo": "Same tech in a cream: collagen, PDRN, spicules.",
+   "purpose": "fact"
+  },
+  {
+   "type": "footage",
+   "src": "IMG_1431.mov",
+   "in": 1.5,
+   "out": 6.1,
+   "dur": 0,
+   "label": "",
+   "review": null,
+   "speed": 1.0,
+   "zoom": 1.0,
+   "zoom_to": 1.12,
+   "crop_x": 0.5,
+   "crop_y": 0.5,
+   "whoosh": true,
+   "amb_gain_db": -14,
+   "vo": "Every capsule, thirty-six dollars. Free shipping over sixty-five.",
+   "purpose": "proof"
+  },
+  {
+   "type": "footage",
+   "src": "IMG_1428.mov",
+   "in": 0.0,
+   "out": 3.5,
+   "dur": 0,
+   "label": "",
+   "review": null,
+   "speed": 1.0,
+   "zoom": 1.0,
+   "zoom_to": 1.1,
+   "crop_x": 0.5,
+   "crop_y": 0.5,
+   "whoosh": true,
+   "amb_gain_db": -14,
+   "vo": "Fun shells, real SPF. No reviews yet.",
+   "purpose": "verdict"
+  },
+  {
+   "type": "footage",
+   "src": "IMG_1422.mov",
+   "in": 0.3,
+   "out": 3.6,
+   "dur": 0,
+   "label": "",
+   "review": null,
+   "speed": 1.0,
+   "zoom": 1.0,
+   "zoom_to": 1.1,
+   "crop_x": 0.5,
+   "crop_y": 0.5,
+   "whoosh": true,
+   "amb_gain_db": -14,
+   "vo": "Save this. Which shell would you grab?",
+   "purpose": "cta"
+  }
+ ],
+ "cards": [
+  {
+   "type": "product",
+   "seg": 1,
+   "t": 0.5,
+   "d": 3.0,
+   "title": "mifarsoul · mfs",
+   "lines": [
+    "Capsule skincare, Seoul",
+    "Online since July 2026",
+    "mifarsoul.com"
+   ]
+  },
+  {
+   "type": "fact",
+   "seg": 3,
+   "t": 0.2,
+   "d": 2.0,
+   "title": "Super Fluid Sunshell",
+   "lines": [
+    "SPF50+ PA++++",
+    "No white cast · water resistant",
+    "$36"
+   ]
+  },
+  {
+   "type": "ingredients",
+   "seg": 5,
+   "t": 0.3,
+   "d": 3.2,
+   "title": "Soothing Gel Pad",
+   "lines": [
+    "100% Tencel™ fabric",
+    "Oval, full-face fit (brand: world first)",
+    "Long-lasting hydration · after-sun"
+   ]
+  },
+  {
+   "type": "fact",
+   "seg": 7,
+   "t": 0.4,
+   "d": 3.4,
+   "title": "Collagen Spicule Pad",
+   "lines": [
+    "Micro-spicule delivery",
+    "Patented fabric · strong adhesion",
+    "Collagen firming care"
+   ]
+  },
+  {
+   "type": "price",
+   "seg": 9,
+   "t": 0.3,
+   "d": 2.6,
+   "title": "Price check",
+   "lines": [
+    "Capsules $36 · serums $38",
+    "Free shipping over $65",
+    "Pads: not online yet"
+   ]
+  },
+  {
+   "type": "verdict",
+   "seg": 10,
+   "t": 0.3,
+   "d": 2.8,
+   "title": "Verdict",
+   "lines": [
+    "✅ SPF50+ in a gift-able shell",
+    "⚠️ new brand, no reviews yet"
+   ]
+  }
+ ],
+ "emphasis": [
+  {
+   "seg": 6,
+   "t": 0.2,
+   "d": 2.0,
+   "text": "ONE PAD, WHOLE FACE",
+   "style": "pop"
+  },
+  {
+   "seg": 9,
+   "t": 0.9,
+   "d": 1.4,
+   "text": "$36",
+   "style": "price"
+  }
+ ],
+ "verdict": "Fun shells with real SPF50+; a brand to watch, but no review history yet.",
+ "cta": {
+  "on_screen": "Which shell would you grab? 👇",
+  "vo": "Save this. Which shell would you grab?"
+ },
+ "music": {
+  "file": "music_pop.wav",
+  "gain_db": -17
+ },
+ "music_gain_db": -17,
+ "platforms": {
+  "tiktok": {
+   "caption": "A pad shaped like your face + SPF50 in a capsule. New Korean brand mifarsoul. Which shell would you grab? 👇",
+   "hashtags": [
+    "kbeauty",
+    "mifarsoul",
+    "koreanskincare",
+    "kbeautyexpo",
+    "sunscreen",
+    "newkbeauty"
+   ]
+  },
+  "reels": {
+   "caption": "A pad shaped like your face?\nmifarsoul is a new Korean capsule-skincare brand: Super Fluid Sunshell SPF50+ (no white cast, $36), an oval Soothing Gel Pad in 100% Tencel, and a Collagen Spicule Pad. Capsules $36, serums $38, free shipping over $65 at mifarsoul.com. The pads are an expo preview for now.\nSave this for your next K-beauty haul 🇰🇷",
+   "hashtags": [
+    "kbeauty",
+    "koreanskincare",
+    "mifarsoul",
+    "sunscreen",
+    "kbeautyexpo",
+    "skincareroutine",
+    "newkbeauty",
+    "seoul"
+   ]
+  },
+  "shorts": {
+   "title": "Korea's new capsule skincare: $36 SPF + a face-shaped pad",
+   "description": "mifarsoul (mfs) booth tour at a K-beauty expo.\n\n• Super Fluid Sunshell: SPF50+ PA++++, no white cast, water resistant, $36\n• Soothing Gel Pad: oval, 100% Tencel fabric, long-lasting hydration, after-sun recovery (the brand calls it the world's first oval-shaped pad)\n• Collagen Spicule Pad: micro-spicule delivery, patented fabric, collagen firming care\n• Super Collagen Shot Cream: collagen, PDRN, spicules, bursting capsules, $36\n• Online store since July 2026: capsules $36, serum mists $38, free shipping over $65 (mifarsoul.com). Pads not online yet.\n\nVerdict: fun shells with real SPF; a brand to watch, no reviews yet.\n\nVoice: AI narration. Footage: filmed at the expo.\n#Shorts #kbeauty #mifarsoul #koreanskincare",
+   "tags": [
+    "kbeauty",
+    "mifarsoul",
+    "korean skincare",
+    "sunscreen capsule",
+    "gel pad",
+    "k-beauty expo"
+   ]
+  }
+ },
+ "cover_text": [
+  "A PAD SHAPED",
+  "LIKE YOUR FACE?"
+ ],
+ "pinned_comment": "mifarsoul (Seoul): Super Fluid / Super Drop Sunshell SPF50+ $36, Super Collagen Shot Cream $36, Super Duo serum mists $38 at mifarsoul.com (free shipping over $65). The gel pads shown at the expo aren't online yet. Voice: AI narration.",
+ "facts_used": [
+  {
+   "claim": "$36 capsules, $38 serums, SPF50+ PA++++, no white cast, collagen/PDRN/spicules, store since July 2026",
+   "source": "https://mifarsoul.com/products.json"
+  },
+  {
+   "claim": "free shipping over $65",
+   "source": "https://mifarsoul.com/"
+  },
+  {
+   "claim": "oval pad, 100% Tencel, long-lasting hydration, after-sun recovery, 'World First Oval-shaped Pad'",
+   "source": "footage: Soothing Gel Pad sign (IMG_1424)"
+  },
+  {
+   "claim": "micro-spicule delivery, patented fabric, superior adhesion, collagen regeneration",
+   "source": "footage: Collagen Spicule Pad sign (IMG_1423)"
+  },
+  {
+   "claim": "water resistant, absorbs oil",
+   "source": "footage: Super Fluid Sunshell sign (IMG_1430)"
+  },
+  {
+   "claim": "made by ALLLION (private label)",
+   "source": "footage signs 'PRIVATE LABEL alllion' + https://kr112700697.fm.alibaba.com/"
+  }
+ ],
+ "editor_notes": "Trade-show footage with no price tags, so prices come from the brand's own Shopify store. Hook is the strongest visual (pad lifted from the shell). Two official pack shots inserted to show products the footage only shows as signs. Pads are flagged as not yet purchasable to avoid a false CTA. v2: narration tightened to ~8-11 words per cut so no cut needs a freeze; target ~40s.",
+ "lang": "en"
+}
