@@ -44,7 +44,8 @@ Languages: English VO + English captions by default. Korean product names shown 
   star rating. 1.8-3.0s each, narration keeps flowing. Never two inserts back to back; never an insert as the hook.
 - Fixed black title bar on top (series name + episode/product) so the viewer always knows what they are watching; the hook title band
   shows under it for the first 2.5s.
-- Music: upbeat, clean beat at -17 dB, ducked (not muted) under the voice so energy stays between lines; whoosh on scene changes,
+- Music: default `music_punch.wav` (126 BPM, hard kick/snare, offbeat stabs) at -15 dB, ducked (not muted) under the voice so energy
+  stays between lines; `music_pop.wav` (108 BPM, softer) only for calm texture/ASMR formats. Whoosh on scene changes,
   click on inserts, cash + riser on the price reveal, pop on cards. Natural footage sound stays audible on texture shots.
 
 ## Captions
@@ -63,7 +64,8 @@ Languages: English VO + English captions by default. Korean product names shown 
 - Prefer facts foreigners cannot easily get: Korean retail price, Olive Young rank, launch date in Korea, Korean reviews gist.
 
 ## Sound
-- Keep the natural footage sound under the VO (-14 dB) for texture shots. Music bed low (-20 dB), ducked under VO. Whoosh on scene
+- Voice at ~1.3x (edge rate +30%): fast, dense delivery; one narration line = 8-11 words so no cut needs a freeze.
+- Keep the natural footage sound under the VO (-14 dB) for texture shots. Music bed -15 dB, ducked under VO. Whoosh on scene
   changes, cash SFX on price reveals, pop on card reveals. Loudness target -14 LUFS, true peak -1.5 dBTP.
 
 ## Metadata

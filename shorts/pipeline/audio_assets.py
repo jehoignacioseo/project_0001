@@ -17,7 +17,7 @@ def ensure(name):
     p = OUT / name
     if not p.exists():
         np.random.seed(7)
-        fn = {"music_pop.wav": pop_beat, "music_lofi.wav": lofi}.get(name)
+        fn = {"music_pop.wav": pop_beat, "music_punch.wav": punch_beat, "music_lofi.wav": lofi}.get(name)
         if fn is None:
             raise FileNotFoundError(name)
         save(name, fn())
@@ -188,6 +188,84 @@ def pop_beat(bars=8, bpm=108):
     # gentle soft-clip "glue"
     mix = np.tanh(mix * 1.4) / np.tanh(1.4)
     return mix / (np.abs(mix).max() + 1e-9) * 0.85
+
+
+def punch_beat(bars=8, bpm=126):
+    """Harder, faster bed for high-energy product reels: 126 BPM, layered kick (sub + click),
+    snare+clap on 2/4 with a ghost on the 'a' of 4, 16th hats with accents, offbeat open hats,
+    driving octave-bounce saw bass and short stabs on the offbeats, deep side-chain pump. Am-F-C-G."""
+    beat = 60 / bpm
+    n = int(SR * beat * 4 * bars); t = np.arange(n) / SR
+    chords = [[220.0, 261.6, 329.6, 440.0], [174.6, 220.0, 261.6, 349.2],
+              [261.6, 329.6, 392.0, 523.3], [196.0, 246.9, 293.7, 392.0]]
+    roots = [55.0, 43.7, 65.4, 49.0]
+    stab = np.zeros(n); bass = np.zeros(n)
+
+    def saw(f, tt):
+        return sum(np.sin(2 * np.pi * f * k * tt) / k for k in range(1, 7))
+
+    for ci, ch in enumerate(chords):
+        s0 = int(ci * 2 * 4 * beat * SR); s1 = min(n, int((ci + 1) * 2 * 4 * beat * SR))
+        # stabs on the offbeats (the "and" of every beat)
+        for b in range(8):
+            ps = s0 + int((b + 0.5) * beat * SR)
+            if ps >= s1:
+                break
+            m = int(SR * 0.14); tt2 = np.arange(m) / SR
+            note = sum(saw(f, tt2) for f in ch) * np.exp(-tt2 * 26) * 0.05
+            e = min(m, n - ps); stab[ps:ps + e] += note[:e]
+        # 8th-note bass, octave bounce, short gated notes
+        for k in range(16):
+            bs = s0 + int(k * beat / 2 * SR)
+            if bs >= s1:
+                break
+            m = int(SR * beat * 0.42); tt2 = np.arange(m) / SR
+            f = roots[ci] * (2 if k % 2 else 1)
+            nb = (np.sin(2 * np.pi * f * tt2) + 0.35 * saw(f, tt2)) * np.exp(-tt2 * 6) * 0.55
+            e = min(m, max(0, n - bs)); bass[bs:bs + e] += nb[:e]
+
+    def kick():
+        m = int(SR * 0.3); tt = np.arange(m) / SR
+        body = np.sin(2 * np.pi * (170 * np.exp(-tt * 26) + 45) * tt) * np.exp(-tt * 9)
+        clickt = np.random.randn(m) * np.exp(-tt * 400) * 0.6
+        return body * 1.1 + clickt
+
+    def snare():
+        m = int(SR * 0.2); tt = np.arange(m) / SR
+        noise = np.random.randn(m) * np.exp(-tt * 24)
+        tone = np.sin(2 * np.pi * 190 * tt) * np.exp(-tt * 30)
+        return (_onepole(noise, 4500) * 1.6 + tone * 0.7) * 0.75
+
+    def hat(open_=False, acc=1.0):
+        m = int(SR * (0.2 if open_ else 0.04))
+        x = np.random.randn(m) * np.exp(-np.arange(m) / SR * (14 if open_ else 110))
+        return (x - _onepole(x, 7000)) * 0.3 * acc
+
+    drums = np.zeros(n); sc = np.ones(n)
+    for b in range(bars * 4):
+        pos = int(b * beat * SR)
+        k = kick(); e = min(len(k), n - pos); drums[pos:pos + e] += k[:e]
+        m = int(SR * 0.28); env_ = np.linspace(0.12, 1.0, m) ** 1.6; e2 = min(m, n - pos); sc[pos:pos + e2] *= env_[:e2]
+        if b % 2 == 1:
+            s_ = snare(); e = min(len(s_), n - pos); drums[pos:pos + e] += s_[:e]
+            if b % 4 == 3:  # ghost snare on the 'a' of 4
+                gp = pos + int(0.75 * beat * SR)
+                if gp < n:
+                    g = snare() * 0.35; e = min(len(g), n - gp); drums[gp:gp + e] += g[:e]
+        for h in range(4):  # 16th hats, accent on the offbeat, open hat on the 'and' of 2 and 4
+            hp = pos + int(h * 0.25 * beat * SR)
+            if hp < n:
+                hh = hat(open_=(h == 2 and b % 2 == 1), acc=(1.0 if h in (0, 2) else 0.55))
+                e = min(len(hh), n - hp); drums[hp:hp + e] += hh[:e]
+    # fill: 16th snare roll on the last beat of every 4th bar
+    for bar in range(3, bars, 4):
+        for q in range(4):
+            fp = int(((bar * 4 + 3) + q * 0.25) * beat * SR)
+            if fp < n:
+                g = snare() * (0.3 + 0.15 * q); e = min(len(g), n - fp); drums[fp:fp + e] += g[:e]
+    mix = stab * sc + bass * sc * 0.9 + drums * 0.95
+    mix = np.tanh(mix * 1.8) / np.tanh(1.8)
+    return mix / (np.abs(mix).max() + 1e-9) * 0.9
 
 
 def cash(dur=0.7):

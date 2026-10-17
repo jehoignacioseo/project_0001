@@ -289,7 +289,7 @@ def mix_audio(base, work, lines, starts, sfx, ep, total, tmp):
         chain += "".join(f"[vo{k}]" for k in range(len(lines))) + f"amix=inputs={len(lines)}:normalize=0,asplit=2[vo][vok];"
         layers.append("vo")
     mus = ep.get("music") or {}
-    mname = mus.get("file", "music_pop.wav")
+    mname = mus.get("file", "music_punch.wav")
     mpath = Path(mname) if Path(mname).is_absolute() else (work / mname if (work / mname).exists() else audio_assets.ensure(mname))
     if mpath.exists():
         mi = add(mpath)
