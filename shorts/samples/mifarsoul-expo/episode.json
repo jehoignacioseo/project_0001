@@ -115,10 +115,28 @@
    "purpose": "fact"
   },
   {
+   "type": "image",
+   "src": "https://d8j0ntlcm91z4.cloudfront.net/user_3AC7Rg7Ljfg3Zx6KpQgWCxOzWOe/hf_20261017_225130_dbf2e0b9-77b7-4584-b7c4-66c6911e0470.png",
+   "in": 0,
+   "out": 0,
+   "dur": 3.2,
+   "label": "AI model · studio shot",
+   "review": null,
+   "speed": 1.0,
+   "zoom": 1.0,
+   "zoom_to": 1.1,
+   "crop_x": 0.5,
+   "crop_y": 0.42,
+   "whoosh": true,
+   "amb_gain_db": -14,
+   "vo": "It hugs the whole face. Made for after-sun.",
+   "purpose": "usage"
+  },
+  {
    "type": "footage",
    "src": "IMG_1426.mov",
-   "in": 0.2,
-   "out": 3.8,
+   "in": 1.2,
+   "out": 3.6,
    "dur": 0,
    "label": "",
    "review": null,
@@ -129,7 +147,7 @@
    "crop_y": 0.5,
    "whoosh": true,
    "amb_gain_db": -14,
-   "vo": "It hugs the whole face. Made for after-sun.",
+   "vo": "Peeled straight from the shell.",
    "purpose": "fact"
   },
   {
@@ -268,7 +286,7 @@
   },
   {
    "type": "ingredients",
-   "seg": 5,
+   "seg": 4,
    "t": 0.3,
    "d": 3.2,
    "title": "Soothing Gel Pad",
@@ -280,7 +298,7 @@
   },
   {
    "type": "fact",
-   "seg": 7,
+   "seg": 8,
    "t": 0.4,
    "d": 3.4,
    "title": "Collagen Spicule Pad",
@@ -292,7 +310,7 @@
   },
   {
    "type": "price",
-   "seg": 9,
+   "seg": 10,
    "t": 0.3,
    "d": 2.6,
    "title": "Price check",
@@ -304,7 +322,7 @@
   },
   {
    "type": "verdict",
-   "seg": 10,
+   "seg": 11,
    "t": 0.3,
    "d": 2.8,
    "title": "Verdict",
@@ -316,14 +334,14 @@
  ],
  "emphasis": [
   {
-   "seg": 6,
+   "seg": 7,
    "t": 0.2,
    "d": 2.0,
    "text": "ONE PAD, WHOLE FACE",
    "style": "pop"
   },
   {
-   "seg": 9,
+   "seg": 10,
    "t": 0.9,
    "d": 1.4,
    "text": "$36",
@@ -367,7 +385,7 @@
   },
   "shorts": {
    "title": "Korea's new capsule skincare: $36 SPF + a face-shaped pad",
-   "description": "mifarsoul (mfs) booth tour at a K-beauty expo.\n\n• Super Fluid Sunshell: SPF50+ PA++++, no white cast, water resistant, $36\n• Soothing Gel Pad: oval, 100% Tencel fabric, long-lasting hydration, after-sun recovery (the brand calls it the world's first oval-shaped pad)\n• Collagen Spicule Pad: micro-spicule delivery, patented fabric, collagen firming care\n• Super Collagen Shot Cream: collagen, PDRN, spicules, bursting capsules, $36\n• Online store since July 2026: capsules $36, serum mists $38, free shipping over $65 (mifarsoul.com). Pads not online yet.\n\nVerdict: fun shells with real SPF; a brand to watch, no reviews yet.\n\nVoice: AI narration. Footage: filmed at the expo.\n#Shorts #kbeauty #mifarsoul #koreanskincare",
+   "description": "mifarsoul (mfs) booth tour at a K-beauty expo.\n\n• Super Fluid Sunshell: SPF50+ PA++++, no white cast, water resistant, $36\n• Soothing Gel Pad: oval, 100% Tencel fabric, long-lasting hydration, after-sun recovery (the brand calls it the world's first oval-shaped pad)\n• Collagen Spicule Pad: micro-spicule delivery, patented fabric, collagen firming care\n• Super Collagen Shot Cream: collagen, PDRN, spicules, bursting capsules, $36\n• Online store since July 2026: capsules $36, serum mists $38, free shipping over $65 (mifarsoul.com). Pads not online yet.\n\nVerdict: fun shells with real SPF; a brand to watch, no reviews yet.\n\nVoice: AI narration · studio shot: AI-generated model. Footage: filmed at the expo.\n#Shorts #kbeauty #mifarsoul #koreanskincare",
    "tags": [
     "kbeauty",
     "mifarsoul",
@@ -382,7 +400,7 @@
   "A PAD SHAPED",
   "LIKE YOUR FACE?"
  ],
- "pinned_comment": "mifarsoul (Seoul): Super Fluid / Super Drop Sunshell SPF50+ $36, Super Collagen Shot Cream $36, Super Duo serum mists $38 at mifarsoul.com (free shipping over $65). The gel pads shown at the expo aren't online yet. Voice: AI narration.",
+ "pinned_comment": "mifarsoul (Seoul): Super Fluid / Super Drop Sunshell SPF50+ $36, Super Collagen Shot Cream $36, Super Duo serum mists $38 at mifarsoul.com (free shipping over $65). The gel pads shown at the expo aren't online yet. Voice: AI narration. Studio shot: AI-generated model.",
  "facts_used": [
   {
    "claim": "$36 capsules, $38 serums, SPF50+ PA++++, no white cast, collagen/PDRN/spicules, store since July 2026",
@@ -409,6 +427,6 @@
    "source": "footage signs 'PRIVATE LABEL alllion' + https://kr112700697.fm.alibaba.com/"
   }
  ],
- "editor_notes": "Trade-show footage with no price tags, so prices come from the brand's own Shopify store. Hook is the strongest visual (pad lifted from the shell). Two official pack shots inserted to show products the footage only shows as signs. Pads are flagged as not yet purchasable to avoid a false CTA. v2: narration tightened to ~8-11 words per cut so no cut needs a freeze; target ~40s. v4: punch_beat 126bpm at -15 dB, voice +30% (1.3x), cuts trimmed to match.",
+ "editor_notes": "Trade-show footage with no price tags, so prices come from the brand's own Shopify store. Hook is the strongest visual (pad lifted from the shell). Two official pack shots inserted to show products the footage only shows as signs. Pads are flagged as not yet purchasable to avoid a false CTA. v2: narration tightened to ~8-11 words per cut so no cut needs a freeze; target ~40s. v4: punch_beat 126bpm at -15 dB, voice +30% (1.3x), cuts trimmed to match. v5: AI-model studio bust shot (gpt_image_2_5, refboard + real shell frame as references) inserted as the 'hugs the whole face' cut, labelled on screen and disclosed in metadata.",
  "lang": "en"
 }
