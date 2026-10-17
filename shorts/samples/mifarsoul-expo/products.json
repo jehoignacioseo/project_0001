@@ -1,0 +1,41 @@
+{
+  "researched_at": "2026-10-17T15:40:00+00:00",
+  "products": [
+    {
+      "name": "Capsule skincare line (Sunshell, Pads, Shot Cream)", "brand": "mifarsoul (mfs)", "name_ko": "미파르소울",
+      "category": "capsule-shell skincare: SPF50+ sunscreens, gel pads, creams, serum mists",
+      "price_krw": null, "price_usd_korea": null, "price_usd_abroad": 36.0, "size": "capsule shells; pads sold in a shell with tweezers",
+      "key_ingredients": [
+        {"name": "Active ProteoCan™ (Super Drop Sunshell)", "what_it_does": "the brand's signature ingredient, paired with UV-cut capsules"},
+        {"name": "Collagen, PDRN, spicules (Super Collagen Shot Cream)", "what_it_does": "firmness and moisture care; capsules burst as you spread"},
+        {"name": "CICA + Cicasome (Super Cica Hand Cream)", "what_it_does": "soothing hydration in a waterdrop texture"},
+        {"name": "100% Tencel™ fabric (Soothing Gel Pad, Collagen Spicule Pad)", "what_it_does": "soft, breathable pad base with strong skin adhesion"}
+      ],
+      "hero_facts": [
+        "Online store mifarsoul.com opened July 2026; ships to the US and Canada, free shipping over $65",
+        "Every capsule product is $36 (Super Drop Sunshell, Super Fluid Sunshell, Super Cica Hand Cream, Super Vita CC Cream, Super Retinol Eye Cream, Super Collagen Shot Cream); Super Duo serum mists $38",
+        "Super Fluid Sunshell: SPF50+ PA++++, no white cast, water resistant, oil-absorbing (store + booth sign)",
+        "Soothing Gel Pad: oval pad the brand calls the world's first oval-shaped pad, 100% Tencel, long-lasting hydration, after-sun recovery (booth sign)",
+        "Collagen Spicule Pad: micro-spicule delivery system, patented fabric, superior adhesion, collagen firming care (booth sign)",
+        "Signs read 'PRIVATE LABEL · alllion': the maker is ALLLION Company Co., Ltd., a Seoul cosmetics OEM/ODM listed on Alibaba"
+      ],
+      "good_for": ["gift-able, travel-size SPF in a shell", "people who like capsule/novelty packaging", "after-sun soothing with a full-face pad"],
+      "skip_if": ["you want a brand with a long review history (store is 3 months old)", "you need Olive Young availability (not listed there)"],
+      "how_to_use": "Pads: open the shell, lift a pad with the tweezers, lay it over the face. Sunshell: twist open the shell and apply like a regular sunscreen.",
+      "why_viral": "Capsule-shell packaging reads instantly on camera, and the oval face-shaped pad is a 'wait, what?' visual.",
+      "where_to_buy": ["mifarsoul.com (US/Canada)"],
+      "launched": "online store July 2026",
+      "caveats": ["Pads (Soothing Gel, Collagen Spicule, Cleansing Finger) are booth previews: not in the online store yet", "'World first oval-shaped pad' is a brand claim", "No independent reviews found"],
+      "unverified": ["Korean retail price (none found)", "which expo the footage is from"],
+      "image_urls": [
+        {"url": "https://cdn.shopify.com/s/files/1/0779/6264/1548/files/KakaoTalk_20260702_202637561_03.png?v=1783057840", "source": "mifarsoul.com (Super Fluid Sunshell)", "kind": "official"},
+        {"url": "https://cdn.shopify.com/s/files/1/0779/6264/1548/files/KakaoTalk_20260702_202637561_05.png?v=1783057700", "source": "mifarsoul.com (Super Collagen Shot Cream)", "kind": "official"},
+        {"url": "https://cdn.shopify.com/s/files/1/0779/6264/1548/files/KakaoTalk_20260702_202637561.png?v=1783057924", "source": "mifarsoul.com (Super Drop Sunshell)", "kind": "official"},
+        {"url": "https://cdn.shopify.com/s/files/1/0779/6264/1548/files/KakaoTalk_20260702_202637561_01.png?v=1783057896", "source": "mifarsoul.com (Super Cica Hand Cream)", "kind": "official"}
+      ],
+      "reviews": [], "rating": {"score": null, "count": null, "source": "none found"},
+      "sources": ["https://mifarsoul.com/products.json", "https://mifarsoul.com/", "https://kr112700697.fm.alibaba.com/", "footage: booth signs"],
+      "confidence": "medium", "hero": true
+    }
+  ]
+}

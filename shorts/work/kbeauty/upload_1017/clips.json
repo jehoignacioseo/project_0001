@@ -1,0 +1,272 @@
+[
+  {
+    "path": "../inbox/upload_1017/IMG_1422.mov",
+    "duration": 4.5,
+    "width": 1080,
+    "height": 1920,
+    "portrait": true,
+    "fps": 30.0,
+    "has_audio": true,
+    "hdr": true,
+    "pix_fmt": "yuv420p10le",
+    "file": "IMG_1422.mov",
+    "scenes": [
+      {
+        "index": 0,
+        "start": 0.0,
+        "end": 4.5,
+        "frame": "frames/IMG_1422_s00.jpg",
+        "sharpness": 380.1,
+        "brightness": 164.1
+      }
+    ],
+    "speech": ""
+  },
+  {
+    "path": "../inbox/upload_1017/IMG_1423.mov",
+    "duration": 4.398333,
+    "width": 1080,
+    "height": 1920,
+    "portrait": true,
+    "fps": 30.0,
+    "has_audio": true,
+    "hdr": true,
+    "pix_fmt": "yuv420p10le",
+    "file": "IMG_1423.mov",
+    "scenes": [
+      {
+        "index": 0,
+        "start": 0.0,
+        "end": 4.4,
+        "frame": "frames/IMG_1423_s00.jpg",
+        "sharpness": 395.6,
+        "brightness": 174.2
+      }
+    ],
+    "speech": ""
+  },
+  {
+    "path": "../inbox/upload_1017/IMG_1424.mov",
+    "duration": 6.998333,
+    "width": 1080,
+    "height": 1920,
+    "portrait": true,
+    "fps": 30.0,
+    "has_audio": true,
+    "hdr": true,
+    "pix_fmt": "yuv420p10le",
+    "file": "IMG_1424.mov",
+    "scenes": [
+      {
+        "index": 0,
+        "start": 0.0,
+        "end": 4.0,
+        "frame": "frames/IMG_1424_s00.jpg",
+        "sharpness": 273.0,
+        "brightness": 179.2
+      },
+      {
+        "index": 1,
+        "start": 4.0,
+        "end": 7.0,
+        "frame": "frames/IMG_1424_s01.jpg",
+        "sharpness": 231.3,
+        "brightness": 163.6
+      }
+    ],
+    "speech": ""
+  },
+  {
+    "path": "../inbox/upload_1017/IMG_1425.mov",
+    "duration": 6.3317,
+    "width": 1080,
+    "height": 1920,
+    "portrait": true,
+    "fps": 30.0,
+    "has_audio": true,
+    "hdr": true,
+    "pix_fmt": "yuv420p10le",
+    "file": "IMG_1425.mov",
+    "scenes": [
+      {
+        "index": 0,
+        "start": 0.0,
+        "end": 4.0,
+        "frame": "frames/IMG_1425_s00.jpg",
+        "sharpness": 26.3,
+        "brightness": 175.7
+      },
+      {
+        "index": 1,
+        "start": 4.0,
+        "end": 6.33,
+        "frame": "frames/IMG_1425_s01.jpg",
+        "sharpness": 40.6,
+        "brightness": 171.6
+      }
+    ],
+    "speech": ""
+  },
+  {
+    "path": "../inbox/upload_1017/IMG_1426.mov",
+    "duration": 6.066667,
+    "width": 1080,
+    "height": 1920,
+    "portrait": true,
+    "fps": 30.0,
+    "has_audio": true,
+    "hdr": true,
+    "pix_fmt": "yuv420p10le",
+    "file": "IMG_1426.mov",
+    "scenes": [
+      {
+        "index": 0,
+        "start": 0.0,
+        "end": 4.0,
+        "frame": "frames/IMG_1426_s00.jpg",
+        "sharpness": 12.1,
+        "brightness": 163.3
+      },
+      {
+        "index": 1,
+        "start": 4.0,
+        "end": 6.07,
+        "frame": "frames/IMG_1426_s01.jpg",
+        "sharpness": 14.0,
+        "brightness": 164.9
+      }
+    ],
+    "speech": ""
+  },
+  {
+    "path": "../inbox/upload_1017/IMG_1427.mov",
+    "duration": 4.201667,
+    "width": 1920,
+    "height": 1080,
+    "portrait": false,
+    "fps": 29.97,
+    "has_audio": true,
+    "hdr": true,
+    "pix_fmt": "yuv420p10le",
+    "file": "IMG_1427.mov",
+    "scenes": [
+      {
+        "index": 0,
+        "start": 0.0,
+        "end": 4.2,
+        "frame": "frames/IMG_1427_s00.jpg",
+        "sharpness": 62.3,
+        "brightness": 176.8
+      }
+    ],
+    "speech": ""
+  },
+  {
+    "path": "../inbox/upload_1017/IMG_1428.mov",
+    "duration": 3.5317,
+    "width": 1080,
+    "height": 1920,
+    "portrait": true,
+    "fps": 30.0,
+    "has_audio": true,
+    "hdr": true,
+    "pix_fmt": "yuv420p10le",
+    "file": "IMG_1428.mov",
+    "scenes": [
+      {
+        "index": 0,
+        "start": 0.0,
+        "end": 3.53,
+        "frame": "frames/IMG_1428_s00.jpg",
+        "sharpness": 515.2,
+        "brightness": 156.5
+      }
+    ],
+    "speech": ""
+  },
+  {
+    "path": "../inbox/upload_1017/IMG_1429.mov",
+    "duration": 5.4317,
+    "width": 1080,
+    "height": 1920,
+    "portrait": true,
+    "fps": 30.0,
+    "has_audio": true,
+    "hdr": true,
+    "pix_fmt": "yuv420p10le",
+    "file": "IMG_1429.mov",
+    "scenes": [
+      {
+        "index": 0,
+        "start": 0.0,
+        "end": 5.43,
+        "frame": "frames/IMG_1429_s00.jpg",
+        "sharpness": 370.9,
+        "brightness": 154.3
+      }
+    ],
+    "speech": ""
+  },
+  {
+    "path": "../inbox/upload_1017/IMG_1430.mov",
+    "duration": 6.066667,
+    "width": 1080,
+    "height": 1920,
+    "portrait": true,
+    "fps": 30.0,
+    "has_audio": true,
+    "hdr": true,
+    "pix_fmt": "yuv420p10le",
+    "file": "IMG_1430.mov",
+    "scenes": [
+      {
+        "index": 0,
+        "start": 0.0,
+        "end": 4.0,
+        "frame": "frames/IMG_1430_s00.jpg",
+        "sharpness": 714.5,
+        "brightness": 177.8
+      },
+      {
+        "index": 1,
+        "start": 4.0,
+        "end": 6.07,
+        "frame": "frames/IMG_1430_s01.jpg",
+        "sharpness": 740.8,
+        "brightness": 186.8
+      }
+    ],
+    "speech": ""
+  },
+  {
+    "path": "../inbox/upload_1017/IMG_1431.mov",
+    "duration": 6.133333,
+    "width": 1080,
+    "height": 1920,
+    "portrait": true,
+    "fps": 30.0,
+    "has_audio": true,
+    "hdr": true,
+    "pix_fmt": "yuv420p10le",
+    "file": "IMG_1431.mov",
+    "scenes": [
+      {
+        "index": 0,
+        "start": 0.0,
+        "end": 4.0,
+        "frame": "frames/IMG_1431_s00.jpg",
+        "sharpness": 502.4,
+        "brightness": 155.9
+      },
+      {
+        "index": 1,
+        "start": 4.0,
+        "end": 6.13,
+        "frame": "frames/IMG_1431_s01.jpg",
+        "sharpness": 453.5,
+        "brightness": 168.0
+      }
+    ],
+    "speech": ""
+  }
+]
