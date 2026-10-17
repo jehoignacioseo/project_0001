@@ -56,6 +56,10 @@ def fit_segments(ep, lines, clips):
                 extend = min(room, (need - cut) * speed)
                 s["out"] = round(s["out"] + max(0.0, extend), 3)
                 cut = (s["out"] - s["in"]) / speed
+                if need > cut and s["in"] > 0:          # then borrow footage before the in-point
+                    back = min(s["in"], (need - cut) * speed)
+                    s["in"] = round(s["in"] - back, 3)
+                    cut = (s["out"] - s["in"]) / speed
                 s["freeze"] = round(max(0.0, need - cut), 3)
             s["dur"] = round(cut + s.get("freeze", 0.0), 3)
         else:
