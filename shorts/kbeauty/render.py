@@ -315,7 +315,7 @@ def mix_audio(base, work, lines, starts, sfx, ep, total, tmp):
                f":measured_thresh={meas['input_thresh']}:offset={meas['target_offset']}:linear=true")
     out = tmp / "mix.wav"
     run(["ffmpeg", "-y", "-v", "error", "-i", str(raw), "-af",
-         f"{ln},aresample=48000,aformat=sample_fmts=fltp:channel_layouts=stereo,alimiter=limit=0.79:attack=5:release=50:level=false",
+         f"{ln},aresample=48000,aformat=sample_fmts=fltp:channel_layouts=stereo,alimiter=limit=0.7:attack=5:release=50:level=false",
          "-ar", "48000", "-ac", "2", str(out)])
     return out
 
