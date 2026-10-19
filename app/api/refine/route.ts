@@ -46,6 +46,7 @@ export async function POST(req: Request) {
       slides,
       caption: draft.caption,
       hashtags: draft.hashtags,
+      commentKeyword: draft.commentKeyword ?? '',
       status: 'draft' as const,
       slideImagePaths: [], // 내용이 바뀌었으므로 렌더링 다시 필요
       updatedAt: new Date().toISOString(),

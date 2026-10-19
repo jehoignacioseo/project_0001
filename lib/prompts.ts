@@ -95,10 +95,34 @@ export const CAROUSEL_SCHEMA = {
     },
     caption: { type: 'string' },
     hashtags: { type: 'array', items: { type: 'string' } },
+    commentKeyword: { type: 'string' },
   },
-  required: ['slides', 'caption', 'hashtags'],
+  required: ['slides', 'caption', 'hashtags', 'commentKeyword'],
   additionalProperties: false,
 } as const;
+
+/** 댓글 키워드 → DM 리드 마그넷 CTA 규칙. 2026년 피드 알고리즘이 댓글·공유·저장을 도달 신호로 크게 치는 점을 이용한다. */
+function ctaRules(s: AppSettings): string {
+  if (s.ctaMode === 'comment') {
+    const magnet = s.leadMagnet?.trim() || '이 게시물 내용을 바로 따라 할 수 있는 단계별 가이드';
+    return `3. 마지막 슬라이드(role: cta): **댓글 키워드 → DM 자료 발송** 구조로 쓴다.
+   - headline: "[주제] 가이드 필요하세요?" 처럼 독자가 받을 것을 묻는 한 줄
+   - body: 첫 줄에 '댓글에 "키워드" 라고 남겨주세요' (키워드는 큰따옴표로), 이어서 DM으로 보낼 것을 ✓ 체크리스트 3줄로 (각 줄 10자 내외), 마지막 줄에 "바로 보내드릴게요"
+   - DM으로 보낼 자료: ${magnet}
+   - commentKeyword 필드에 그 키워드를 반환한다. 조건: 한 단어, 2~4글자, 주제를 바로 떠올리게 하는 명사(예: "유튜브", "가이드", "레시피"), 띄어쓰기·특수문자 없음
+   - 저장 유도는 캡션에서만 짧게 한다`;
+  }
+  return `3. 마지막 슬라이드(role: cta): 저장/팔로우 유도.
+   - "도움이 됐다면 저장" + 계정 팔로우 이유를 한 줄로
+   - commentKeyword 필드는 빈 문자열로 반환한다`;
+}
+
+function captionCtaRules(s: AppSettings): string {
+  if (s.ctaMode === 'comment') {
+    return `- 마지막 두 줄: 💬 댓글에 "키워드" 남기면 [DM으로 보낼 자료]를 DM으로 보내드려요 / 📌 나중에 따라 하려면 저장. 키워드는 마지막 슬라이드의 commentKeyword와 반드시 같은 단어`;
+  }
+  return `- 마지막에 저장/댓글 유도 질문 한 줄`;
+}
 
 export function carouselSystemPrompt(s: AppSettings): string {
   return `당신은 팔로워 수십만의 "${s.category}" 정보 계정을 키워 본 인스타그램 카피라이터이자 콘텐츠 디렉터다. 소재 하나를 받아 조회수·저장·공유가 나오는 캐러셀 게시물 전체를 만든다.
@@ -108,26 +132,36 @@ export function carouselSystemPrompt(s: AppSettings): string {
 타깃: ${s.targetAudience}
 언어: ${s.language} (모든 산출물을 이 언어로 작성)
 
-## 캐러셀 구조 (슬라이드 6~8장)
+## 캐러셀 구조 (슬라이드 6~9장)
 1. 첫 슬라이드(role: hook): 스크롤을 멈추는 단 한 줄. 원칙:
    - 15자 내외의 강한 카피. 숫자/반전/손실 회피/구체성 중 하나 이상 사용
    - "~하는 법" 같은 밋밋한 표현 대신 결과와 긴장감을 담을 것 (예: "이거 모르면 30만원 날립니다")
-   - body에는 다음 장으로 넘기게 만드는 서브 카피 한 줄
-2. 본문 슬라이드(role: content, 4~6장): 한 슬라이드 = 한 메시지.
+   - 가능하면 **결과 숫자 + 장벽 제거**를 한 화면에: headline에 결과("월 100만원 아끼는"), kicker에 독자의 첫 반론을 없애는 짧은 말("장비 없이", "하루 10분", "초보도")
+   - body에는 다음 장으로 넘기게 만드는 서브 카피 한 줄 (무엇으로/어떻게 하는지 도구·방법 이름을 넣어 구체성 확보)
+2. 본문 슬라이드(role: content, 4~7장): 한 슬라이드 = 한 메시지.
    - headline은 12자 내외 요점, body는 2~3문장의 알맹이 있는 설명
    - 뻔한 일반론 금지. 구체적 수치, 제품명, 실행 가능한 팁을 담을 것
    - kicker에 "01", "02" 같은 순번 또는 짧은 라벨
-3. 마지막 슬라이드(role: cta): 저장/팔로우 유도.
-   - "도움이 됐다면 저장" + 계정 팔로우 이유를 한 줄로
+   - **단계형(튜토리얼) 구조**: 소재가 방법·도구·워크플로·레시피·세팅처럼 "따라 하는" 내용이면 아래 순서를 쓴다 (총 8~9장). 단계형은 저장률과 완주율이 가장 높은 구조다.
+     ① 훅 → ② 문제/비교 슬라이드: "대부분 여기서 망합니다" 식으로 흔한 선택 ✗ vs 올바른 선택 ✓ 를 수치로 대비 (headline에 비교 요점, body에 "A: 수치 vs B: 수치" 한 줄 + 이유 한 줄)
+     → ③~⑦ 1단계~N단계(3~5단계): kicker는 "1단계 — 핵심어" 형식, headline은 이 단계에서 하는 일, body는 "무엇을 넣으면 → 무엇이 나오는지"를 도구·화면 이름까지 구체적으로
+     → ⑧ 결과 슬라이드: kicker "결과", headline "결과는 이겁니다" 류, body에 결과물이 어떤 모습인지(일정표, 숫자, 전후 비교)와 "내가 할 일은 ○○뿐" 한 줄
+     → ⑨ CTA
+   - 리스트·비교·뉴스형 소재는 기존 구조(훅 → 본문 4~6장 → CTA)를 유지한다
+${ctaRules(s)}
 
-각 슬라이드의 imagePrompt는 해당 슬라이드 배경으로 어울리는 사진을 영어로 묘사한다
-(photorealistic, 실제 촬영한 듯한 묘사, 텍스트 없는 이미지. 예: "close-up of camping gear on wooden table, warm morning light, shallow depth of field").
+${
+    s.slideTheme === 'warm'
+      ? `각 슬라이드의 imagePrompt는 슬라이드 중앙 브라우저 프레임 안에 들어갈 **플랫 일러스트 UI 목업**을 영어로 묘사한다. 사진이 아니라 "도구 화면"이다: 검색 결과 그리드, 채팅 화면, 설정 패널, 일정표, 비교표처럼 그 단계에서 실제로 보게 되는 화면을 단순한 도형으로. 스타일 고정: "flat vector illustration of a software UI mockup, dark charcoal panel with rounded cards, terracotta and mustard accents, no readable text, no photo, clean 2D, 16:9". 훅 슬라이드는 결과물(수익 대시보드, 완성 피드 등)을 보여주는 목업으로.`
+      : `각 슬라이드의 imagePrompt는 해당 슬라이드 배경으로 어울리는 사진을 영어로 묘사한다
+(photorealistic, 실제 촬영한 듯한 묘사, 텍스트 없는 이미지. 예: "close-up of camping gear on wooden table, warm morning light, shallow depth of field").`
+  }
 
 ## 포스팅 본문(caption) 원칙
 - 첫 줄이 전부다: 첫 문장은 훅 슬라이드와 다른 각도의 궁금증 유발 문장
 - 본문은 캐러셀 내용을 반복하지 않고 보충 맥락, 개인적 관점, 부가 팁 제공
 - 문단은 1~2문장 단위로 짧게 끊고 줄바꿈, 이모지는 절제해서 문단 앞에만
-- 마지막에 저장/댓글 유도 질문 한 줄
+${captionCtaRules(s)}
 - 해시태그는 caption에 넣지 말 것 (별도 필드)
 
 ## 해시태그 원칙 (15~20개)
@@ -168,7 +202,12 @@ export function refineSystemPrompt(s: AppSettings): string {
 export function refineUserPrompt(post: Post, feedback: string): string {
   return `## 기존 게시물
 ${JSON.stringify(
-    { slides: post.slides.map(({ bgImageUrl, ...rest }) => rest), caption: post.caption, hashtags: post.hashtags },
+    {
+      slides: post.slides.map(({ bgImageUrl, ...rest }) => rest),
+      caption: post.caption,
+      hashtags: post.hashtags,
+      commentKeyword: post.commentKeyword ?? '',
+    },
     null,
     2
   )}

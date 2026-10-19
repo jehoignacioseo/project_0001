@@ -117,6 +117,7 @@ const THEME_OPTIONS: { id: SlideThemeId; label: string }[] = [
   { id: 'clean', label: '클린 (밝은 톤)' },
   { id: 'dark', label: '다크 (블루 포인트)' },
   { id: 'magazine', label: '매거진 (화이트)' },
+  { id: 'warm', label: '웜 튜토리얼 (크림+테라코타)' },
 ];
 
 export default function PostEditorPage() {
@@ -405,6 +406,18 @@ export default function PostEditorPage() {
               value={post.caption}
               onChange={(e) => patch({ caption: e.target.value })}
             />
+            <div>
+              <label className="label">댓글 키워드 (자동 DM 트리거 단어, 없으면 비움)</label>
+              <input
+                className="input"
+                value={post.commentKeyword ?? ''}
+                placeholder="예: 가이드"
+                onChange={(e) => patch({ commentKeyword: e.target.value })}
+              />
+              <p className="mt-1 text-xs leading-relaxed text-gray-400">
+                마지막 슬라이드와 본문에 같은 단어가 들어가야 합니다. ManyChat 등 자동 DM 도구에 이 단어를 트리거로 등록하세요.
+              </p>
+            </div>
           </div>
 
           <div className="card space-y-2">

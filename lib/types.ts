@@ -16,6 +16,8 @@ export interface AppSettings {
   brandTone: string;           // 톤앤매너 설명
   targetAudience: string;      // 타깃 독자 설명
   slideTheme: SlideThemeId;    // 기본 슬라이드 템플릿
+  ctaMode: CtaMode;            // 'save' = 저장·팔로우 유도, 'comment' = 댓글 키워드 → DM
+  leadMagnet: string;          // ctaMode=comment 일 때 DM으로 보낼 자료 설명 (예: "단계별 가이드 + 프롬프트 원문")
   language: string;            // 콘텐츠 언어 (기본 한국어)
   model: string;               // Claude 모델 ID
   anthropicApiKey: string;     // 비어 있으면 env ANTHROPIC_API_KEY 사용
@@ -24,7 +26,10 @@ export interface AppSettings {
   publicBaseUrl: string;       // 배포된 앱의 공개 URL (발행 시 이미지 호스팅에 필요)
 }
 
-export type SlideThemeId = 'bold' | 'clean' | 'dark' | 'magazine';
+export type SlideThemeId = 'bold' | 'clean' | 'dark' | 'magazine' | 'warm';
+
+/** 마지막 슬라이드·캡션의 행동 유도 방식. comment = 댓글 키워드 → DM 리드 마그넷 */
+export type CtaMode = 'save' | 'comment';
 
 export interface SourceItem {
   id: string;
@@ -62,6 +67,7 @@ export interface Post {
   slides: Slide[];
   caption: string;             // 포스팅 본문
   hashtags: string[];
+  commentKeyword?: string;     // 댓글 키워드 CTA 단어 (자동 DM 도구의 트리거로 사용). 없으면 빈 문자열
   theme: SlideThemeId;
   slideImagePaths: string[];   // 렌더링된 PNG 경로 (/uploads/...)
   publishedMediaId?: string;
@@ -73,4 +79,5 @@ export interface CarouselDraft {
   slides: Slide[];
   caption: string;
   hashtags: string[];
+  commentKeyword: string;      // 댓글 CTA를 쓰지 않으면 빈 문자열
 }

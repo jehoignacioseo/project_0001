@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import type { AppSettings, SlideThemeId, SourceKind } from '@/lib/types';
+import type { AppSettings, CtaMode, SlideThemeId, SourceKind } from '@/lib/types';
 
 const SOURCE_OPTIONS: { id: SourceKind; label: string; desc: string }[] = [
   { id: 'news', label: '뉴스', desc: '구글 뉴스에서 카테고리 관련 최신 기사를 수집합니다.' },
@@ -243,6 +243,7 @@ export default function SettingsPage() {
               <option value="clean">클린 (밝은 톤)</option>
               <option value="dark">다크 (블루 포인트)</option>
               <option value="magazine">매거진 (화이트)</option>
+              <option value="warm">웜 튜토리얼 (크림+테라코타)</option>
             </select>
           </div>
         </div>
@@ -261,6 +262,33 @@ export default function SettingsPage() {
             value={s.targetAudience}
             onChange={(e) => set('targetAudience', e.target.value)}
           />
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label className="label">마지막 슬라이드 CTA 방식</label>
+            <select
+              className="input"
+              value={s.ctaMode}
+              onChange={(e) => set('ctaMode', e.target.value as CtaMode)}
+            >
+              <option value="save">저장·팔로우 유도 (기본)</option>
+              <option value="comment">댓글 키워드 → DM 자료 발송</option>
+            </select>
+            <p className="mt-1 text-xs leading-relaxed text-gray-400">
+              💡 요즘 알고리즘은 좋아요보다 댓글·공유·저장을 도달 신호로 더 크게 봅니다. &quot;댓글에
+              &lsquo;OO&rsquo; 남기면 DM으로 보내드려요&quot; 구조는 댓글 수를 수천 개 단위로 만들어
+              탐색탭 재배포를 끌어냅니다. 자동 DM은 ManyChat 같은 도구에 키워드를 등록해 처리합니다.
+            </p>
+          </div>
+          <div>
+            <label className="label">DM으로 보낼 자료 (댓글 CTA일 때)</label>
+            <input
+              className="input"
+              value={s.leadMagnet}
+              placeholder="예: 단계별 가이드 PDF + 실제 쓴 프롬프트 원문 + 세팅 체크리스트"
+              onChange={(e) => set('leadMagnet', e.target.value)}
+            />
+          </div>
         </div>
       </section>
 

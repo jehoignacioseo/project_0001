@@ -40,6 +40,7 @@ export async function POST(req: Request) {
       slides: draft.slides,
       caption: draft.caption,
       hashtags: draft.hashtags,
+      commentKeyword: draft.commentKeyword ?? '',
       theme: settings.slideTheme,
       slideImagePaths: [],
       revisions: [],

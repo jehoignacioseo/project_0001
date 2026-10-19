@@ -39,6 +39,8 @@ export const DEFAULT_SETTINGS: AppSettings = {
   brandTone: '전문적이지만 친근한, 핵심만 간결하게 전달하는 톤',
   targetAudience: '해당 분야에 관심 많은 20~40대',
   slideTheme: 'bold',
+  ctaMode: 'save',
+  leadMagnet: '',
   language: '한국어',
   model: 'claude-opus-5',
   anthropicApiKey: '',
