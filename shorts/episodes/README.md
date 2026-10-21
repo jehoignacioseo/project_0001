@@ -9,3 +9,8 @@ ElevenLabs re-record (needs ELEVENLABS_API_KEY in the environment):
   cd shorts/pipeline && python3 vo_elevenlabs.py ../episodes/EP02/vo_script_elevenlabs.txt --check   # auth only
   python3 vo_elevenlabs.py ../work/EP02/vo_script_elevenlabs.txt [--voice brian]                    # writes vo_all.mp3/.wav + vo_phrases.json
   then voiceover.source = "vo_all.wav", copy s/e from vo_phrases.json into the cues, vo_align.py, render.py
+
+EP02 ElevenLabs take (Liam, eleven_v4, via the ElevenLabs connector flow): vo_liam_v4.mp3, 60.7s.
+vo_words.json = Scribe word timestamps, vo_phrases.json = 45 phrases, vo_plan.json = phrase -> segment placement.
+Rebuild cues: cd shorts/pipeline && python3 vo_cues.py ../work/EP02/episode.json ../work/EP02/vo_phrases.json ../work/EP02/vo_plan.json
+then vo_align.py and render.py --shorts. episode.json here already carries the resulting cues (source vo_liam_v4.mp3, tempo 1.15).

@@ -32,249 +32,179 @@
  "cta": "Would you drink your rice pot? 👇",
  "voiceover": {
   "file": "vo_aligned.wav",
-  "source": "vo_all.wav",
+  "source": "vo_liam_v4.mp3",
   "start": 0,
   "gain_db": 1.0,
   "tempo": 1.0,
-  "phrase_tempo": 1.08,
+  "phrase_tempo": 1.15,
   "cues": [
    {
-    "s": 0.44,
-    "e": 4.08,
+    "s": 0,
+    "e": 4.44,
     "seg": 0,
-    "t": 0.1,
-    "txt": "Okay. Korea has a rice trick nobody tells tourists."
+    "t": 0.15,
+    "txt": "Stay till the end... because this rice pot is about to do something weird."
    },
    {
-    "s": 4.64,
-    "e": 5.78,
+    "s": 4.59,
+    "e": 7.0,
     "seg": 1,
-    "t": 0.1,
-    "txt": "This is a set meal."
+    "t": 0.76,
+    "txt": "Korean home-style set meal, Seoul."
    },
    {
-    "s": 12.29,
-    "e": 13.52,
-    "seg": 1,
-    "t": 1.25,
-    "txt": "Seven side dishes."
-   },
-   {
-    "s": 47.94,
-    "e": 50.24,
+    "s": 7.07,
+    "e": 11.0,
     "seg": 2,
-    "t": 0.05,
-    "txt": "Squid and pork, fourteen thousand won."
+    "t": 0.51,
+    "txt": "Two mains. Squid and pork? Fourteen thousand won."
    },
    {
-    "s": 50.59,
-    "e": 52.64,
+    "s": 11.07,
+    "e": 13.04,
     "seg": 3,
-    "t": 0.05,
-    "txt": "Grilled mackerel, twelve thousand."
+    "t": 0.67,
+    "txt": "Grilled mackerel? Twelve."
    },
    {
-    "s": 59.56,
-    "e": 61.57,
+    "s": 13.03,
+    "e": 16.56,
     "seg": 4,
-    "t": 0.05,
-    "txt": "Two mains, twenty-six thousand won."
+    "t": 0.14,
+    "txt": "Twenty-six thousand total. That's under twenty dollars."
    },
    {
-    "s": 61.85,
-    "e": 63.07,
-    "seg": 4,
-    "t": 1.9,
-    "txt": "Under twenty dollars."
-   },
-   {
-    "s": 52.96,
-    "e": 54.46,
+    "s": 16.51,
+    "e": 21.2,
     "seg": 5,
-    "t": 0.6,
-    "txt": "Every side dish? Free."
+    "t": 0.05,
+    "txt": "Now count the extras. Porridge. Seaweed soup. Seven side dishes."
    },
    {
-    "s": 54.98,
-    "e": 56.39,
+    "s": 21.23,
+    "e": 22.96,
     "seg": 5,
-    "t": 2.0,
-    "txt": "And the japchae and tteokbokki?"
+    "t": 4.28,
+    "txt": "All of it... free."
    },
    {
-    "s": 56.76,
-    "e": 57.99,
+    "s": 22.87,
+    "e": 25.92,
     "seg": 6,
-    "t": 0.05,
-    "txt": "Unlimited refills."
+    "t": 1.13,
+    "txt": "And the japchae and tteokbokki? Unlimited refills."
    },
    {
-    "s": 58.14,
-    "e": 59.36,
-    "seg": 6,
-    "t": 1.2,
-    "txt": "Yes, unlimited."
-   },
-   {
-    "s": 64.52,
-    "e": 65.58,
+    "s": 25.95,
+    "e": 27.68,
     "seg": 7,
-    "t": 0.05,
-    "txt": "And it's not junk."
+    "t": 0.93,
+    "txt": "Yes. Unlimited."
    },
    {
-    "s": 66.1,
-    "e": 68.77,
-    "seg": 7,
-    "t": 1.0,
-    "txt": "Mackerel? Omega-3."
-   },
-   {
-    "s": 69.64,
-    "e": 70.94,
+    "s": 27.71,
+    "e": 30.64,
     "seg": 8,
     "t": 0.05,
-    "txt": "Kimchi and seaweed?"
+    "txt": "And it's not junk. Mackerel? Omega-3."
    },
    {
-    "s": 71.56,
-    "e": 74.86,
-    "seg": 8,
-    "t": 1.2,
-    "txt": "Fermented. Fiber. Probiotics."
-   },
-   {
-    "s": 75.17,
-    "e": 76.98,
+    "s": 30.75,
+    "e": 34.52,
     "seg": 9,
-    "t": 1.4,
+    "t": 0.05,
+    "txt": "Kimchi and seaweed? Fermented. Fiber. Probiotics."
+   },
+   {
+    "s": 34.59,
+    "e": 36.44,
+    "seg": 10,
+    "t": 0.48,
     "txt": "One tray, balanced meal."
    },
    {
-    "s": 14.0,
-    "e": 15.12,
-    "seg": 10,
-    "t": 0.1,
-    "txt": "And a pot of rice."
-   },
-   {
-    "s": 15.93,
-    "e": 16.8,
-    "seg": 10,
-    "t": 1.4,
-    "txt": "Watch the pot."
-   },
-   {
-    "s": 17.33,
-    "e": 18.14,
-    "seg": 10,
-    "t": 2.3,
-    "txt": "Lift the lid."
-   },
-   {
-    "s": 18.67,
-    "e": 20.59,
+    "s": 36.51,
+    "e": 37.76,
     "seg": 11,
-    "t": 0.05,
-    "txt": "Scoop every grain into your bowl."
+    "t": 0.3,
+    "txt": "Okay. The pot."
    },
    {
-    "s": 21.27,
-    "e": 22.8,
+    "s": 37.95,
+    "e": 40.4,
+    "seg": 11,
+    "t": 1.6,
+    "txt": "Lift the lid. Scoop every grain out."
+   },
+   {
+    "s": 40.43,
+    "e": 42.4,
     "seg": 13,
     "t": 0.05,
-    "txt": "Now the pot looks empty."
+    "txt": "Looks empty... it's not."
    },
    {
-    "s": 23.52,
-    "e": 24.12,
-    "seg": 13,
-    "t": 1.5,
-    "txt": "It's not."
-   },
-   {
-    "s": 24.7,
-    "e": 26.05,
-    "seg": 13,
-    "t": 2.05,
-    "txt": "See that crust at the bottom?"
-   },
-   {
-    "s": 26.5,
-    "e": 27.6,
-    "seg": 13,
-    "t": 3.3,
-    "txt": "Hot water goes in."
-   },
-   {
-    "s": 28.68,
-    "e": 29.71,
+    "s": 42.43,
+    "e": 43.76,
     "seg": 14,
-    "t": 0.9,
-    "txt": "Wait, what?"
+    "t": 0.71,
+    "txt": "See that golden crust?"
    },
    {
-    "s": 30.25,
-    "e": 30.95,
-    "seg": 15,
-    "t": 0.1,
-    "txt": "Stir it."
+    "s": 43.79,
+    "e": 46.68,
+    "seg": 14,
+    "t": 2.2,
+    "txt": "Hot water goes in. Lid on. Three minutes."
    },
    {
-    "s": 31.5,
-    "e": 32.51,
-    "seg": 16,
+    "s": 46.75,
+    "e": 48.24,
+    "seg": 18,
     "t": 0.05,
-    "txt": "Lid back on."
-   },
-   {
-    "s": 33.15,
-    "e": 33.93,
-    "seg": 16,
-    "t": 1.05,
-    "txt": "Three minutes."
-   },
-   {
-    "s": 34.52,
-    "e": 35.93,
-    "seg": 17,
-    "t": 0.15,
     "txt": "Meanwhile, japchae."
    },
    {
-    "s": 36.58,
-    "e": 38.26,
-    "seg": 19,
-    "t": 0.1,
-    "txt": "And now: nurungji tea."
+    "s": 48.35,
+    "e": 49.84,
+    "seg": 20,
+    "t": 0.05,
+    "txt": "And... nurungji tea."
    },
    {
-    "s": 38.85,
-    "e": 41.92,
-    "seg": 19,
-    "t": 1.7,
-    "txt": "Rice first, then rice tea, from the same pot."
-   },
-   {
-    "s": 42.51,
-    "e": 43.45,
+    "s": 49.87,
+    "e": 51.44,
     "seg": 20,
     "t": 1.5,
-    "txt": "Zero waste."
+    "txt": "Toasty, nutty."
    },
    {
-    "s": 43.93,
-    "e": 45.24,
+    "s": 51.47,
+    "e": 54.24,
     "seg": 20,
-    "t": 2.4,
-    "txt": "Zero extra cost."
+    "t": 3.01,
+    "txt": "Korean grandmas swear by it for digestion."
    },
    {
-    "s": 45.84,
-    "e": 47.33,
+    "s": 54.15,
+    "e": 56.32,
+    "seg": 21,
+    "t": 1.97,
+    "txt": "Rice first. Rice tea second."
+   },
+   {
+    "s": 56.27,
+    "e": 58.4,
+    "seg": 22,
+    "t": 0.05,
+    "txt": "Same pot. Zero waste."
+   },
+   {
+    "s": 58.51,
+    "e": 60.8,
     "seg": "end",
-    "t": 0.6,
-    "txt": "Would you drink your rice pot?"
+    "t": 0.3,
+    "txt": "So... would you drink your rice pot?"
    }
   ]
  },
@@ -282,7 +212,7 @@
   "file": "music_lofi.wav",
   "gain_db": -19
  },
- "score_at": 49.8,
+ "score_at": 65.5,
  "score_duration": 3.0,
  "segments": [
   {
@@ -322,7 +252,7 @@
   {
    "src": "../EP02_raw/IMG_1871.mov",
    "in": 3.0,
-   "out": 5.4,
+   "out": 6.4,
    "amb_gain_db": -10,
    "captions": [
     {
@@ -336,7 +266,7 @@
   {
    "src": "../EP02_raw/IMG_1873.mov",
    "in": 1.0,
-   "out": 3.0,
+   "out": 3.4,
    "amb_gain_db": -10,
    "captions": [
     {
@@ -350,7 +280,7 @@
   {
    "src": "../EP02_raw/IMG_1855.mov",
    "in": 0.0,
-   "out": 2.4,
+   "out": 3.6,
    "amb_gain_db": -12,
    "captions": [
     {
@@ -364,7 +294,7 @@
   {
    "src": "../EP02_raw/IMG_1876.mov",
    "in": 0.2,
-   "out": 3.4,
+   "out": 5.0,
    "amb_gain_db": -12,
    "captions": [
     {
@@ -377,9 +307,23 @@
    "whoosh": true
   },
   {
+   "src": "../EP02_raw/IMG_1859.mov",
+   "in": 2.0,
+   "out": 5.0,
+   "amb_gain_db": -10,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 2.8,
+     "text": "japchae + tteokbokki: refill forever ♻️🍜",
+     "style": "pop"
+    }
+   ]
+  },
+  {
    "src": "../EP02_raw/IMG_1870.mov",
    "in": 1.0,
-   "out": 3.4,
+   "out": 4.8,
    "amb_gain_db": -10,
    "captions": [
     {
@@ -393,7 +337,7 @@
   {
    "src": "../EP02_raw/IMG_1873.mov",
    "in": 3.5,
-   "out": 6.5,
+   "out": 7.1,
    "amb_gain_db": -10,
    "captions": [
     {
@@ -407,7 +351,7 @@
   {
    "src": "../EP02_raw/IMG_1872.mov",
    "in": 0.1,
-   "out": 3.0,
+   "out": 3.1,
    "amb_gain_db": -10,
    "captions": [
     {
@@ -521,7 +465,7 @@
   {
    "src": "../EP02_raw/IMG_1865.mov",
    "in": 0.8,
-   "out": 2.8,
+   "out": 3.2,
    "amb_gain_db": -10,
    "captions": [
     {
@@ -535,7 +479,7 @@
   {
    "src": "../EP02_raw/IMG_1868.mov",
    "in": 2.5,
-   "out": 4.7,
+   "out": 5.3,
    "amb_gain_db": -10,
    "captions": [
     {
@@ -550,7 +494,7 @@
   {
    "src": "../EP02_raw/IMG_1869.mov",
    "in": 6.0,
-   "out": 7.2,
+   "out": 7.8,
    "amb_gain_db": -10,
    "captions": [
     {
@@ -564,7 +508,7 @@
   {
    "src": "../EP02_raw/IMG_1864.mov",
    "in": 7.8,
-   "out": 11.0,
+   "out": 11.4,
    "amb_gain_db": -10,
    "captions": [
     {
@@ -579,9 +523,24 @@
   {
    "src": "../EP02_raw/IMG_1855.mov",
    "in": 10.3,
-   "out": 13.5,
+   "out": 14.35,
    "amb_gain_db": -12,
    "captions": [],
+   "whoosh": true
+  },
+  {
+   "src": "../EP02_raw/IMG_1855.mov",
+   "in": 3.8,
+   "out": 7.4,
+   "amb_gain_db": -12,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 3.2,
+     "text": "same pot. twice. ♻️🍚☕",
+     "style": "pop"
+    }
+   ],
    "whoosh": true
   }
  ],
