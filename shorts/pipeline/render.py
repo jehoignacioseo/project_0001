@@ -149,7 +149,7 @@ def render(ep, ep_dir, out_dir, mode):
     if band:
         tb = title_band(str(tmp / "tband.png"), [tuple(x) for x in ep["title_band"]], W, top, scale)
         bb = bottom_band(str(tmp / "bband.png"), f"DAY {ep['day']:02d}  ·  {tag}",
-                         ep.get("teaser") or (f"NEXT ▶ {ep['next']}" if ep.get("next") else "Comment a combo I should try 👇"),
+                         ep.get("teaser") or (f"NEXT ▶ {ep['next']}" if ep.get("next") else ep.get("bottom_cta", "Comment a combo I should try 👇")),
                          W, bottom, scale)
         ov += [(tb, "0", "0", 0, total), (bb, "0", str(H - bottom), 0, total)]
     else:
