@@ -76,7 +76,7 @@ def _normalize_segment(seg, idx, tmp, W, H, portrait_out, ep_dir, top=0, bottom=
     if not info["has_audio"]:
         cmd += ["-f", "lavfi", "-t", f"{(t_out - t_in) / speed:.3f}", "-i", "anullsrc=r=48000:cl=stereo"]
     cmd += ["-filter_complex", f"[0:v]{vf}[v];[{0 if info['has_audio'] else 1}:a]{af},aresample=48000[a]",
-            "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-preset", "veryfast", "-crf", "18",
+            "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-preset", "fast", "-crf", "14",
             "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-ac", "2", "-shortest", str(out)]
     run(cmd)
     return out, (t_out - t_in) / speed
@@ -113,7 +113,7 @@ def render(ep, ep_dir, out_dir, mode):
         tcv = tmp / "title.mp4"
         run(["ffmpeg", "-y", "-v", "error", "-loop", "1", "-t", "2.5", "-i", str(tc),
              "-f", "lavfi", "-t", "2.5", "-i", "anullsrc=r=48000:cl=stereo",
-             "-vf", f"fps={FPS},format=yuv420p", "-c:v", "libx264", "-preset", "veryfast", "-crf", "18",
+             "-vf", f"fps={FPS},format=yuv420p", "-c:v", "libx264", "-preset", "fast", "-crf", "14",
              "-c:a", "aac", "-ar", "48000", "-ac", "2", "-shortest", str(tcv)])
         parts.append(tcv)
         t += 2.5
@@ -262,7 +262,7 @@ def render(ep, ep_dir, out_dir, mode):
         inputs += ["-i", a]
     out = out_dir / f"{ep['id']}_{mode}.mp4"
     run(["ffmpeg", "-y", "-v", "error", *inputs, "-filter_complex", chain, "-map", "[vout]", "-map", "[aout]",
-         "-t", f"{total:.3f}", "-c:v", "libx264", "-preset", "medium", "-crf", "19", "-r", str(FPS),
+         "-t", f"{total:.3f}", "-c:v", "libx264", "-preset", "slow", "-crf", "17", "-r", str(FPS),
          "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", str(out)])
     # thumbnail: frame at 1.0s with the hook caption burnt in
     run(["ffmpeg", "-y", "-v", "error", "-ss", "1.0", "-i", str(out), "-frames:v", "1", "-q:v", "2",
