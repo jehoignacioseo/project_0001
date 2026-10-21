@@ -1,0 +1,749 @@
+{
+ "id": "S1-01",
+ "series": "S1",
+ "number": 1,
+ "total": null,
+ "day": 1,
+ "title_ko": "무인 편의점 집밥 도시락 5,500원",
+ "title_en": "₩5,500 Lunchbox, Zero Staff",
+ "hook": "No cashier. No chef. ₩5,500 dinner from a store with nobody in it",
+ "segments": [
+  {
+   "src": "../S1-01_raw/IMG_1192.mov",
+   "in": 0.6,
+   "out": 3.6,
+   "pan": [
+    0.15,
+    0.75
+   ],
+   "amb_gain_db": -12,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 2.8,
+     "text": "ZERO employees 🤖",
+     "style": "shout"
+    },
+    {
+     "t": 0.1,
+     "d": 2.8,
+     "text": "emart24 · unmanned store · Seoul 🇰🇷",
+     "style": "note"
+    }
+   ]
+  },
+  {
+   "src": "../S1-01_raw/IMG_1193.mov",
+   "in": 2.3,
+   "out": 4.4,
+   "pan": [
+    0.8,
+    0.2
+   ],
+   "speed": 1.3,
+   "amb_gain_db": -12,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 1.3,
+     "text": "400 fridges. 0 humans.",
+     "style": "pop"
+    }
+   ]
+  },
+  {
+   "src": "../S1-01_raw/IMG_1194.mov",
+   "in": 4.5,
+   "out": 7.5,
+   "pan": [
+    0.0,
+    1.0
+   ],
+   "speed": 1.2,
+   "amb_gain_db": -12,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 2.2,
+     "text": "the lunchbox wall 🍱",
+     "style": "pop"
+    }
+   ],
+   "whoosh": true
+  },
+  {
+   "src": "../S1-01_raw/IMG_1196.mov",
+   "in": 3.2,
+   "out": 6.8,
+   "amb_gain_db": -12,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 3.4,
+     "text": "₩5,500 = $3.90 💸",
+     "style": "price"
+    }
+   ]
+  },
+  {
+   "src": "../S1-01_raw/IMG_1199.mov",
+   "in": 0.8,
+   "out": 3.7,
+   "amb_gain_db": -12,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 2.7,
+     "text": "commitment issues: solved 🐷",
+     "style": "pop"
+    }
+   ]
+  },
+  {
+   "src": "../S1-01_raw/IMG_1201.mov",
+   "in": 8.5,
+   "out": 11.3,
+   "speed": 1.4,
+   "amb_gain_db": -12,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 1.6,
+     "text": "I'm the cashier now 📱",
+     "style": "pop"
+    }
+   ],
+   "whoosh": true
+  },
+  {
+   "src": "../S1-01_raw/IMG_1203.mov",
+   "in": 1.8,
+   "out": 3.0,
+   "crop_x": 0.55,
+   "amb_gain_db": -10,
+   "captions": []
+  },
+  {
+   "src": "../S1-01_raw/IMG_1204.mov",
+   "in": 7.8,
+   "out": 11.05,
+   "pan": [
+    0.3,
+    0.6
+   ],
+   "speed": 1.3,
+   "amb_gain_db": -12,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 2.0,
+     "text": "MICROWAVE. IN. STORE. 🍽️",
+     "style": "shout"
+    }
+   ],
+   "whoosh": true
+  },
+  {
+   "src": "../S1-01_raw/IMG_1206.mov",
+   "in": 1.8,
+   "out": 3.0,
+   "crop_x": 0.3,
+   "amb_gain_db": -12,
+   "captions": [
+    {
+     "t": 0.05,
+     "d": 1.1,
+     "text": "longest 2 min ⏳",
+     "style": "whisper"
+    }
+   ]
+  },
+  {
+   "src": "../S1-01_raw/IMG_1207.mov",
+   "in": 10.0,
+   "out": 12.6,
+   "amb_gain_db": -8,
+   "captions": [
+    {
+     "t": 0.2,
+     "d": 1.6,
+     "text": "DING 🔔",
+     "style": "shout"
+    }
+   ]
+  },
+  {
+   "src": "../S1-01_raw/IMG_1209.mov",
+   "in": 2.5,
+   "out": 6.66,
+   "speed": 1.3,
+   "amb_gain_db": -8,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 3.0,
+     "text": "5 compartments 🍚",
+     "style": "pop"
+    }
+   ],
+   "whoosh": true
+  },
+  {
+   "src": "../S1-01_raw/IMG_1210.mov",
+   "in": 3.8,
+   "out": 7.8,
+   "amb_gain_db": -5,
+   "captions": [
+    {
+     "t": 1.2,
+     "d": 2.0,
+     "text": "okay WOW 🔥",
+     "style": "shout"
+    }
+   ]
+  },
+  {
+   "src": "../S1-01_raw/IMG_1212.mov",
+   "in": 1.5,
+   "out": 3.5,
+   "amb_gain_db": -5,
+   "captions": [
+    {
+     "t": 0.2,
+     "d": 2.0,
+     "text": "kimchi: it's the law 🥬",
+     "style": "whisper"
+    }
+   ]
+  },
+  {
+   "src": "../S1-01_raw/IMG_1214.mov",
+   "in": 3.5,
+   "out": 5.0,
+   "amb_gain_db": -5,
+   "captions": []
+  },
+  {
+   "src": "../S1-01_raw/IMG_1218.mov",
+   "in": 0.8,
+   "out": 3.8,
+   "amb_gain_db": -8,
+   "captions": []
+  },
+  {
+   "src": "../S1-01_raw/IMG_1219.mov",
+   "in": 5.2,
+   "out": 8.4,
+   "pan": [
+    0.2,
+    0.8
+   ],
+   "amb_gain_db": -12,
+   "captions": [
+    {
+     "t": 0.2,
+     "d": 2.4,
+     "text": "YOU sort the trash ♻️",
+     "style": "pop"
+    }
+   ],
+   "whoosh": true
+  }
+ ],
+ "longform_segments": [
+  {
+   "src": "../S1-01_raw/IMG_1192.mov",
+   "in": 0.3,
+   "out": 6.5,
+   "captions": [
+    {
+     "t": 0.3,
+     "d": 4.0,
+     "text": "No cashier. No chef. ₩5,500 dinner 🤖",
+     "style": "shout"
+    },
+    {
+     "t": 0.3,
+     "d": 4.0,
+     "text": "emart24 · unmanned store · Seoul 🇰🇷",
+     "style": "note"
+    }
+   ],
+   "amb_gain_db": -10
+  },
+  {
+   "src": "../S1-01_raw/IMG_1193.mov",
+   "in": 0.5,
+   "out": 9.0,
+   "captions": [
+    {
+     "t": 1.0,
+     "d": 3.0,
+     "text": "Just me, 400 fridges, and my footsteps 👣",
+     "style": "pop"
+    }
+   ],
+   "amb_gain_db": -10
+  },
+  {
+   "src": "../S1-01_raw/IMG_1194.mov",
+   "in": 0.5,
+   "out": 12.5,
+   "captions": [
+    {
+     "t": 1.0,
+     "d": 3.5,
+     "text": "The lunchbox wall. Korea's answer to 'what's for dinner' 🍱",
+     "style": "pop"
+    }
+   ],
+   "amb_gain_db": -10
+  },
+  {
+   "src": "../S1-01_raw/IMG_1195.mov",
+   "in": 0.5,
+   "out": 8.0,
+   "captions": [
+    {
+     "t": 0.5,
+     "d": 3.0,
+     "text": "every box ₩4,500 ~ ₩5,500",
+     "style": "price"
+    }
+   ],
+   "amb_gain_db": -10
+  },
+  {
+   "src": "../S1-01_raw/IMG_1196.mov",
+   "in": 0.5,
+   "out": 10.5,
+   "captions": [
+    {
+     "t": 2.5,
+     "d": 3.5,
+     "text": "₩5,500 = $3.90. My coffee costs more 💸",
+     "style": "price"
+    }
+   ],
+   "amb_gain_db": -10
+  },
+  {
+   "src": "../S1-01_raw/IMG_1197.mov",
+   "in": 0.5,
+   "out": 7.0,
+   "captions": [
+    {
+     "t": 0.5,
+     "d": 2.5,
+     "text": "kimchi pork… tempting 👀",
+     "style": "whisper"
+    }
+   ],
+   "amb_gain_db": -10
+  },
+  {
+   "src": "../S1-01_raw/IMG_1198.mov",
+   "in": 0.5,
+   "out": 7.0,
+   "captions": [
+    {
+     "t": 0.5,
+     "d": 2.5,
+     "text": "'Quattro' = four meats. Bold. 🥩",
+     "style": "whisper"
+    }
+   ],
+   "amb_gain_db": -10
+  },
+  {
+   "src": "../S1-01_raw/IMG_1199.mov",
+   "in": 0.3,
+   "out": 11.0,
+   "captions": [
+    {
+     "t": 0.5,
+     "d": 3.0,
+     "text": "Half spicy, half soy pork. Commitment issues: solved 🐷",
+     "style": "pop"
+    }
+   ],
+   "amb_gain_db": -10
+  },
+  {
+   "src": "../S1-01_raw/IMG_1201.mov",
+   "in": 1.0,
+   "out": 22.5,
+   "captions": [
+    {
+     "t": 2.0,
+     "d": 3.5,
+     "text": "Scan it yourself. The machine judges no one 📱",
+     "style": "pop"
+    },
+    {
+     "t": 17.0,
+     "d": 3.0,
+     "text": "Total: ₩5,500 💳",
+     "style": "price"
+    }
+   ],
+   "amb_gain_db": -10
+  },
+  {
+   "src": "../S1-01_raw/IMG_1203.mov",
+   "in": 0.5,
+   "out": 7.5,
+   "captions": [
+    {
+     "t": 1.0,
+     "d": 2.5,
+     "text": "beep. I'm the cashier now ✅",
+     "style": "whisper"
+    }
+   ],
+   "amb_gain_db": -10
+  },
+  {
+   "src": "../S1-01_raw/IMG_1204.mov",
+   "in": 0.5,
+   "out": 22.0,
+   "captions": [
+    {
+     "t": 7.0,
+     "d": 3.5,
+     "text": "Plot twist: the store has a MICROWAVE 🍽️",
+     "style": "shout"
+    },
+    {
+     "t": 14.0,
+     "d": 3.5,
+     "text": "heating chart on the door. lunchbox ≈ 2 min 🔥",
+     "style": "whisper"
+    }
+   ],
+   "amb_gain_db": -10
+  },
+  {
+   "src": "../S1-01_raw/IMG_1206.mov",
+   "in": 0.5,
+   "out": 7.0,
+   "captions": [
+    {
+     "t": 1.0,
+     "d": 2.5,
+     "text": "2 minutes. I aged 10 years ⏳",
+     "style": "whisper"
+    }
+   ],
+   "amb_gain_db": -10
+  },
+  {
+   "src": "../S1-01_raw/IMG_1207.mov",
+   "in": 0.5,
+   "out": 18.0,
+   "captions": [
+    {
+     "t": 9.5,
+     "d": 3.0,
+     "text": "DING 🔔 it's giving home-cooked",
+     "style": "shout"
+    }
+   ],
+   "amb_gain_db": -10
+  },
+  {
+   "src": "../S1-01_raw/IMG_1208.mov",
+   "in": 0.5,
+   "out": 8.0,
+   "captions": [
+    {
+     "t": 3.5,
+     "d": 3.0,
+     "text": "And a table. Unmanned, not unfriendly 🪑",
+     "style": "pop"
+    }
+   ],
+   "amb_gain_db": -10
+  },
+  {
+   "src": "../S1-01_raw/IMG_1209.mov",
+   "in": 0.5,
+   "out": 18.5,
+   "captions": [
+    {
+     "t": 6.0,
+     "d": 4.0,
+     "text": "5 compartments. That's 5 more than my fridge 🍚",
+     "style": "pop"
+    }
+   ],
+   "amb_gain_db": -6
+  },
+  {
+   "src": "../S1-01_raw/IMG_1210.mov",
+   "in": 0.5,
+   "out": 22.5,
+   "captions": [
+    {
+     "t": 4.0,
+     "d": 3.5,
+     "text": "First bite. Gochujang pork. Okay WOW 🔥",
+     "style": "shout"
+    },
+    {
+     "t": 15.0,
+     "d": 3.5,
+     "text": "sauce on the rice = the move 🍚",
+     "style": "pop"
+    }
+   ],
+   "amb_gain_db": -6
+  },
+  {
+   "src": "../S1-01_raw/IMG_1212.mov",
+   "in": 0.5,
+   "out": 13.0,
+   "captions": [
+    {
+     "t": 1.0,
+     "d": 3.0,
+     "text": "kimchi check ✅ (it's the law) 🥬",
+     "style": "whisper"
+    }
+   ],
+   "amb_gain_db": -6
+  },
+  {
+   "src": "../S1-01_raw/IMG_1214.mov",
+   "in": 0.5,
+   "out": 7.0,
+   "captions": [
+    {
+     "t": 2.5,
+     "d": 2.5,
+     "text": "bean sprouts = vegetables = I'm healthy now 🌱",
+     "style": "whisper"
+    }
+   ],
+   "amb_gain_db": -6
+  },
+  {
+   "src": "../S1-01_raw/IMG_1218.mov",
+   "in": 0.3,
+   "out": 8.5,
+   "captions": [
+    {
+     "t": 0.5,
+     "d": 3.0,
+     "text": "gone. no witnesses. 🫡",
+     "style": "pop"
+    }
+   ],
+   "amb_gain_db": -6
+  },
+  {
+   "src": "../S1-01_raw/IMG_1219.mov",
+   "in": 0.5,
+   "out": 24.5,
+   "captions": [
+    {
+     "t": 4.0,
+     "d": 3.5,
+     "text": "No staff = YOU sort the trash. Fair deal ♻️",
+     "style": "pop"
+    },
+    {
+     "t": 14.0,
+     "d": 4.0,
+     "text": "Could your country run a store with nobody in it? 👇",
+     "style": "pop"
+    }
+   ],
+   "amb_gain_db": -10
+  }
+ ],
+ "price": {
+  "krw": 5500,
+  "usd": 3.9
+ },
+ "score": {
+  "taste": 8.5,
+  "value": 10,
+  "again": "YES"
+ },
+ "comment": "Real rice, real meat, zero humans 🤖🍚",
+ "score_at": 34.02,
+ "score_duration": 2.6,
+ "longform_score_at": 215.0,
+ "next": null,
+ "cta": "Would your country trust a store like this? 👇",
+ "title_band": [
+  [
+   "NO STAFF. NO CHEF.",
+   "white"
+  ],
+  [
+   "₩5,500 KOREAN DINNER",
+   "yellow"
+  ],
+  [
+   "직원 없는 편의점에서 집밥 도시락",
+   "small"
+  ]
+ ],
+ "teaser": null,
+ "voiceover": {
+  "file": "vo_aligned.wav",
+  "source": "vo.mp3",
+  "start": 0,
+  "gain_db": 1.0,
+  "tempo": 1.0,
+  "phrase_tempo": 1.1,
+  "cues": [
+   {
+    "s": 0.4,
+    "e": 3.45,
+    "seg": 0,
+    "t": 0.15,
+    "txt": "Okay. This store has zero employees."
+   },
+   {
+    "s": 3.78,
+    "e": 5.58,
+    "seg": 1,
+    "t": 0.05,
+    "txt": "No cashier, no chef, nobody."
+   },
+   {
+    "s": 13.05,
+    "e": 14.6,
+    "seg": 2,
+    "t": 0.1,
+    "txt": "Here's the lunchbox wall."
+   },
+   {
+    "s": 7.05,
+    "e": 10.48,
+    "seg": 2,
+    "t": 1.55,
+    "txt": "Can it feed me dinner for 5,500 won?"
+   },
+   {
+    "s": 11.02,
+    "e": 12.64,
+    "seg": 3,
+    "t": 2.1,
+    "txt": "That's under four dollars."
+   },
+   {
+    "s": 15.05,
+    "e": 17.56,
+    "seg": 4,
+    "t": 0.1,
+    "txt": "Half spicy pork, half soy pork."
+   },
+   {
+    "s": 18.0,
+    "e": 18.65,
+    "seg": 4,
+    "t": 2.35,
+    "txt": "Sold."
+   },
+   {
+    "s": 19.08,
+    "e": 20.26,
+    "seg": 5,
+    "t": 0.05,
+    "txt": "Scan it myself."
+   },
+   {
+    "s": 20.83,
+    "e": 21.74,
+    "seg": 5,
+    "t": 1.1,
+    "txt": "Pay myself."
+   },
+   {
+    "s": 22.3,
+    "e": 25.02,
+    "seg": 7,
+    "t": 0.05,
+    "txt": "And yes, there's a microwave in the store."
+   },
+   {
+    "s": 25.48,
+    "e": 26.31,
+    "seg": 8,
+    "t": 0.1,
+    "txt": "Two minutes."
+   },
+   {
+    "s": 26.82,
+    "e": 27.4,
+    "seg": 9,
+    "t": 0.05,
+    "txt": "Ding."
+   },
+   {
+    "s": 27.78,
+    "e": 29.0,
+    "seg": 9,
+    "t": 0.95,
+    "txt": "Look at that steam."
+   },
+   {
+    "s": 29.42,
+    "e": 32.95,
+    "seg": 10,
+    "t": 0.05,
+    "txt": "Rice, pork, kimchi, sprouts, a patty."
+   },
+   {
+    "s": 33.4,
+    "e": 34.17,
+    "seg": 11,
+    "t": 0.15,
+    "txt": "First bite."
+   },
+   {
+    "s": 34.66,
+    "e": 36.2,
+    "seg": 11,
+    "t": 1.8,
+    "txt": "Okay, that's actually good."
+   },
+   {
+    "s": 36.58,
+    "e": 38.72,
+    "seg": 13,
+    "t": 0.05,
+    "txt": "Gone in four minutes."
+   },
+   {
+    "s": 42.55,
+    "e": 44.58,
+    "seg": 14,
+    "t": 0.6,
+    "txt": "Honestly? Fair deal."
+   },
+   {
+    "s": 39.1,
+    "e": 42.08,
+    "seg": 15,
+    "t": 0.1,
+    "txt": "And since there's no staff, you sort your own trash."
+   },
+   {
+    "s": 45.14,
+    "e": 47.44,
+    "seg": "end",
+    "t": 0.2,
+    "txt": "Would your country trust a store like this?"
+   }
+  ]
+ },
+ "music": {
+  "file": "music_lofi.wav",
+  "gain_db": -23
+ }
+}
