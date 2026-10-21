@@ -1,0 +1,550 @@
+{
+ "id": "EP02_brian",
+ "series": "S3",
+ "number": 1,
+ "total": null,
+ "day": 2,
+ "tag": "MEAL #1",
+ "title_ko": "반찬 무한리필 솥밥집과 숭늉 트릭",
+ "title_en": "₩26,000 For All Of This",
+ "title_band": [
+  [
+   "₩26,000 FOR ALL OF THIS",
+   "white"
+  ],
+  [
+   "FREE REFILLS + RICE TEA TRICK",
+   "yellow"
+  ],
+  [
+   "반찬 무한리필 솥밥집 · 숭늉 만드는 법",
+   "small"
+  ]
+ ],
+ "teaser": null,
+ "next": null,
+ "score": {
+  "taste": 9.0,
+  "value": 9,
+  "again": "YES"
+ },
+ "comment": "Same pot. Twice. Free refills forever ♻️🍚☕",
+ "cta": "Would you drink your rice pot? 👇",
+ "voiceover": {
+  "file": "vo_aligned_brian.wav",
+  "source": "vo_brian_v4.mp3",
+  "start": 0,
+  "gain_db": 1.0,
+  "tempo": 1.0,
+  "phrase_tempo": 1.32,
+  "cues": [
+   {
+    "s": 0,
+    "e": 4.48,
+    "seg": 0,
+    "t": 0.15,
+    "txt": "Stay till the end... because this rice pot is about to do something weird."
+   },
+   {
+    "s": 4.91,
+    "e": 7.84,
+    "seg": 1,
+    "t": 0.09,
+    "txt": "Korean home-style set meal, Seoul."
+   },
+   {
+    "s": 7.79,
+    "e": 11.52,
+    "seg": 2,
+    "t": 0.05,
+    "txt": "Two mains. Squid and pork? Fourteen thousand won."
+   },
+   {
+    "s": 11.87,
+    "e": 14.08,
+    "seg": 3,
+    "t": 0.05,
+    "txt": "Grilled mackerel? Twelve."
+   },
+   {
+    "s": 14.03,
+    "e": 17.36,
+    "seg": 4,
+    "t": 0.05,
+    "txt": "Twenty-six thousand total. That's under twenty dollars."
+   },
+   {
+    "s": 17.47,
+    "e": 22.72,
+    "seg": 5,
+    "t": 0.05,
+    "txt": "Now count the extras. Porridge. Seaweed soup. Seven side dishes."
+   },
+   {
+    "s": 22.83,
+    "e": 24.32,
+    "seg": 5,
+    "t": 4.18,
+    "txt": "All of it... free."
+   },
+   {
+    "s": 24.67,
+    "e": 28.2,
+    "seg": 6,
+    "t": 0.36,
+    "txt": "And the japchae and tteokbokki? Unlimited refills."
+   },
+   {
+    "s": 28.27,
+    "e": 29.76,
+    "seg": 7,
+    "t": 0.58,
+    "txt": "Yes. Unlimited."
+   },
+   {
+    "s": 30.11,
+    "e": 33.36,
+    "seg": 8,
+    "t": 0.05,
+    "txt": "And it's not junk. Mackerel? Omega-3."
+   },
+   {
+    "s": 33.63,
+    "e": 38.12,
+    "seg": 9,
+    "t": 0.26,
+    "txt": "Kimchi and seaweed? Fermented. Fiber. Probiotics."
+   },
+   {
+    "s": 38.27,
+    "e": 40.0,
+    "seg": 10,
+    "t": 0.81,
+    "txt": "One tray, balanced meal."
+   },
+   {
+    "s": 40.35,
+    "e": 41.84,
+    "seg": 11,
+    "t": 0.27,
+    "txt": "Okay. The pot."
+   },
+   {
+    "s": 42.11,
+    "e": 44.72,
+    "seg": 11,
+    "t": 1.55,
+    "txt": "Lift the lid. Scoop every grain out."
+   },
+   {
+    "s": 44.99,
+    "e": 46.8,
+    "seg": 13,
+    "t": 0.05,
+    "txt": "Looks empty... it's not."
+   },
+   {
+    "s": 47.15,
+    "e": 48.56,
+    "seg": 14,
+    "t": 0.05,
+    "txt": "See that golden crust?"
+   },
+   {
+    "s": 48.67,
+    "e": 52.04,
+    "seg": 14,
+    "t": 1.5,
+    "txt": "Hot water goes in. Lid on. Three minutes."
+   },
+   {
+    "s": 52.19,
+    "e": 53.6,
+    "seg": 18,
+    "t": 0.05,
+    "txt": "Meanwhile, japchae."
+   },
+   {
+    "s": 53.87,
+    "e": 55.6,
+    "seg": 20,
+    "t": 0.05,
+    "txt": "And... nurungji tea."
+   },
+   {
+    "s": 60.51,
+    "e": 62.64,
+    "seg": 20,
+    "t": 1.51,
+    "txt": "Rice first. Rice tea second."
+   },
+   {
+    "s": 62.91,
+    "e": 65.16,
+    "seg": 21,
+    "t": 0.1,
+    "txt": "Same pot. Zero waste."
+   },
+   {
+    "s": 65.31,
+    "e": 67.52,
+    "seg": "end",
+    "t": 0.3,
+    "txt": "So... would you drink your rice pot?"
+   }
+  ]
+ },
+ "music": {
+  "file": "music_upbeat.wav",
+  "gain_db": -21
+ },
+ "score_at": 53.0,
+ "score_duration": 3.0,
+ "segments": [
+  {
+   "src": "../EP02_raw/IMG_1855.mov",
+   "in": 7.3,
+   "out": 10.9,
+   "amb_gain_db": -12,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 3.4,
+     "text": "KOREA'S RICE TRICK 🍚",
+     "style": "shout"
+    },
+    {
+     "t": 0.1,
+     "d": 3.4,
+     "text": "정백이가 · home-style set meal · Seoul 🇰🇷",
+     "style": "note"
+    }
+   ]
+  },
+  {
+   "src": "../EP02_raw/IMG_1853.mov",
+   "in": 0.3,
+   "out": 2.8,
+   "amb_gain_db": -12,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 2.3,
+     "text": "1 set meal. 12 dishes.",
+     "style": "pop"
+    }
+   ]
+  },
+  {
+   "src": "../EP02_raw/IMG_1871.mov",
+   "in": 3.0,
+   "out": 6.4,
+   "amb_gain_db": -10,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 3.2,
+     "text": "squid + pork ₩14,000 🦑",
+     "style": "price",
+     "sfx": "sizzle"
+    }
+   ]
+  },
+  {
+   "src": "../EP02_raw/IMG_1873.mov",
+   "in": 1.0,
+   "out": 3.0,
+   "amb_gain_db": -10,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 1.8,
+     "text": "mackerel ₩12,000 🐟",
+     "style": "price",
+     "sfx": "sizzle"
+    }
+   ]
+  },
+  {
+   "src": "../EP02_raw/IMG_1855.mov",
+   "in": 0.0,
+   "out": 2.9,
+   "amb_gain_db": -12,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 2.7,
+     "text": "2 mains = ₩26,000 ($18.60) 💸",
+     "style": "price"
+    }
+   ]
+  },
+  {
+   "src": "../EP02_raw/IMG_1876.mov",
+   "in": 0.1,
+   "out": 5.2,
+   "amb_gain_db": -12,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 2.6,
+     "text": "porridge · soup · 7 side dishes",
+     "style": "pop"
+    },
+    {
+     "t": 3.0,
+     "d": 2.1,
+     "text": "ALL FREE. UNLIMITED.",
+     "style": "shout",
+     "sfx": "ding"
+    }
+   ],
+   "whoosh": true
+  },
+  {
+   "src": "../EP02_raw/IMG_1859.mov",
+   "in": 2.0,
+   "out": 4.6,
+   "amb_gain_db": -10,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 2.4,
+     "text": "japchae + tteokbokki: refill forever ♻️🍜",
+     "style": "pop"
+    }
+   ]
+  },
+  {
+   "src": "../EP02_raw/IMG_1870.mov",
+   "in": 1.0,
+   "out": 3.0,
+   "amb_gain_db": -10,
+   "captions": [
+    {
+     "t": 0.05,
+     "d": 1.9,
+     "text": "yes. unlimited. 🌶️🍜",
+     "style": "pop"
+    }
+   ]
+  },
+  {
+   "src": "../EP02_raw/IMG_1873.mov",
+   "in": 3.5,
+   "out": 5.9,
+   "amb_gain_db": -10,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 2.2,
+     "text": "omega-3 🐟",
+     "style": "pop"
+    }
+   ]
+  },
+  {
+   "src": "../EP02_raw/IMG_1872.mov",
+   "in": 0.1,
+   "out": 3.1,
+   "amb_gain_db": -10,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 2.8,
+     "text": "fermented · fiber · probiotics 🥬",
+     "style": "pop"
+    }
+   ]
+  },
+  {
+   "src": "../EP02_raw/IMG_1856.mov",
+   "in": 0.3,
+   "out": 2.3,
+   "amb_gain_db": -12,
+   "captions": [
+    {
+     "t": 0.05,
+     "d": 1.9,
+     "text": "balanced. not junk ✅",
+     "style": "pop"
+    }
+   ]
+  },
+  {
+   "src": "../EP02_raw/IMG_1860.mov",
+   "in": 0.0,
+   "out": 3.3,
+   "amb_gain_db": -10,
+   "captions": [
+    {
+     "t": 0.3,
+     "d": 2.9,
+     "text": "WATCH THE POT 👀",
+     "style": "shout",
+     "sfx": "clink"
+    }
+   ],
+   "whoosh": true
+  },
+  {
+   "src": "../EP02_raw/IMG_1861.mov",
+   "in": 1.0,
+   "out": 2.6,
+   "amb_gain_db": -10,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 1.4,
+     "text": "scoop. every. grain.",
+     "style": "pop"
+    }
+   ]
+  },
+  {
+   "src": "../EP02_raw/IMG_1862.mov",
+   "in": 4.0,
+   "out": 5.8,
+   "amb_gain_db": -10,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 1.6,
+     "text": "looks empty... it's not 👀",
+     "style": "pop"
+    }
+   ]
+  },
+  {
+   "src": "../EP02_raw/IMG_1863.mov",
+   "in": 1.5,
+   "out": 5.5,
+   "amb_gain_db": -8,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 1.4,
+     "text": "golden crust = nurungji ✨",
+     "style": "pop"
+    },
+    {
+     "t": 1.6,
+     "d": 2.3,
+     "text": "HOT WATER. INTO THE POT.",
+     "style": "shout",
+     "sfx": "pour"
+    }
+   ],
+   "whoosh": true
+  },
+  {
+   "src": "../EP02_raw/IMG_1866.mov",
+   "in": 1.5,
+   "out": 3.0,
+   "amb_gain_db": -8,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 1.3,
+     "text": "wait, WHAT? 😳",
+     "style": "pop"
+    }
+   ]
+  },
+  {
+   "src": "../EP02_raw/IMG_1864.mov",
+   "in": 0.5,
+   "out": 2.0,
+   "amb_gain_db": -8,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 1.3,
+     "text": "stir the crust",
+     "style": "pop"
+    }
+   ]
+  },
+  {
+   "src": "../EP02_raw/IMG_1865.mov",
+   "in": 0.8,
+   "out": 2.6,
+   "amb_gain_db": -10,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 1.6,
+     "text": "lid on. 3 min ⏳",
+     "style": "pop",
+     "sfx": "clink"
+    }
+   ]
+  },
+  {
+   "src": "../EP02_raw/IMG_1868.mov",
+   "in": 2.5,
+   "out": 4.5,
+   "amb_gain_db": -10,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 1.8,
+     "text": "meanwhile: japchae 🍜",
+     "style": "pop"
+    }
+   ],
+   "whoosh": true
+  },
+  {
+   "src": "../EP02_raw/IMG_1869.mov",
+   "in": 6.0,
+   "out": 7.2,
+   "amb_gain_db": -10,
+   "captions": [
+    {
+     "t": 0.05,
+     "d": 1.0,
+     "text": "and the squid 🔥",
+     "style": "pop",
+     "sfx": "sizzle"
+    }
+   ]
+  },
+  {
+   "src": "../EP02_raw/IMG_1864.mov",
+   "in": 7.8,
+   "out": 11.0,
+   "amb_gain_db": -10,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 1.4,
+     "text": "bowl 2: rice TEA ☕",
+     "style": "pop",
+     "sfx": "pour"
+    }
+   ],
+   "whoosh": true
+  },
+  {
+   "src": "../EP02_raw/IMG_1855.mov",
+   "in": 10.3,
+   "out": 12.9,
+   "amb_gain_db": -12,
+   "captions": [
+    {
+     "t": 0.1,
+     "d": 2.4,
+     "text": "same pot. twice. ♻️🍚☕",
+     "style": "pop"
+    }
+   ],
+   "whoosh": true
+  }
+ ],
+ "price": {
+  "krw": 26000,
+  "usd": 18.6
+ },
+ "bottom_cta": "Comment a Korean dish I should try 👇"
+}
