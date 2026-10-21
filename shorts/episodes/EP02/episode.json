@@ -531,14 +531,7 @@
    "in": 10.3,
    "out": 12.9,
    "amb_gain_db": -12,
-   "captions": [
-    {
-     "t": 0.1,
-     "d": 2.4,
-     "text": "same pot. twice. ♻️🍚☕",
-     "style": "pop"
-    }
-   ],
+   "captions": [],
    "whoosh": true
   }
  ],
