@@ -159,11 +159,95 @@ def chime(dur=1.1):
     return (tone(1046.5, 0.0) + tone(1568.0, 0.14)) * 0.4
 
 
+def upbeat(bars=8, bpm=112):
+    """Brighter, bouncier bed for food Shorts: major chords, plucked arpeggio, light kick, shaker."""
+    beat = 60 / bpm
+    n = int(SR * beat * 4 * bars)
+    out = np.zeros(n)
+    chords = [[261.6, 329.6, 392.0, 493.9], [220.0, 261.6, 329.6, 392.0],
+              [174.6, 220.0, 261.6, 349.2], [196.0, 246.9, 293.7, 392.0]]   # C - Am - F - G
+    for ci, ch in enumerate(chords):
+        s0 = int(ci * 2 * 4 * beat * SR); s1 = min(n, int((ci + 1) * 2 * 4 * beat * SR))
+        tt = np.arange(s1 - s0) / SR
+        pad = sum(np.sin(2 * np.pi * f * tt) * (0.7 ** k) for k, f in enumerate(ch)) * 0.05
+        out[s0:s1] += pad
+        # plucked 16th-note arpeggio
+        step = beat / 4; m = int(step * SR)
+        for j in range(int((s1 - s0) / m)):
+            f = ch[j % 4] * (2 if j % 8 >= 4 else 1)
+            k = np.arange(min(m * 2, s1 - s0 - j * m)) / SR
+            pl = np.sin(2 * np.pi * f * k) * np.exp(-k * 14) * 0.16
+            out[s0 + j * m:s0 + j * m + len(pl)] += pl
+    def kick():
+        m = int(SR * 0.2); tt = np.arange(m) / SR
+        return np.sin(2 * np.pi * (110 * np.exp(-tt * 22) + 45) * tt) * np.exp(-tt * 16) * 0.6
+    def clap():
+        m = int(SR * 0.12); return np.random.randn(m) * np.exp(-np.arange(m) / SR * 40) * 0.22
+    def shaker():
+        m = int(SR * 0.04); return np.random.randn(m) * np.exp(-np.arange(m) / SR * 150) * 0.09
+    for b in range(bars * 4):
+        pos = int(b * beat * SR)
+        k = kick(); out[pos:pos + len(k)] += k[:max(0, min(len(k), n - pos))]
+        if b % 2 == 1:
+            c = clap(); out[pos:pos + len(c)] += c[:max(0, min(len(c), n - pos))]
+        for h in range(4):
+            hp = pos + int(h * 0.25 * beat * SR)
+            if hp < n:
+                s = shaker() * (1.0 if h % 2 == 0 else 0.6); out[hp:hp + len(s)] += s[:max(0, min(len(s), n - hp))]
+    y = np.zeros(n); acc = 0.0; a = 0.2
+    for i in range(n):
+        acc += a * (out[i] - acc); y[i] = acc
+    return y / (np.abs(y).max() + 1e-9) * 0.8
+
+
+def sizzle(dur=0.9):
+    """Grill crackle for fish / meat shots."""
+    n = int(SR * dur); t = np.arange(n) / SR
+    x = np.random.randn(n) * (np.random.rand(n) > 0.6)       # sparse crackles
+    x += np.random.randn(n) * 0.3
+    y = np.zeros(n); acc = 0.0; a = 0.5
+    for i in range(n):
+        acc += a * (x[i] - acc); y[i] = x[i] - acc              # high-pass-ish
+    y = y / (np.abs(y).max() + 1e-9)
+    return y * env(n, a=0.05, d=0.2, s=0.7, r=0.3) * 0.5
+
+
+def pour(dur=1.1):
+    """Water pouring into a pot: low rumble + bubbling noise rising in pitch."""
+    n = int(SR * dur); t = np.arange(n) / SR
+    noise = np.random.randn(n)
+    f = 250 + 900 * (t / dur)
+    out = np.zeros(n); y = 0.0
+    for i in range(n):
+        a = min(1.0, f[i] / SR * 2 * math.pi)
+        y += a * (noise[i] - y); out[i] = y
+    bub = np.sin(2 * np.pi * (300 + 400 * np.sin(2 * np.pi * 7 * t)) * t) * 0.15
+    out = out / (np.abs(out).max() + 1e-9) + bub
+    return out * env(n, a=0.08, d=0.2, s=0.8, r=0.25) * 0.55
+
+
+def clink(dur=0.5):
+    """Metal lid / bowl clink: short inharmonic ping."""
+    n = int(SR * dur); t = np.arange(n) / SR
+    x = sum(np.sin(2 * np.pi * f * t) * g for f, g in ((2400, 1.0), (3730, 0.6), (5200, 0.35), (1180, 0.3)))
+    x *= np.exp(-t * 14)
+    x += np.random.randn(n) * np.exp(-t * 200) * 0.4
+    return x / (np.abs(x).max() + 1e-9) * 0.6
+
+
+def tick(dur=0.06):
+    """Soft UI tick: the quiet default for ordinary captions."""
+    n = int(SR * dur); t = np.arange(n) / SR
+    x = np.sin(2 * np.pi * 1800 * t) * np.exp(-t * 90) + np.random.randn(n) * np.exp(-t * 300) * 0.3
+    return x / (np.abs(x).max() + 1e-9) * 0.5
+
+
 if __name__ == "__main__":
     np.random.seed(7)
     for name, fn in (("sfx_whoosh.wav", whoosh), ("sfx_pop.wav", pop), ("sfx_ding.wav", ding),
                      ("sfx_click.wav", click), ("music_lofi.wav", lofi), ("sfx_cash.wav", cash),
                      ("sfx_beep.wav", beep), ("sfx_thud.wav", thud), ("sfx_riser.wav", riser),
-                     ("sfx_chime.wav", chime)):
+                     ("sfx_chime.wav", chime), ("music_upbeat.wav", upbeat),
+                     ("sfx_sizzle.wav", sizzle), ("sfx_pour.wav", pour), ("sfx_clink.wav", clink), ("sfx_tick.wav", tick)):
         save(name, fn())
         print("wrote", name)

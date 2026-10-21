@@ -216,7 +216,8 @@ def render(ep, ep_dir, out_dir, mode):
             else:
                 chain += "[mus0]anull[mus];"
             layers.append("mus")
-    # auto SFX: whoosh on every cut, pop on every caption, ding when a caption says DING
+    # auto SFX: whoosh on marked cuts, soft tick on captions (pop only for "!"/"?" captions), cash on prices,
+    # thud on shouts; a caption may name its own sfx ("sizzle", "pour", "clink", "ding", ...) or set sfx: null
     # whoosh only on cuts the episode marks as scene changes ("whoosh": true on the segment),
     # or on every cut when ep["whoosh"] == "all"
     cuts = []
@@ -247,8 +248,10 @@ def render(ep, ep_dir, out_dir, mode):
                 sfx.append(("sfx_beep.wav", c["start"], -12))
             elif c["style"] == "shout":
                 sfx.append(("sfx_thud.wav", c["start"], -8))
+            elif c["text"].rstrip().endswith(("!", "?")) or "😳" in c["text"]:
+                sfx.append(("sfx_pop.wav", c["start"], -15))
             else:
-                sfx.append(("sfx_pop.wav", c["start"], -12))
+                sfx.append(("sfx_tick.wav", c["start"], -18))
         if score_at is not None:
             sfx.append(("sfx_riser.wav", max(0.0, score_at - 0.9), -14))
             sfx.append(("sfx_chime.wav", score_at, -11))
