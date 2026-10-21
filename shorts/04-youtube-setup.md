@@ -42,6 +42,7 @@ B·C 단계는 **PC 크롬**에서 하세요. 휴대폰으로는 버튼이 숨�
 17. 왼쪽 "Step 1" 목록에서 **YouTube Data API v3** 펼치기 → 아래 두 줄 체크:
     - `https://www.googleapis.com/auth/youtube.upload`
     - `https://www.googleapis.com/auth/youtube.readonly`
+    - `https://www.googleapis.com/auth/youtube.force-ssl`  (댓글 읽기·답글용)
 18. 파란 **Authorize APIs** → 본인 계정 선택 → "확인되지 않은 앱" 화면이 나오면 **고급** → **shorts-bot(으)로 이동** → **허용**.
 19. 돌아온 화면 "Step 2"에서 **Exchange authorization code for tokens** 클릭.
 20. 오른쪽에 뜨는 **Refresh token** 값을 복사 (열쇠 3). `1//` 로 시작하는 긴 문자열입니다.
