@@ -130,13 +130,14 @@ def render(ep, ep_dir, out_dir, mode):
     base = _concat(parts, tmp / "body.mp4")
 
     # --- overlays -------------------------------------------------------
-    tag = (f"{ep['series']} #{ep['number']:02d}/{ep['total']}" if ep.get("total")
-           else f"COMBO #{ep['number']}")
+    tag = ep.get("tag") or (f"{ep['series']} #{ep['number']:02d}/{ep['total']}" if ep.get("total")
+                            else f"COMBO #{ep['number']}")
     badge = day_badge(str(tmp / "badge.png"), ep["day"], tag, scale)
     prog = progress_bar(str(tmp / "prog.png"), ep["number"], ep.get("total") or max(ep["number"], 10), W, scale)
-    card = score_card(str(tmp / "score.png"), ep["score"], ep.get("comment", ""), ep["price"], W, scale)
+    card = score_card(str(tmp / "score.png"), ep["score"], ep.get("comment", ""), ep.get("price", ""), W, scale)
     endc = end_card(str(tmp / "end.png"), ep.get("next"), ep.get("cta", "Follow for the next one"), W, H, scale)
-    score_at = float(ep.get("longform_score_at", max(0.0, body_end - 7.0))) if mode == "longform" else float(ep.get("score_at", max(0.0, body_end - 7.0)))
+    _sa = ep.get("longform_score_at") if mode == "longform" else ep.get("score_at")
+    score_at = float(_sa) if _sa is not None else max(0.0, body_end - 7.0)
     score_d = float(ep.get("score_duration", 4.0))
     total = body_end + END_CARD_SEC
     sting = _sting(tmp)

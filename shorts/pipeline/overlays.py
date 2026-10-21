@@ -112,9 +112,10 @@ def score_card(path, score, comment, price, width, scale=1.0):
     d.line((int(30 * scale), int(190 * scale), w - int(30 * scale), int(190 * scale)), fill=(255, 255, 255, 60), width=2)
     cw = _mixed_w(d, comment, f_cmt, int(44 * scale))
     _mixed_text(img, d, ((w - cw) // 2, int(215 * scale)), comment, f_cmt, int(44 * scale), (255, 255, 255, 255))
-    ptxt = f"₩{price['krw']:,}  =  ${price['usd']:.2f}"
-    pw, _ = _text_w(d, ptxt, f_lbl)
-    d.text(((w - pw) // 2, int(300 * scale)), ptxt, font=f_lbl, fill=(100, 255, 100, 255))
+    if price:
+        ptxt = f"₩{price['krw']:,}  =  ${price['usd']:.2f}"
+        pw, _ = _text_w(d, ptxt, f_lbl)
+        d.text(((w - pw) // 2, int(300 * scale)), ptxt, font=f_lbl, fill=(100, 255, 100, 255))
     img.save(path)
     return path
 
