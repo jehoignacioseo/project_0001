@@ -1,0 +1,20 @@
+{
+  "brand": "DekiLab",
+  "hero_sku": "진정 젤 크림 50ml",
+  "markets": ["KR", "US"],
+  "gates": {
+    "g1_one_sentence_sku": true,
+    "g2_claims_within_matrix": true,
+    "g3_visual_consistency": true,
+    "g4_positive_contribution_margin": true,
+    "g5_legal_registration": "in_progress",
+    "g5_two_channels_live": false,
+    "g5_payment_test_order": false,
+    "g6_pdp_trust_blocks": true,
+    "g7_creator_to_checkout_path": true
+  },
+  "notes": {
+    "g5_legal_registration": "화장품책임판매업 등록 신청 2026-11-10 예정",
+    "g5_two_channels_live": "스마트스토어 심사 중, Shopify 결제 미연결"
+  }
+}
