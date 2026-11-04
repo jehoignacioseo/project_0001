@@ -1,0 +1,23 @@
+{
+  "brand": "ooops!",
+  "hero_sku": "Glaze Balm Gloss (01 clear glaze / 02 milky peach), 8 g",
+  "markets": ["KR", "US"],
+  "gates": {
+    "g1_one_sentence_sku": true,
+    "g2_claims_within_matrix": true,
+    "g3_visual_consistency": true,
+    "g4_positive_contribution_margin": true,
+    "g5_legal_registration": false,
+    "g5_two_channels_live": false,
+    "g5_payment_test_order": false,
+    "g6_pdp_trust_blocks": true,
+    "g7_creator_to_checkout_path": true
+  },
+  "notes": {
+    "g4_positive_contribution_margin": "한국 듀오 기준 20% 양수. 미국 단품은 음수 → 번들 전용 또는 $13.99 상향 필요",
+    "g5_legal_registration": "사업자·통신판매업·화장품책임판매업·상표 모두 미착수 (사용자 액션)",
+    "g5_two_channels_live": "스마트스토어·틱톡샵 US 미개설",
+    "g5_payment_test_order": "채널 개설 후 테스트 주문 1건 필요",
+    "g6_pdp_trust_blocks": "끈적임·머리카락 문장은 사용감 테스트 수치 확보 전 비공개"
+  }
+}
